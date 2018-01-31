@@ -1,0 +1,44 @@
+buildscript {
+    repositories {
+        jcenter()
+    }
+
+    dependencies {
+        classpath 'com.github.jengelman.gradle.plugins:shadow:2.0.2'
+    }
+}
+
+subprojects {
+    apply plugin: 'java'
+    apply plugin: 'maven'
+    apply plugin: 'com.github.johnrengelman.shadow'
+
+    group = project.pluginGroup
+    version = project.pluginVersion
+
+    sourceCompatibility = '1.8'
+    targetCompatibility = '1.8'
+
+    repositories {
+        mavenCentral()
+        maven {
+            name = "mixer-snapshots"
+            url = "https://maven.mixer.com/content/repositories/snapshots"
+        }
+        maven {
+            name = "mixer-releases"
+            url = "https://maven.mixer.com/content/repositories/releases/"
+        }
+    }
+
+    dependencies{
+        compile "com.mixer:api:5.0.4-SNAPSHOT"
+        compile "com.mixer:mixer-interactive-api:2.1.0"
+        compile 'org.apache.httpcomponents:httpclient:4.3.6'
+        compile 'org.apache.httpcomponents:httpcore:4.3.3'
+        compile 'commons-logging:commons-logging:1.1.1'
+        compile 'com.auth0:java-jwt:2.2.0'
+        compile 'org.java-websocket:Java-WebSocket:1.3.4'
+        compile 'org.mockito:mockito-core:1.9.0-rc1'
+    }
+}

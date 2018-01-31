@@ -1,0 +1,7 @@
+name: Mixer
+version: 1.0
+main: pro.kdray.funniray.mixer.MixerNukkit
+description: Mixer plugin for Nukkit
+
+version: "1.0.0"
+api: ["1.0.0"]
