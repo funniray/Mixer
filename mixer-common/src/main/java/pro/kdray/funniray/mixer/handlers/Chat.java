@@ -1,4 +1,4 @@
-package pro.kdray.funniray.mixer;
+package pro.kdray.funniray.mixer.handlers;
 
 import com.mixer.api.MixerAPI;
 import com.mixer.api.resource.MixerUser;
@@ -9,9 +9,14 @@ import com.mixer.api.resource.chat.methods.AuthenticateMessage;
 import com.mixer.api.resource.chat.replies.AuthenticationReply;
 import com.mixer.api.resource.chat.replies.ReplyHandler;
 import com.mixer.api.resource.chat.ws.MixerChatConnectable;
+import pro.kdray.funniray.mixer.MixerEvents;
+import pro.kdray.funniray.mixer.utils;
 
 public class Chat {
-    static void ChatHandler(MixerAPI mixer, MixerUser user, MixerChat chat, MixerEvents eventHandler){
+
+    private MixerChatConnectable chatConnectable;
+
+    Chat(MixerAPI mixer, MixerUser user, MixerChat chat, MixerEvents eventHandler){
         MixerChatConnectable chatConnectable = chat.connectable(mixer);
 
         if (chatConnectable.connect()) {
@@ -33,5 +38,11 @@ public class Chat {
             eventHandler.sendMessage(finishedMessage.toString());
         });
 
+        this.chatConnectable = chatConnectable;
+
+    }
+
+    public void disconnect(){
+        this.chatConnectable.disconnect();
     }
 }

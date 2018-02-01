@@ -1,4 +1,4 @@
-package pro.kdray.funniray.mixer;
+package pro.kdray.funniray.mixer.handlers;
 
 import com.mixer.api.MixerAPI;
 import com.mixer.api.resource.MixerUser;
@@ -9,12 +9,16 @@ import com.mixer.api.resource.constellation.events.LiveEvent;
 import com.mixer.api.resource.constellation.methods.LiveSubscribeMethod;
 import com.mixer.api.resource.constellation.methods.data.LiveRequestData;
 import com.mixer.api.resource.constellation.ws.MixerConstellationConnectable;
+import pro.kdray.funniray.mixer.MixerEvents;
 
 import java.util.ArrayList;
 import java.util.Random;
 
 public class Constellation {
-    static void ConstellationHandler(MixerAPI mixer, MixerUser user, MixerEvents eventHandler){
+
+    private MixerConstellationConnectable constellationConnectable;
+
+    Constellation(MixerAPI mixer, MixerUser user, MixerEvents eventHandler){
 
         MixerConstellationConnectable constellation = new MixerConstellation().connectable(mixer);
 
@@ -64,5 +68,11 @@ public class Constellation {
                     eventHandler.sendMessage("&9&l[Mixer]&r&c >>> Unhandled Contellation Event: "+event.toString());
             }
         });
+
+        this.constellationConnectable = constellation;
+    }
+
+    public void disconnect(){
+        this.constellationConnectable.disconnect();
     }
 }

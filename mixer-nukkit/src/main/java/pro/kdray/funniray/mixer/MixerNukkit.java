@@ -12,7 +12,7 @@ public final class MixerNukkit extends PluginBase {
     public void onEnable() {
         // Plugin startup logic
         try {
-            main.initializeAPI("AKI Key",new mixer());
+            main.initializeAPI(getConfig().getString("token"),new mixer());
         } catch (ExecutionException | InterruptedException e) {
             e.printStackTrace();
         }
@@ -21,6 +21,7 @@ public final class MixerNukkit extends PluginBase {
     @Override
     public void onDisable() {
         // Plugin shutdown logic
+        main.shutdown();
     }
 
     public Plugin getPlugin(){

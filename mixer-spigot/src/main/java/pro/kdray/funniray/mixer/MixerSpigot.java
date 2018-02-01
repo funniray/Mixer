@@ -11,7 +11,7 @@ public final class MixerSpigot extends JavaPlugin {
     public void onEnable() {
         // Plugin startup logic
         try {
-            main.initializeAPI("API Key",new mixer());
+            main.initializeAPI(getConfig().getString("token"),new mixer());
         } catch (ExecutionException | InterruptedException e) {
             e.printStackTrace();
         }
@@ -20,5 +20,6 @@ public final class MixerSpigot extends JavaPlugin {
     @Override
     public void onDisable() {
         // Plugin shutdown logic
+        main.shutdown();
     }
 }
