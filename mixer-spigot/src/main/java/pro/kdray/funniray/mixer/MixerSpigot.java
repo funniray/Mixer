@@ -10,8 +10,10 @@ public final class MixerSpigot extends JavaPlugin {
     @Override
     public void onEnable() {
         // Plugin startup logic
+        this.saveDefaultConfig();
+        String token = getConfig().getString("token");
         try {
-            main.initializeAPI(getConfig().getString("token"),new mixer());
+            main.initializeAPI(token,new mixer());
         } catch (ExecutionException | InterruptedException e) {
             e.printStackTrace();
         }

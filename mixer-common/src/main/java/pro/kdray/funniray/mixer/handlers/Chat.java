@@ -16,7 +16,7 @@ public class Chat {
 
     private MixerChatConnectable chatConnectable;
 
-    Chat(MixerAPI mixer, MixerUser user, MixerChat chat, MixerEvents eventHandler){
+    public Chat(MixerAPI mixer, MixerUser user, MixerChat chat, MixerEvents eventHandler){
         MixerChatConnectable chatConnectable = chat.connectable(mixer);
 
         if (chatConnectable.connect()) {

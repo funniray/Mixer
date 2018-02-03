@@ -18,7 +18,7 @@ public class Constellation {
 
     private MixerConstellationConnectable constellationConnectable;
 
-    Constellation(MixerAPI mixer, MixerUser user, MixerEvents eventHandler){
+    public Constellation(MixerAPI mixer, MixerUser user, MixerEvents eventHandler){
 
         MixerConstellationConnectable constellation = new MixerConstellation().connectable(mixer);
 
