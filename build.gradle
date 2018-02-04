@@ -33,7 +33,7 @@ subprojects {
 
     dependencies{
         compile "com.mixer:api:5.0.4-SNAPSHOT"
-        compile "com.mixer:mixer-interactive-api:2.1.0"
+        compile "com.mixer:mixer-interactive-api:2.1.1"
         compile 'org.apache.httpcomponents:httpclient:4.3.6'
         compile 'org.apache.httpcomponents:httpcore:4.3.3'
         compile 'commons-logging:commons-logging:1.1.1'

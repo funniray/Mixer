@@ -2,6 +2,7 @@ package pro.kdray.funniray.mixer;
 
 import cn.nukkit.plugin.Plugin;
 import cn.nukkit.plugin.PluginBase;
+import cn.nukkit.scheduler.AsyncTask;
 import pro.kdray.funniray.mixer.events.mixer;
 
 import java.util.concurrent.ExecutionException;
@@ -13,11 +14,16 @@ public final class MixerNukkit extends PluginBase {
         // Plugin startup logic
         this.saveDefaultConfig();
         String token = getConfig().getString("token");
-        try {
-            main.initializeAPI(token,new mixer());
-        } catch (ExecutionException | InterruptedException e) {
-            e.printStackTrace();
-        }
+        getServer().getScheduler().scheduleAsyncTask(this, new AsyncTask() {
+            @Override
+            public void onRun() {
+                try {
+                    main.initializeAPI(token,new mixer());
+                } catch (ExecutionException | InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
     }
 
     @Override

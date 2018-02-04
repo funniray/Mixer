@@ -12,11 +12,16 @@ public final class MixerSpigot extends JavaPlugin {
         // Plugin startup logic
         this.saveDefaultConfig();
         String token = getConfig().getString("token");
-        try {
-            main.initializeAPI(token,new mixer());
-        } catch (ExecutionException | InterruptedException e) {
-            e.printStackTrace();
-        }
+        getServer().getScheduler().runTaskAsynchronously(this, new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    main.initializeAPI(token,new mixer());
+                } catch (ExecutionException | InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
     }
 
     @Override
