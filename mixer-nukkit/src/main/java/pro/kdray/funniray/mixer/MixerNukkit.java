@@ -9,6 +9,8 @@ import java.util.concurrent.ExecutionException;
 
 public final class MixerNukkit extends PluginBase {
 
+    public static Plugin plugin;
+
     @Override
     public void onEnable() {
         // Plugin startup logic
@@ -24,6 +26,7 @@ public final class MixerNukkit extends PluginBase {
                 }
             }
         });
+        plugin = this;
     }
 
     @Override

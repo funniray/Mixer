@@ -24,8 +24,8 @@ public class main {
         MixerChat chat = mixer.use(ChatService.class).findOne(user.channel.id).get();
 
         constellation = new Constellation(mixer,user,eventHandler);
-        chatHandler = new Chat(mixer,user,chat,eventHandler);
         interactive = new Interactive(mixer,user,APIKey,eventHandler);
+        chatHandler = new Chat(mixer,user,chat,eventHandler);
     }
 
     public static void shutdown(){

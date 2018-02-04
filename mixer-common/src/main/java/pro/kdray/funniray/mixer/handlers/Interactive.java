@@ -1,26 +1,22 @@
 package pro.kdray.funniray.mixer.handlers;
 
 import com.google.common.eventbus.Subscribe;
+import com.google.gson.JsonObject;
 import com.mixer.api.MixerAPI;
 import com.mixer.api.resource.MixerUser;
 import com.mixer.interactive.GameClient;
-import com.mixer.interactive.event.InteractiveEvent;
 import com.mixer.interactive.event.connection.ConnectionEstablishedEvent;
 import com.mixer.interactive.event.control.input.ControlInputEvent;
 import com.mixer.interactive.event.control.input.ControlKeyDownEvent;
 import com.mixer.interactive.event.control.input.ControlMouseDownInputEvent;
-import com.mixer.interactive.event.core.HelloEvent;
 import com.mixer.interactive.event.participant.ParticipantJoinEvent;
 import com.mixer.interactive.event.participant.ParticipantLeaveEvent;
-import com.mixer.interactive.resources.InteractiveResource;
-import com.mixer.interactive.resources.control.ButtonControl;
 import com.mixer.interactive.resources.control.InteractiveControl;
 import com.mixer.interactive.resources.group.InteractiveGroup;
 import com.mixer.interactive.resources.participant.InteractiveParticipant;
 import com.mixer.interactive.resources.scene.InteractiveScene;
 import pro.kdray.funniray.mixer.MixerEvents;
 
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.Set;
 import java.util.concurrent.ExecutionException;
@@ -30,6 +26,9 @@ public class Interactive {
     private GameClient client;
     private MixerEvents eventHandler;
     private HashMap<String,InteractiveParticipant> participantHashMap = new HashMap<>();
+    private HashMap<String,InteractiveControl> controlHashMap = new HashMap<>();
+    private HashMap<String,InteractiveGroup> groupHashMap = new HashMap<>();
+    private HashMap<String,InteractiveScene> sceneHashMap = new HashMap<>();
 
     public Interactive(MixerAPI mixer, MixerUser user, String token, MixerEvents events){
         client = new GameClient(191773);
@@ -73,7 +72,21 @@ public class Interactive {
             Set<InteractiveControl> controls = client.using(GameClient.CONTROL_SERVICE_PROVIDER).getControls().get();
             for(InteractiveControl control:controls){
                 eventHandler.sendMessage("&9[Mixer] >>> "+control.getControlID()+" is "+control.getKind()+" on "+control.getSceneID());
+                controlHashMap.put(control.getControlID(),control);
             }
+            Set<InteractiveScene> scenes = client.using(GameClient.SCENE_SERVICE_PROVIDER).getScenes().get();
+            for(InteractiveScene scene:scenes){
+                sceneHashMap.put(scene.getSceneID(),scene);
+                if (!scene.getSceneID().equals("default")) {
+                    InteractiveGroup group = new InteractiveGroup(scene.getSceneID());
+                    group.setScene(scene);
+                    groupHashMap.put(scene.getSceneID(), group);
+                }
+            }
+            client.using(GameClient.GROUP_SERVICE_PROVIDER).create(groupHashMap.values()).get();
+            InteractiveGroup defaultGroup = new InteractiveGroup("default");
+            defaultGroup.setScene("default");
+            groupHashMap.put("default",defaultGroup);
         } catch (InterruptedException | ExecutionException e) {
             e.printStackTrace();
         }
@@ -82,8 +95,54 @@ public class Interactive {
 
     @Subscribe
     public void onKeyDown(ControlInputEvent event){
-        if (event instanceof ControlKeyDownEvent || event instanceof ControlMouseDownInputEvent)
-            eventHandler.sendMessage("&9[Mixer] >>> "+participantHashMap.get(event.getParticipantID()).getUsername()+" pressed "+event.getControlInput().getControlID());
+        if (event instanceof ControlKeyDownEvent || event instanceof ControlMouseDownInputEvent) {
+            InteractiveParticipant participant = participantHashMap.get(event.getParticipantID());
+            if (participant == null)
+                return;
+            eventHandler.sendMessage("&9[Mixer] >>> " + participant.getUsername() + " pressed " + event.getControlInput().getControlID());
+            InteractiveControl control = controlHashMap.get(event.getControlInput().getControlID());
+            JsonObject meta = control.getMeta();
+            String type = meta.get("type").getAsJsonObject().get("value").getAsString();
+            if (type == null)
+                return;
+            String action = meta.get("action").getAsJsonObject().get("value").getAsString();
+            if (type.equals("switchWindow")){
+                switchSceneForParticipant(participant,action);
+            }else{
+                handleActions(participant,type,action);
+            }
+        }
+    }
+
+    private void switchSceneForParticipant(InteractiveParticipant participant, String group){
+        participant.changeGroup(getGroup(group));
+        eventHandler.runAsync(() -> {
+            try {
+                client.using(GameClient.PARTICIPANT_SERVICE_PROVIDER).update(participant).get();
+            } catch (InterruptedException | ExecutionException e) {
+                //I don't really care what happens here
+            }
+        });
+    }
+
+    private void handleActions(InteractiveParticipant participant,String type, String action){
+        switch(type){
+            case "summon":
+                eventHandler.summon(action);
+                break;
+            case "runCommand":
+                eventHandler.runCommand(action);
+                break;
+            default:
+                eventHandler.sendMessage("&9[Mixer] Unknown type: \""+type+"\"");
+        }
+    }
+
+    private InteractiveGroup getGroup(String groupString){
+        if(groupHashMap.containsKey(groupString)){
+            return groupHashMap.get(groupString);
+        }
+        return null;
     }
 
     public void disconnect(){
