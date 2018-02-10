@@ -102,6 +102,9 @@ public class Interactive {
             eventHandler.sendMessage("&9[Mixer] >>> " + participant.getUsername() + " pressed " + event.getControlInput().getControlID());
             InteractiveControl control = controlHashMap.get(event.getControlInput().getControlID());
             JsonObject meta = control.getMeta();
+            if (meta.get("switchWindow") != null){
+                switchSceneForParticipant(participant,meta.get("switchWindow").getAsJsonObject().get("value").getAsString());
+            }
             String type = meta.get("type").getAsJsonObject().get("value").getAsString();
             if (type == null)
                 return;
