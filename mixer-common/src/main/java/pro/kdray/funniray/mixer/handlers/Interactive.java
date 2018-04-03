@@ -31,7 +31,7 @@ public class Interactive {
     private HashMap<String,InteractiveScene> sceneHashMap = new HashMap<>();
 
     public Interactive(MixerAPI mixer, MixerUser user, String token, MixerEvents events){
-        client = new GameClient(191773);
+        client = new GameClient(191773,"fa54866255ea641235e596e5659fa726a4aa9f7ecc72758f");
         client.connect(token);
 
         client.getEventBus().register(this);

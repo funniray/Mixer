@@ -23,8 +23,8 @@ processResources {
 shadowJar {
     dependencies {
         include(dependency(':mixer-common'))
-        include(dependency("com.mixer:api:5.0.4-SNAPSHOT"))
-        include(dependency("com.mixer:mixer-interactive-api:2.1.1"))
+        include(dependency("com.mixer:api:6.0.0-SNAPSHOT"))
+        include(dependency("com.mixer:mixer-interactive-api:3.0.0"))
         include(dependency('org.apache.httpcomponents:httpclient:4.3.6'))
         include(dependency('org.apache.httpcomponents:httpcore:4.3.3'))
         include(dependency('commons-logging:commons-logging:1.1.3'))
