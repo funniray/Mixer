@@ -3,8 +3,9 @@ repositories {
         name = 'sonatype-oss-repo'
         url = 'https://oss.sonatype.org/content/groups/public/'
     }
-    flatDir {
-        dirs '../libs'
+    maven {
+        name = 'nukkitx-repo'
+        url = 'https://repo.nukkitx.com/main/'
     }
 }
 
