@@ -102,7 +102,7 @@ public final class MixerForge{
     public static void startMain(){
         new Thread(() -> {
             try {
-                main.initializeAPI(config.token,new mixer());//TODO:Make tokens per-player
+                main.initializeAPI(config.token,new mixer());//TODO: Make tokens per-player
                 running = true;
             } catch (ExecutionException | InterruptedException e) {
                 e.printStackTrace();
@@ -110,7 +110,7 @@ public final class MixerForge{
         }).start();
     }
 
-    @SubscribeEvent(priority = EventPriority.NORMAL)
+    @SubscribeEvent(priority = EventPriority.NORMAL) //TODO: Add GUI for config
     public void onEvent(ConfigChangedEvent.OnConfigChangedEvent event) {
         if (MODID.equals(event.getModID())) {
             syncFromGUI();
