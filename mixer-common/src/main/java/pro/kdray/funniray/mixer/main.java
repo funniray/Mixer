@@ -29,8 +29,12 @@ public class main {
     }
 
     public static void shutdown(){
-        interactive.disconnect();
-        constellation.disconnect();
-        chatHandler.disconnect();
+        try {
+            interactive.disconnect();
+            constellation.disconnect();
+            chatHandler.disconnect();
+        }catch(NullPointerException e){
+            //Do nothing because whoops
+        }
     }
 }
