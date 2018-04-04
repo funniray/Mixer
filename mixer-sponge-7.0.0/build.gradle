@@ -1,0 +1,36 @@
+repositories {
+    maven {
+        name = 'sponge'
+        url = 'https://repo.spongepowered.org/maven'
+    }
+    maven {
+        name = 'sonatype'
+        url = 'https://oss.sonatype.org/content/groups/public/'
+    }
+}
+
+dependencies {
+    compile project(':mixer-common')
+    compile 'org.spongepowered:spongeapi:7.0.0'
+}
+
+processResources {
+    from(sourceSets.main.resources.srcDirs) {
+        expand 'version': project.version
+    }
+}
+
+shadowJar {
+    dependencies {
+        include(dependency(':mixer-common'))
+        include(dependency("com.mixer:api:${gradle.mixerAPI}"))
+        include(dependency("com.mixer:mixer-interactive-api:${gradle.mixerInteractiveAPI}"))
+        include(dependency("org.apache.httpcomponents:httpclient:${gradle.httpclient}"))
+        include(dependency("org.apache.httpcomponents:httpcore:${gradle.httpcore}"))
+        include(dependency("commons-logging:commons-logging:${gradle.commonsLogging}"))
+        include(dependency("com.auth0:java-jwt:${gradle.JWT}"))
+        include(dependency("org.java-websocket:Java-WebSocket:${gradle.JavaWebSocket}"))
+        include(dependency("org.mockito:mockito-core:${gradle.mockito}"))
+    }
+    destinationDir = file("$rootDir/build/jars")
+}

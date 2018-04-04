@@ -1,11 +1,16 @@
 buildscript {
     repositories {
         jcenter()
+        mavenCentral()
     }
 
     dependencies {
         classpath 'com.github.jengelman.gradle.plugins:shadow:2.0.2'
     }
+}
+
+plugins {
+    id 'org.spongepowered.plugin' version '0.8.1'
 }
 
 subprojects {
