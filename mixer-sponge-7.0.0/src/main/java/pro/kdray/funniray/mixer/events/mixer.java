@@ -7,12 +7,10 @@ import org.spongepowered.api.text.title.Title;
 import pro.kdray.funniray.mixer.MixerEvents;
 import pro.kdray.funniray.mixer.MixerSponge;
 
-import java.util.concurrent.TimeUnit;
-
 public class mixer implements MixerEvents {
     @Override
     public void sendMessage(String message) {
-        Sponge.getServer().getBroadcastChannel().send(Text.of(message));
+        Sponge.getServer().getBroadcastChannel().send(Text.of(message)); //TODO: Format colors
         MixerSponge.getLogger().info(message);
     }
     @Override
@@ -40,11 +38,11 @@ public class mixer implements MixerEvents {
 
     @Override
     public void runCommand(String command) {
-        Sponge.getGame().getScheduler().createSyncExecutor(MixerSponge.class).schedule(() -> Sponge.getCommandManager().process(Sponge.getServer().getConsole().getCommandSource().get(),command),0L,TimeUnit.SECONDS).run();
+        Sponge.getGame().getScheduler().createSyncExecutor(MixerSponge.class).execute(() -> Sponge.getCommandManager().process(Sponge.getServer().getConsole().getCommandSource().get(),command));
     }
 
     @Override
     public void runAsync(Runnable runnable) {
-        Sponge.getGame().getScheduler().createAsyncExecutor(MixerSponge.class).schedule(runnable,0L,TimeUnit.SECONDS).run();
+        Sponge.getGame().getScheduler().createAsyncExecutor(MixerSponge.class).execute(runnable);
     }
 }
