@@ -1,6 +1,7 @@
 package pro.kdray.funniray.mixer.handlers;
 
 import com.google.common.eventbus.Subscribe;
+import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.mixer.api.MixerAPI;
 import com.mixer.api.resource.MixerUser;
@@ -11,14 +12,15 @@ import com.mixer.interactive.event.control.input.ControlKeyDownEvent;
 import com.mixer.interactive.event.control.input.ControlMouseDownInputEvent;
 import com.mixer.interactive.event.participant.ParticipantJoinEvent;
 import com.mixer.interactive.event.participant.ParticipantLeaveEvent;
+import com.mixer.interactive.resources.control.ButtonControl;
 import com.mixer.interactive.resources.control.InteractiveControl;
 import com.mixer.interactive.resources.group.InteractiveGroup;
 import com.mixer.interactive.resources.participant.InteractiveParticipant;
 import com.mixer.interactive.resources.scene.InteractiveScene;
-import com.mixer.interactive.services.ControlServiceProvider;
 import com.mixer.interactive.services.SceneServiceProvider;
 import pro.kdray.funniray.mixer.MixerEvents;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Set;
 import java.util.concurrent.ExecutionException;
@@ -55,7 +57,7 @@ public class Interactive {
     public void onParticipantJoin(ParticipantJoinEvent event) {
         Set<InteractiveParticipant> participants = event.getParticipants();
         for (InteractiveParticipant participant : participants) {
-            eventHandler.sendMessage("&9[Mixer] >>> " + participant.getUsername() + "["+participant.getSessionID()+"] joined with group " + participant.getGroupID());
+            //eventHandler.sendMessage("&9[Mixer] >>> " + participant.getUsername() + "["+participant.getSessionID()+"] joined with group " + participant.getGroupID());
             participantHashMap.putIfAbsent(participant.getSessionID(), participant);
         }
     }
@@ -68,7 +70,7 @@ public class Interactive {
         }
         for(String id:oldParticipants.keySet()){
             participantHashMap.remove(id);
-            eventHandler.sendMessage("&9[Mixer] >>> "+id+" left");
+            //eventHandler.sendMessage("&9&l[Mixer]&r&9 >>> "+id+" left");
         }
     }
 
@@ -76,16 +78,16 @@ public class Interactive {
     public void onConnectionEsablished(ConnectionEstablishedEvent event){
         try {
             if (!client.isConnected()) {
-                this.eventHandler.sendMessage("&9[Mixer] &4Connection was established but isn't connected!");
+                this.eventHandler.sendMessage("&9&l[Mixer]&r&4 Connection was established but isn't connected!");
             }else{
-                this.eventHandler.sendMessage("&9[Mixer] Interactive connected!");
+                this.eventHandler.sendMessage("&9&l[Mixer]&r&9 Interactive connected!");
             }
 
             Set<InteractiveScene> scenes = new SceneServiceProvider(client).getScenes().get();
             for(InteractiveScene scene:scenes){
                 Set<InteractiveControl> controls = scene.getControls();
                 for(InteractiveControl control:controls){
-                    eventHandler.sendMessage("&9[Mixer] >>> "+control.getControlID()+" is "+control.getKind()+" on "+control.getSceneID());
+                    //eventHandler.sendMessage("&9&l[Mixer]&r&9 >>> "+control.getControlID()+" is "+control.getKind()+" on "+control.getSceneID());
                     controlHashMap.put(control.getControlID(),control);
                 }
 
@@ -112,30 +114,60 @@ public class Interactive {
             InteractiveParticipant participant = participantHashMap.get(event.getParticipantID());
             if (participant == null)
                 return;
-            eventHandler.sendMessage("&9[Mixer] >>> " + participant.getUsername() + " pressed " + event.getControlInput().getControlID());
-            eventHandler.sendMessage("&9[Mixer] >>> Control: "+event.getControlInput().getRawInput());
+            //eventHandler.sendMessage("&9&l[Mixer]&r&9 >>> " + participant.getUsername() + " pressed " + event.getControlInput().getControlID());
+            //eventHandler.sendMessage("&9&l[Mixer]&r&9 >>> Control: "+event.getControlInput().getRawInput());
             InteractiveControl control = controlHashMap.get(event.getControlInput().getControlID());
             JsonObject meta = control.getMeta();
+            boolean updateButton = false;
+            if (control instanceof ButtonControl) {
+                ButtonControl buttonControl = ((ButtonControl) control);
+                if (buttonControl.getCooldown() > new Date().getTime()){
+                    return;
+                }
+            }
             if (meta.get("switchWindow") != null){
                 switchSceneForParticipant(participant,meta.get("switchWindow").getAsJsonObject().get("value").getAsString());
             }
             String type = meta.get("type").getAsJsonObject().get("value").getAsString();
             if (type == null)
                 return;
+            JsonElement timeout = meta.get("timeout");
+            if (timeout != null){
+                if (control instanceof ButtonControl){
+                    ButtonControl buttonControl = ((ButtonControl) control);
+                    buttonControl.setCooldown(new Date().getTime() + (timeout.getAsJsonObject().get("value").getAsInt()*1000));
+                    updateButton = true;
+                }
+            }
             String action = meta.get("action").getAsJsonObject().get("value").getAsString();
             if (type.equals("switchWindow")){
                 switchSceneForParticipant(participant,action);
             }else{
+                if (type.equals("summon") && meta.get("NBT") != null)
+                    action += " ~ ~ ~ " + meta.get("NBT").getAsJsonObject().get("value").getAsString();
                 handleActions(participant,type,action);
             }
+            if (updateButton) {
+                this.updateControl((ButtonControl) control);
+            }
         }
+    }
+
+    private void updateControl(ButtonControl control){
+        eventHandler.runAsync(() -> {
+            try {
+                client.using(GameClient.CONTROL_SERVICE_PROVIDER).update(control).get();
+            } catch (InterruptedException | ExecutionException e) {
+                //I don't really care what happens here
+            }
+        });
     }
 
     private void switchSceneForParticipant(InteractiveParticipant participant, String group){
         participant.changeGroup(getGroup(group));
         eventHandler.runAsync(() -> {
             try {
-                client.using(PARTICIPANT_SERVICE_PROVIDER).update(participant).get();
+                client.using(GameClient.PARTICIPANT_SERVICE_PROVIDER).update(participant).get();
             } catch (InterruptedException | ExecutionException e) {
                 //I don't really care what happens here
             }
@@ -145,7 +177,7 @@ public class Interactive {
     private void handleActions(InteractiveParticipant participant,String type, String action){
         switch(type){
             case "summon":
-                eventHandler.summon(action);
+                eventHandler.summon(action.replace("%presser%",participant.getUsername()));
                 break;
             case "runCommand":
                 eventHandler.runCommand(action);
