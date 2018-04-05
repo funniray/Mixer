@@ -30,7 +30,6 @@ shadowJar {
         include(dependency("commons-logging:commons-logging:${gradle.commonsLogging}"))
         include(dependency("com.auth0:java-jwt:${gradle.JWT}"))
         include(dependency("org.java-websocket:Java-WebSocket:${gradle.JavaWebSocket}"))
-        include(dependency("org.mockito:mockito-core:${gradle.mockito}"))
     }
     destinationDir = file("$rootDir/build/jars")
 }
