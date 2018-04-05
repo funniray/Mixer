@@ -41,4 +41,9 @@ public class mixer implements MixerEvents {
     public void runAsync(Runnable runnable) {
         Bukkit.getScheduler().runTaskAsynchronously(MixerSpigot.plugin,runnable);
     }
+
+    @Override
+    public void debug(String message) {
+        Bukkit.getLogger().info(message);
+    }
 }

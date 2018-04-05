@@ -6,6 +6,7 @@ import net.minecraft.network.play.server.SPacketTitle;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 import pro.kdray.funniray.mixer.MixerEvents;
+import pro.kdray.funniray.mixer.MixerForge;
 
 public class mixer implements MixerEvents {
     @Override
@@ -61,5 +62,10 @@ public class mixer implements MixerEvents {
     @Override
     public void runAsync(Runnable runnable) {
         new Thread(runnable).start();
+    }
+
+    @Override
+    public void debug(String message) {
+        MixerForge.getLogger().info(message);
     }
 }

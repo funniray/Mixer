@@ -45,4 +45,9 @@ public class mixer implements MixerEvents {
     public void runAsync(Runnable runnable) {
         Sponge.getGame().getScheduler().createAsyncExecutor(MixerSponge.class).execute(runnable);
     }
+
+    @Override
+    public void debug(String message) {
+        MixerSponge.getLogger().info(message);
+    }
 }

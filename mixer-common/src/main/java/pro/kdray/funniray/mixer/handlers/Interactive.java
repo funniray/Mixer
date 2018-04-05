@@ -57,7 +57,7 @@ public class Interactive {
     public void onParticipantJoin(ParticipantJoinEvent event) {
         Set<InteractiveParticipant> participants = event.getParticipants();
         for (InteractiveParticipant participant : participants) {
-            //eventHandler.sendMessage("&9[Mixer] >>> " + participant.getUsername() + "["+participant.getSessionID()+"] joined with group " + participant.getGroupID());
+            eventHandler.debug("&9[Mixer] >>> " + participant.getUsername() + "["+participant.getSessionID()+"] joined with group " + participant.getGroupID());
             participantHashMap.putIfAbsent(participant.getSessionID(), participant);
         }
     }
@@ -70,7 +70,7 @@ public class Interactive {
         }
         for(String id:oldParticipants.keySet()){
             participantHashMap.remove(id);
-            //eventHandler.sendMessage("&9&l[Mixer]&r&9 >>> "+id+" left");
+            eventHandler.debug("&9&l[Mixer]&r&9 >>> "+id+" left");
         }
     }
 
@@ -87,7 +87,7 @@ public class Interactive {
             for(InteractiveScene scene:scenes){
                 Set<InteractiveControl> controls = scene.getControls();
                 for(InteractiveControl control:controls){
-                    //eventHandler.sendMessage("&9&l[Mixer]&r&9 >>> "+control.getControlID()+" is "+control.getKind()+" on "+control.getSceneID());
+                    eventHandler.debug("&9&l[Mixer]&r&9 >>> "+control.getControlID()+" is "+control.getKind()+" on "+control.getSceneID());
                     controlHashMap.put(control.getControlID(),control);
                 }
 
@@ -114,8 +114,8 @@ public class Interactive {
             InteractiveParticipant participant = participantHashMap.get(event.getParticipantID());
             if (participant == null)
                 return;
-            //eventHandler.sendMessage("&9&l[Mixer]&r&9 >>> " + participant.getUsername() + " pressed " + event.getControlInput().getControlID());
-            //eventHandler.sendMessage("&9&l[Mixer]&r&9 >>> Control: "+event.getControlInput().getRawInput());
+            eventHandler.debug("&9&l[Mixer]&r&9 >>> " + participant.getUsername() + " pressed " + event.getControlInput().getControlID());
+            eventHandler.debug("&9&l[Mixer]&r&9 >>> Control: "+event.getControlInput().getRawInput());
             InteractiveControl control = controlHashMap.get(event.getControlInput().getControlID());
             JsonObject meta = control.getMeta();
             boolean updateButton = false;

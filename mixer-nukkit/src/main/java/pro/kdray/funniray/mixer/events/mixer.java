@@ -50,4 +50,9 @@ public class mixer implements MixerEvents {
         });
     }
 
+    @Override
+    public void debug(String message) {
+        Server.getInstance().getLogger().info(message);
+    }
+
 }
