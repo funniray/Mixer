@@ -6,4 +6,4 @@ Mixer plugin for Nukkit and Bukkit
 To build, run `gradle shadowJar`.  
   
 # Running  
-A precompiled jar is availible on my [Jenkins server](https://ci.kdray.pro/job/Mixer)
+A precompiled jar is availible [at releases](https://github.com/funniray/Mixer/releases)
