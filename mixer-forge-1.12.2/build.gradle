@@ -7,13 +7,17 @@ buildscript {
         classpath 'net.minecraftforge.gradle:ForgeGradle:2.3-SNAPSHOT'
     }
 }
+
+plugins{
+    id 'com.matthewprenger.cursegradle' version '1.0.10'
+}
 apply plugin: 'net.minecraftforge.gradle.forge'
 //Only edit below this line, the above code adds and enables the necessary things for Forge to be setup.
 
 
-version = "1.0"
+version = project.version
 group = "pro.kdray.funniray" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
-archivesBaseName = "mixerinteractive"
+archivesBaseName = "mixer-forge"
 
 sourceCompatibility = targetCompatibility = '1.8' // Need this here so eclipse task generates correctly.
 compileJava {
@@ -69,4 +73,18 @@ shadowJar {
         include(dependency("org.mockito:mockito-core:${gradle.mockito}"))
     }
     destinationDir = file("$rootDir/build/jars")
+}
+
+curseforge {
+    apiKey = project.curseForgeToken
+    project {
+        id = '291641'
+        changelog = "Unstable build, please refer to github for changes."
+        releaseType = 'alpha'
+        addGameVersion '1.12.2'
+
+        mainArtifact(jar) {
+            displayName = archivesBaseName+project.version+".jar"
+        }
+    }
 }

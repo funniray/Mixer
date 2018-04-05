@@ -9,4 +9,8 @@ gradle.ext.JWT = '2.2.0'
 gradle.ext.JavaWebSocket = '1.3.4'
 gradle.ext.mockito = '1.9.0-rc1'
 
+gradle.ext.pluginGroup="pro.kdray.funniray"
+gradle.ext.pluginVersion="1.0-SNAPSHOT"
+
+
 include 'mixer-common', 'mixer-spigot', 'mixer-nukkit', 'mixer-sponge-7.0.0', 'mixer-forge-1.12.2'

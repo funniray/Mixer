@@ -11,6 +11,22 @@ buildscript {
 
 plugins {
     id 'org.spongepowered.plugin' version '0.8.1'
+    id "co.riiid.gradle" version "0.4.2"
+}
+
+github {
+    owner = 'funniray'
+    repo = 'Mixer'
+    token = project.githubToken
+    tagName = gradle.pluginVersion
+    targetCommitish = 'master'
+    name = 'v'+gradle.pluginVersion + System.getenv('BUILD_NUMBER').toString()
+    body = """# Unofficial Mixer Plugin.
+Idk what to put here honestly
+"""
+    assets = [
+            "$rootDir/build/jars/*"
+    ]
 }
 
 subprojects {
@@ -18,8 +34,9 @@ subprojects {
     apply plugin: 'maven'
     apply plugin: 'com.github.johnrengelman.shadow'
 
-    group = project.pluginGroup
-    version = project.pluginVersion
+    group = gradle.pluginGroup
+    version = gradle.pluginVersion
+    curseForgeToken = project.curseForgeToken
 
     sourceCompatibility = '1.8'
     targetCompatibility = '1.8'
