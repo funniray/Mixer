@@ -19,6 +19,7 @@ import com.mixer.interactive.resources.participant.InteractiveParticipant;
 import com.mixer.interactive.resources.scene.InteractiveScene;
 import com.mixer.interactive.services.SceneServiceProvider;
 import pro.kdray.funniray.mixer.MixerEvents;
+import pro.kdray.funniray.mixer.config;
 
 import java.util.Date;
 import java.util.HashMap;
@@ -38,8 +39,8 @@ public class Interactive {
     private HashMap<String,InteractiveScene> sceneHashMap = new HashMap<>();
 
     public Interactive(MixerAPI mixer, MixerUser user, String token, MixerEvents events){
-        client = new GameClient(191773,"fa54866255ea641235e596e5659fa726a4aa9f7ecc72758f");
-        client.connect(token,"dbzktlsk");
+        client = new GameClient(config.projectID, config.clientID);
+        client.connect(token,config.shareCode);
 
         client.getEventBus().register(this);
 

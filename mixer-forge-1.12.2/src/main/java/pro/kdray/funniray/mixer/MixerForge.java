@@ -31,11 +31,7 @@ public final class MixerForge{
 
     private static Logger logger;
 
-    public static class config{
-
-        private static String token;
-
-    }
+    private static String token;
 
     @Mod.EventHandler
     public void preInit(FMLPreInitializationEvent event)
@@ -85,10 +81,19 @@ public final class MixerForge{
         }
 
         Property tokenProp = configuration.get(Configuration.CATEGORY_GENERAL, "token", "Api key here!");
+        Property clientIDProp = configuration.get(Configuration.CATEGORY_GENERAL, "clientID", "fa54866255ea641235e596e5659fa726a4aa9f7ecc72758f");
+        Property shareCodeProp = configuration.get(Configuration.CATEGORY_GENERAL,"shareCode","dbzktlsk");
+        Property projectIDProp = configuration.get(Configuration.CATEGORY_GENERAL,"projectID",191773);
 
-        config.token = tokenProp.getString();
+        token = tokenProp.getString();
+        config.clientID = clientIDProp.getString();
+        config.shareCode = shareCodeProp.getString();
+        config.projectID = projectIDProp.getInt();
 
-        tokenProp.set(tokenProp.getString());
+        tokenProp.set(token);
+        clientIDProp.set(config.clientID);
+        shareCodeProp.set(config.shareCode);
+        projectIDProp.set(config.projectID);
 
         if (configuration.hasChanged()) {
             configuration.save();
@@ -102,7 +107,7 @@ public final class MixerForge{
     public static void startMain(){
         new Thread(() -> {
             try {
-                main.initializeAPI(config.token,new mixer());//TODO: Make tokens per-player
+                main.initializeAPI(token,new mixer());//TODO: Make tokens per-player
                 running = true;
             } catch (ExecutionException | InterruptedException e) {
                 e.printStackTrace();

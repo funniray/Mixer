@@ -15,6 +15,9 @@ public final class MixerSpigot extends JavaPlugin {
         // Plugin startup logic
         this.saveDefaultConfig();
         String token = getConfig().getString("token");
+        config.shareCode = getConfig().getString("shareCode");
+        config.clientID = getConfig().getString("clientID");
+        config.projectID = getConfig().getInt("projectID");
         getServer().getScheduler().runTaskAsynchronously(this, () -> {
             try {
                 main.initializeAPI(token,new mixer());//TODO:Make tokens per-player

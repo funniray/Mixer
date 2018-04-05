@@ -61,13 +61,16 @@ public final class MixerSponge{
 
         loader = HoconConfigurationLoader.builder().setPath(defaultConfig).build();
 
-        ConfigurationNode config;
+        ConfigurationNode localConfig;
         String token = null;
 
         if (loader != null){
             try {
-                config = loader.load();
-                token = config.getNode("token").getString();
+                localConfig = loader.load();
+                token = localConfig.getNode("token").getString();
+                config.projectID = localConfig.getNode("projectID").getInt();
+                config.clientID = localConfig.getNode("shareCode").getString();
+                config.shareCode = localConfig.getNode("clientID").getString();
             } catch (IOException e) {
                 e.printStackTrace();
             }

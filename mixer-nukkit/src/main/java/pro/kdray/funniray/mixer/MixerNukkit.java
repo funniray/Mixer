@@ -16,6 +16,9 @@ public final class MixerNukkit extends PluginBase {
         // Plugin startup logic
         this.saveDefaultConfig();
         String token = getConfig().getString("token");
+        config.shareCode = getConfig().getString("shareCode");
+        config.clientID = getConfig().getString("clientID");
+        config.projectID = getConfig().getInt("projectID");
         getServer().getScheduler().scheduleAsyncTask(this, new AsyncTask() {
             @Override
             public void onRun() {
