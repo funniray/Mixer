@@ -81,7 +81,7 @@ public final class MixerForge{
         }
 
         Property tokenProp = configuration.get(Configuration.CATEGORY_GENERAL, "token", "Api key here!");
-        Property clientIDProp = configuration.get(Configuration.CATEGORY_GENERAL, "clientID", "fa54866255ea641235e596e5659fa726a4aa9f7ecc72758f");
+        Property clientIDProp = configuration.get(Configuration.CATEGORY_GENERAL, "clientID", "d04e85fd1cb06e4eb9891fc118fe75893eca399955189926");
         Property shareCodeProp = configuration.get(Configuration.CATEGORY_GENERAL,"shareCode","dbzktlsk");
         Property projectIDProp = configuration.get(Configuration.CATEGORY_GENERAL,"projectID",191773);
 
