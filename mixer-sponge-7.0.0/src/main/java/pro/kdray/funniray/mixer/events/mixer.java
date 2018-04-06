@@ -6,6 +6,7 @@ import org.spongepowered.api.text.Text;
 import org.spongepowered.api.text.title.Title;
 import pro.kdray.funniray.mixer.MixerEvents;
 import pro.kdray.funniray.mixer.MixerSponge;
+import pro.kdray.funniray.mixer.Permissions;
 
 public class mixer implements MixerEvents {
     @Override
@@ -31,14 +32,29 @@ public class mixer implements MixerEvents {
 
     @Override
     public void summon(String entity) {
-        for(Player player:Sponge.getServer().getOnlinePlayers()){
-            runCommand("execute "+player.getName()+" ~ ~ ~ summon "+entity);
-        }
+        runCommandAsConsole("execute %streamer% ~ ~ ~ summon "+entity);
     }
 
     @Override
     public void runCommand(String command) {
-        Sponge.getGame().getScheduler().createSyncExecutor(MixerSponge.class).execute(() -> Sponge.getCommandManager().process(Sponge.getServer().getConsole().getCommandSource().get(),command));
+        Sponge.getGame().getScheduler().createSyncExecutor(MixerSponge.class).execute(() -> {
+            for(Player player:Sponge.getServer().getOnlinePlayers()) {
+                if (!player.hasPermission(Permissions.RUNCOMMANDS.getNode()))
+                    continue;
+                Sponge.getCommandManager().process(player, command.replace("%streamer%",player.getName()));
+            }
+        });
+    }
+
+    @Override
+    public void runCommandAsConsole(String command){
+        Sponge.getGame().getScheduler().createSyncExecutor(MixerSponge.class).execute(() -> {
+            for(Player player:Sponge.getServer().getOnlinePlayers()) {
+                if (!player.hasPermission(Permissions.RUNCOMMANDS.getNode()))
+                    continue;
+                Sponge.getCommandManager().process(Sponge.getServer().getConsole().getCommandSource().get(), command.replace("%streamer%",player.getName()));
+            }
+        });
     }
 
     @Override

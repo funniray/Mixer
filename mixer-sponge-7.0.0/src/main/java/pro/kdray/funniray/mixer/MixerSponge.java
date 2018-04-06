@@ -13,11 +13,15 @@ import org.spongepowered.api.event.Listener;
 import org.spongepowered.api.event.game.state.GameStartedServerEvent;
 import org.spongepowered.api.event.game.state.GameStoppingServerEvent;
 import org.spongepowered.api.plugin.Plugin;
+import org.spongepowered.api.service.permission.PermissionDescription;
+import org.spongepowered.api.service.permission.PermissionService;
+import org.spongepowered.api.text.Text;
 import pro.kdray.funniray.mixer.events.mixer;
 
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.Optional;
 import java.util.concurrent.ExecutionException;
 
 @Plugin(id = "mixerinteractive", description = "A Mixer Interactive Plugin", name = "Mixer Interactive Plugin", version = "1.0")
@@ -81,6 +85,17 @@ public final class MixerSponge{
         }
 
         String realToken = token;
+
+        //registering permissions
+        PermissionService ps = this.game.getServiceManager().getRegistration(PermissionService.class).get().getProvider();
+        PermissionDescription.Builder builder = ps.newDescriptionBuilder(this);
+        for (Permissions permission:Permissions.values()){
+            builder.id(permission.getNode())
+                .description(Text.of(permission.getDescription()))
+                .assign(PermissionDescription.ROLE_STAFF,!permission.getDefaultMode().equals("false"))
+                .assign(PermissionDescription.ROLE_USER,(permission.getDefaultMode().equals("true")))
+                .register();
+        }
 
         game.getScheduler().createAsyncExecutor(this).execute(() -> {
             try {

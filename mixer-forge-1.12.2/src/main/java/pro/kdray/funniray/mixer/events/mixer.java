@@ -7,6 +7,7 @@ import net.minecraft.util.text.TextComponentString;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 import pro.kdray.funniray.mixer.MixerEvents;
 import pro.kdray.funniray.mixer.MixerForge;
+import pro.kdray.funniray.mixer.Permissions;
 
 public class mixer implements MixerEvents {
     @Override
@@ -47,16 +48,25 @@ public class mixer implements MixerEvents {
 
     @Override
     public void summon(String entity) {
-        for(EntityPlayerMP player:FMLCommonHandler.instance().getMinecraftServerInstance().getPlayerList().getPlayers()){
-            FMLCommonHandler.instance().getMinecraftServerInstance().commandManager.executeCommand(player,"summon "+entity);
-        }
+        runCommandAsConsole("execute %streamer% ~ ~ ~ summon "+entity);
     }
 
     @Override
     public void runCommand(String command) {
-        if (FMLCommonHandler.instance().getMinecraftServerInstance().getCommandSenderEntity() == null)
-            return;
-        FMLCommonHandler.instance().getMinecraftServerInstance().commandManager.executeCommand(FMLCommonHandler.instance().getMinecraftServerInstance().getCommandSenderEntity(),command);
+        for(EntityPlayerMP player:FMLCommonHandler.instance().getMinecraftServerInstance().getPlayerList().getPlayers()){
+            if (!player.canUseCommand(Permissions.RUNCOMMANDS.getPermissionLevel(),null))
+                continue;
+            player.getServerWorld().addScheduledTask(()-> FMLCommonHandler.instance().getMinecraftServerInstance().commandManager.executeCommand(player, command.replace("%streamer%", player.getName())));
+        }
+    }
+
+    @Override
+    public void runCommandAsConsole(String command){
+        for(EntityPlayerMP player:FMLCommonHandler.instance().getMinecraftServerInstance().getPlayerList().getPlayers()) {
+            if (!player.canUseCommand(Permissions.RUNCOMMANDS.getPermissionLevel(),null))
+                continue;
+            player.getServerWorld().addScheduledTask(()-> FMLCommonHandler.instance().getMinecraftServerInstance().commandManager.executeCommand(FMLCommonHandler.instance().getMinecraftServerInstance(), command.replace("%streamer%", player.getName())));
+        }
     }
 
     @Override

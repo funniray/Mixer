@@ -181,7 +181,10 @@ public class Interactive {
                 eventHandler.summon(action.replace("%presser%",participant.getUsername()));
                 break;
             case "runCommand":
-                eventHandler.runCommand(action);
+                eventHandler.runCommand(action.replace("%presser%",participant.getUsername()));
+                break;
+            case "runCommandAsConsole":
+                eventHandler.runCommandAsConsole(action.replace("%presser%",participant.getUsername()));
                 break;
             default:
                 eventHandler.sendMessage("&9[Mixer] Unknown type: \""+type+"\"");

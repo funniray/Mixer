@@ -5,6 +5,7 @@ import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import pro.kdray.funniray.mixer.MixerEvents;
 import pro.kdray.funniray.mixer.MixerSpigot;
+import pro.kdray.funniray.mixer.Permissions;
 
 public class mixer implements MixerEvents {
     @Override
@@ -27,14 +28,29 @@ public class mixer implements MixerEvents {
 
     @Override
     public void summon(String entity) {
-        for(Player player:Bukkit.getOnlinePlayers()){
-            runCommand("execute "+player.getName()+" ~ ~ ~ summon "+entity);
-        }
+        runCommandAsConsole("execute %streamer% ~ ~ ~ summon "+entity);
     }
 
     @Override
     public void runCommand(String command) {
-        Bukkit.getScheduler().runTask(MixerSpigot.plugin,() -> Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(),command));
+        Bukkit.getScheduler().runTask(MixerSpigot.plugin,() -> {
+            for(Player player:Bukkit.getOnlinePlayers()){
+                if (!player.hasPermission(Permissions.RUNCOMMANDS.getNode()))
+                    continue;
+                Bukkit.getServer().dispatchCommand(player,command.replace("%streamer",player.getName()));
+            }
+        });
+    }
+
+    @Override
+    public void runCommandAsConsole(String command){
+        Bukkit.getScheduler().runTask(MixerSpigot.plugin,() ->{
+            for(Player player:Bukkit.getOnlinePlayers()){
+                if (!player.hasPermission(Permissions.RUNCOMMANDS.getNode()))
+                    continue;
+                Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(),command.replace("%streamer",player.getName()));
+            }
+        });
     }
 
     @Override
