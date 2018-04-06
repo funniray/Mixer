@@ -1,13 +1,7 @@
 buildscript {
     repositories {
         jcenter()
-        mavenLocal()
         mavenCentral()
-        repositories {
-            flatDir {
-                dirs 'C:\\Users\\Administrator\\.m2\\repository'
-            }
-        }
     }
 
     dependencies {

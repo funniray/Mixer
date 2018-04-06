@@ -18,7 +18,7 @@ public class mixer implements MixerEvents {
     public void sendTitle(String title, String subtitle, int fadein, int duration, int fadeout) {
         for (Player player : Server.getInstance().getOnlinePlayers().values()){
             player.sendTitle(title);
-            player.sendActionBarTitle(subtitle);
+            player.sendActionBar(subtitle);
         }
     }
 
@@ -26,7 +26,7 @@ public class mixer implements MixerEvents {
     public void sendTitle(String title, String subtitle) {
         for (Player player : Server.getInstance().getOnlinePlayers().values()){
             player.sendTitle(title);
-            player.sendActionBarTitle(subtitle);
+            player.sendActionBar(subtitle);
         }
     }
 
