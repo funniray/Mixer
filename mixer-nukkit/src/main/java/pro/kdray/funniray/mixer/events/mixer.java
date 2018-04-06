@@ -17,14 +17,16 @@ public class mixer implements MixerEvents {
     @Override
     public void sendTitle(String title, String subtitle, int fadein, int duration, int fadeout) {
         for (Player player : Server.getInstance().getOnlinePlayers().values()){
-            player.sendTitle(title,subtitle,fadein,duration,fadeout);
+            player.sendTitle(title);
+            player.sendActionBarTitle(subtitle);
         }
     }
 
     @Override
     public void sendTitle(String title, String subtitle) {
         for (Player player : Server.getInstance().getOnlinePlayers().values()){
-            player.sendTitle(title,subtitle);
+            player.sendTitle(title);
+            player.sendActionBarTitle(subtitle);
         }
     }
 
