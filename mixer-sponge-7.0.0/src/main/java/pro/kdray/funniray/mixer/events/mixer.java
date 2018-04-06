@@ -2,7 +2,9 @@ package pro.kdray.funniray.mixer.events;
 
 import org.spongepowered.api.Sponge;
 import org.spongepowered.api.entity.living.player.Player;
+import org.spongepowered.api.text.LiteralText;
 import org.spongepowered.api.text.Text;
+import org.spongepowered.api.text.format.TextFormat;
 import org.spongepowered.api.text.title.Title;
 import pro.kdray.funniray.mixer.MixerEvents;
 import pro.kdray.funniray.mixer.MixerSponge;
@@ -11,8 +13,13 @@ import pro.kdray.funniray.mixer.Permissions;
 public class mixer implements MixerEvents {
     @Override
     public void sendMessage(String message) {
-        Sponge.getServer().getBroadcastChannel().send(Text.of(message)); //TODO: Format colors
-        MixerSponge.getLogger().info(message);
+        LiteralText formatted = Text.of(message.replace("&", "§"));
+        for (Player player : Sponge.getServer().getOnlinePlayers()){
+            if (!player.hasPermission(Permissions.RECIEVEMESSAGES.getNode()))
+                continue;
+            player.sendMessage(formatted);
+        }
+        this.debug(formatted.getContent());
     }
     @Override
     public void sendTitle(String title, String subtitle, int fadein, int duration, int fadeout) {

@@ -11,22 +11,30 @@ import pro.kdray.funniray.mixer.Permissions;
 public class mixer implements MixerEvents {
     @Override
     public void sendMessage(String message) {
-        Server.getInstance().broadcastMessage(TextFormat.colorize('&',message));
+        String formatted = TextFormat.colorize('&',message);
+        for (Player player : Server.getInstance().getOnlinePlayers().values()){
+            if (!player.hasPermission(Permissions.RECIEVEMESSAGES.getNode()))
+                continue;
+            player.sendMessage(formatted);
+        }
+        this.debug(formatted);
     }
 
     @Override
     public void sendTitle(String title, String subtitle, int fadein, int duration, int fadeout) {
         for (Player player : Server.getInstance().getOnlinePlayers().values()){
-            player.sendTitle(title);
-            player.sendActionBar(subtitle);
+            if (!player.hasPermission(Permissions.RECIEVEMESSAGES.getNode()))
+                continue;
+            player.sendTitle(title,subtitle,fadein,duration,fadeout);
         }
     }
 
     @Override
     public void sendTitle(String title, String subtitle) {
         for (Player player : Server.getInstance().getOnlinePlayers().values()){
-            player.sendTitle(title);
-            player.sendActionBar(subtitle);
+            if (!player.hasPermission(Permissions.RECIEVEMESSAGES.getNode()))
+                continue;
+            player.sendTitle(title,subtitle);
         }
     }
 

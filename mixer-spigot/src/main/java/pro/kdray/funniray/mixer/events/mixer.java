@@ -10,7 +10,13 @@ import pro.kdray.funniray.mixer.Permissions;
 public class mixer implements MixerEvents {
     @Override
     public void sendMessage(String message) {
-        Bukkit.broadcastMessage(ChatColor.translateAlternateColorCodes('&',message));
+        String formatted = ChatColor.translateAlternateColorCodes('&',message);
+        for (Player player : Bukkit.getServer().getOnlinePlayers()){
+            if (!player.hasPermission(Permissions.RECIEVEMESSAGES.getNode()))
+                continue;
+            player.sendMessage(formatted);
+        }
+        this.debug(formatted);
     }
     @Override
     public void sendTitle(String title, String subtitle, int fadein, int duration, int fadeout) {
