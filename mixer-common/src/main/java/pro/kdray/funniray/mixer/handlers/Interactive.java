@@ -1,8 +1,6 @@
 package pro.kdray.funniray.mixer.handlers;
 
 import com.google.common.eventbus.Subscribe;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
 import com.mixer.api.MixerAPI;
 import com.mixer.api.resource.MixerUser;
 import com.mixer.interactive.GameClient;
@@ -14,14 +12,15 @@ import com.mixer.interactive.event.participant.ParticipantJoinEvent;
 import com.mixer.interactive.event.participant.ParticipantLeaveEvent;
 import com.mixer.interactive.resources.control.ButtonControl;
 import com.mixer.interactive.resources.control.InteractiveControl;
+import com.mixer.interactive.resources.control.InteractiveControlType;
 import com.mixer.interactive.resources.group.InteractiveGroup;
 import com.mixer.interactive.resources.participant.InteractiveParticipant;
 import com.mixer.interactive.resources.scene.InteractiveScene;
 import com.mixer.interactive.services.SceneServiceProvider;
+import pro.kdray.funniray.mixer.Controls.InteractiveButton;
 import pro.kdray.funniray.mixer.MixerEvents;
 import pro.kdray.funniray.mixer.config;
 
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Set;
 import java.util.concurrent.ExecutionException;
@@ -38,6 +37,8 @@ public class Interactive {
     private HashMap<String,InteractiveGroup> groupHashMap = new HashMap<>();
     private HashMap<String,InteractiveScene> sceneHashMap = new HashMap<>();
 
+    private HashMap<String,InteractiveButton> buttonHashMap = new HashMap<>();
+
     public Interactive(MixerAPI mixer, MixerUser user, String token, MixerEvents events){
         client = new GameClient(config.projectID, config.clientID);
         client.connect(token,config.shareCode);
@@ -48,11 +49,6 @@ public class Interactive {
         this.eventHandler = events;
         this.token = token;
     }
-
-//    @Subscribe
-//    public void onInteractiveEvent(InteractiveEvent event) {
-//        eventHandler.sendMessage("&9[Mixer] Interactive Event &c>>> " + event.toString());
-//    }
 
     @Subscribe
     public void onParticipantJoin(ParticipantJoinEvent event) {
@@ -90,6 +86,8 @@ public class Interactive {
                 for(InteractiveControl control:controls){
                     eventHandler.debug("&9&l[Mixer]&r&9 >>> "+control.getControlID()+" is "+control.getKind()+" on "+control.getSceneID());
                     controlHashMap.put(control.getControlID(),control);
+                    if (control.getKind() == InteractiveControlType.BUTTON)
+                        buttonHashMap.put(control.getControlID(),new InteractiveButton(control.getControlID(),this, control.getMeta()));
                 }
 
                 sceneHashMap.put(scene.getSceneID(),scene);
@@ -116,45 +114,12 @@ public class Interactive {
             if (participant == null)
                 return;
             eventHandler.debug("&9&l[Mixer]&r&9 >>> " + participant.getUsername() + " pressed " + event.getControlInput().getControlID());
-            eventHandler.debug("&9&l[Mixer]&r&9 >>> Control: "+event.getControlInput().getRawInput());
-            InteractiveControl control = controlHashMap.get(event.getControlInput().getControlID());
-            JsonObject meta = control.getMeta();
-            boolean updateButton = false;
-            if (control instanceof ButtonControl) {
-                ButtonControl buttonControl = ((ButtonControl) control);
-                if (buttonControl.getCooldown() > new Date().getTime()){
-                    return;
-                }
-            }
-            if (meta.get("switchWindow") != null){
-                switchSceneForParticipant(participant,meta.get("switchWindow").getAsJsonObject().get("value").getAsString());
-            }
-            String type = meta.get("type").getAsJsonObject().get("value").getAsString();
-            if (type == null)
-                return;
-            JsonElement timeout = meta.get("timeout");
-            if (timeout != null){
-                if (control instanceof ButtonControl){
-                    ButtonControl buttonControl = ((ButtonControl) control);
-                    buttonControl.setCooldown(new Date().getTime() + (timeout.getAsJsonObject().get("value").getAsInt()*1000));
-                    updateButton = true;
-                }
-            }
-            String action = meta.get("action").getAsJsonObject().get("value").getAsString();
-            if (type.equals("switchWindow")){
-                switchSceneForParticipant(participant,action);
-            }else{
-                if (type.equals("summon") && meta.get("NBT") != null)
-                    action += " ~ ~ ~ " + meta.get("NBT").getAsJsonObject().get("value").getAsString();
-                handleActions(participant,type,action);
-            }
-            if (updateButton) {
-                this.updateControl((ButtonControl) control);
-            }
+            eventHandler.debug("&9&l[Mixer]&r&9 >>> Control: " + event.getControlInput().getRawInput());
+            buttonHashMap.get(event.getControlInput().getControlID()).onClick(participant);
         }
     }
 
-    private void updateControl(ButtonControl control){
+    public void updateControl(ButtonControl control){
         eventHandler.runAsync(() -> {
             try {
                 client.using(GameClient.CONTROL_SERVICE_PROVIDER).update(control).get();
@@ -164,7 +129,7 @@ public class Interactive {
         });
     }
 
-    private void switchSceneForParticipant(InteractiveParticipant participant, String group){
+    public void switchSceneForParticipant(InteractiveParticipant participant, String group){
         participant.changeGroup(getGroup(group));
         eventHandler.runAsync(() -> {
             try {
@@ -173,22 +138,6 @@ public class Interactive {
                 //I don't really care what happens here
             }
         });
-    }
-
-    private void handleActions(InteractiveParticipant participant,String type, String action){
-        switch(type){
-            case "summon":
-                eventHandler.summon(action.replace("%presser%",participant.getUsername()));
-                break;
-            case "runCommand":
-                eventHandler.runCommand(action.replace("%presser%",participant.getUsername()));
-                break;
-            case "runCommandAsConsole":
-                eventHandler.runCommandAsConsole(action.replace("%presser%",participant.getUsername()));
-                break;
-            default:
-                eventHandler.sendMessage("&9[Mixer] Unknown type: \""+type+"\"");
-        }
     }
 
     private InteractiveGroup getGroup(String groupString){
@@ -200,5 +149,9 @@ public class Interactive {
 
     public void disconnect(){
         this.client.disconnect();
+    }
+
+    public MixerEvents getEventHandler() {
+        return eventHandler;
     }
 }

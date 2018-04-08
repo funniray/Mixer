@@ -1,10 +1,16 @@
+repositories {
+    flatDir {
+        dirs "$rootDir/libs"
+    }
+}
+
 dependencies {
     compile project(':mixer-common')
-    compile files("$rootDir/libs/spigot-1.12.2.jar") //I
-    compile files("$rootDir/libs/spigot-1.11.2.jar") //Hate
-    compile files("$rootDir/libs/spigot-1.10.2.jar") //NMS
-    compile files("$rootDir/libs/spigot-1.9.4.jar")
-    compile files("$rootDir/libs/spigot-1.9.jar")
+    compile name: "spigot-1.12.2"
+    compile name: "spigot-1.11.2"
+    compile name: "spigot-1.10.2"
+    compile name: "spigot-1.9.4"
+    compile name: "spigot-1.9"
 }
 
 processResources {
