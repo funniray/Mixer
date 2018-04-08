@@ -19,6 +19,7 @@ public class InteractiveButton {
     private String NBT;
     private String switchWindow;
     private String runCommand;
+    private boolean runAsServer = false;
     //TODO: private String move;
     private String message;
     private String title;
@@ -54,6 +55,10 @@ public class InteractiveButton {
                     break;
                 case "runCommand":
                     this.runCommand = meta.get("action").getAsJsonObject().get("value").getAsString();
+                    break;
+                case "runCommandAsServer":
+                    this.runCommand = meta.get("action").getAsJsonObject().get("value").getAsString();
+                    this.runAsServer = true;
                     break;
                 case "switchWindow":
                     this.switchWindow = meta.get("action").getAsJsonObject().get("value").getAsString();
@@ -101,17 +106,31 @@ public class InteractiveButton {
                 control.setProgress((float) this.clickedBy.size()/this.requiredClicks);
                 this.handler.updateControl(control);
                 return;
-            }else{
+            }else {
                 control.setProgress(0F);
                 updateButton = true;
 
-                for (int i = 0; i < this.clickedBy.size()-1; i++){
+                List<InteractiveParticipant> noDups = new ArrayList<>();
+
+                for (InteractiveParticipant participant1 : this.clickedBy) {
+                    if (noDups.contains(participant))
+                        continue;
+                    noDups.add(participant1);
+                }
+
+                for (int i = 0; i < this.clickedBy.size() - 1; i++) {
                     SSLBuilder.append(this.clickedBy.get(i).getUsername()).append(" ");
-                    HRLBuilder.append(this.clickedBy.get(i).getUsername()).append(" ");
                     CSLBuilder.append(this.clickedBy.get(i).getUsername()).append(",");
                 }
+                if (noDups.size() > 1){
+                    for (int i = 0; i < noDups.size() - 1; i++) {
+                        HRLBuilder.append(noDups.get(i).getUsername()).append(" ");
+                    }
+                    HRLBuilder.append("and ").append(noDups.get(noDups.size() - 1).getUsername());
+                }else{
+                    HRLBuilder.append(participant.getUsername());
+                }
                 SSLBuilder.append(this.clickedBy.get(this.clickedBy.size()-1).getUsername());
-                HRLBuilder.append("and ").append(this.clickedBy.get(this.clickedBy.size()-1).getUsername());
                 CSLBuilder.append(this.clickedBy.get(this.clickedBy.size()-1).getUsername());
                 this.clickedBy = new ArrayList<>();
             }
@@ -129,12 +148,18 @@ public class InteractiveButton {
             updateButton = true;
         }
 
-        if (this.runCommand != null)
-            this.handler.getEventHandler().runCommand(this.runCommand
-                    .replace("%CSL%",CSL)
-                    .replace("%SSL%",SSL)
-                    .replace("%HRL%",HRL)
-                    .replace("%presser%",participant.getUsername()));
+        if (this.runCommand != null) {
+            String command = this.runCommand
+                    .replace("%CSL%", CSL)
+                    .replace("%SSL%", SSL)
+                    .replace("%HRL%", HRL)
+                    .replace("%presser%", participant.getUsername());
+            if (this.runAsServer) {
+                this.handler.getEventHandler().runCommandAsConsole(command);
+            }else{
+                this.handler.getEventHandler().runCommand(command);
+            }
+        }
 
         if (this.summon != null){
             if (this.NBT != null) {
