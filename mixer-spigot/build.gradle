@@ -27,7 +27,6 @@ shadowJar {
         include(dependency("org.apache.httpcomponents:httpclient:${gradle.httpclient}"))
         include(dependency("org.apache.httpcomponents:httpcore:${gradle.httpcore}"))
         include(dependency("commons-logging:commons-logging:${gradle.commonsLogging}"))
-        include(dependency("com.auth0:java-jwt:${gradle.JWT}"))
         include(dependency("org.java-websocket:Java-WebSocket:${gradle.JavaWebSocket}"))
     }
     destinationDir = file("$rootDir/build/jars")
