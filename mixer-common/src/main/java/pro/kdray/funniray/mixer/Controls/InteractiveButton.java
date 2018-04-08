@@ -108,7 +108,7 @@ public class InteractiveButton {
                 for (int i = 0; i < this.clickedBy.size()-1; i++){
                     SSLBuilder.append(this.clickedBy.get(i).getUsername()).append(" ");
                     HRLBuilder.append(this.clickedBy.get(i).getUsername()).append(" ");
-                    SSLBuilder.append(this.clickedBy.get(i).getUsername()).append(",");
+                    CSLBuilder.append(this.clickedBy.get(i).getUsername()).append(",");
                 }
                 SSLBuilder.append(this.clickedBy.get(this.clickedBy.size()-1).getUsername());
                 HRLBuilder.append("and ").append(this.clickedBy.get(this.clickedBy.size()-1).getUsername());
@@ -178,8 +178,7 @@ public class InteractiveButton {
                     .replace("%HRL%",HRL)
                     .replace("%presser%",participant.getUsername()));
 
-        if (updateButton) {
+        if (updateButton)
             this.handler.updateControl(control);
-        }
     }
 }
