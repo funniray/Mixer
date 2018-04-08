@@ -32,12 +32,14 @@ public class Interactive {
     private String token;
     private GameClient client;
     private MixerEvents eventHandler;
+
     private HashMap<String,InteractiveParticipant> participantHashMap = new HashMap<>();
     private HashMap<String,InteractiveControl> controlHashMap = new HashMap<>();
     private HashMap<String,InteractiveGroup> groupHashMap = new HashMap<>();
     private HashMap<String,InteractiveScene> sceneHashMap = new HashMap<>();
-
     private HashMap<String,InteractiveButton> buttonHashMap = new HashMap<>();
+
+    private boolean isPause = false;
 
     public Interactive(MixerAPI mixer, MixerUser user, String token, MixerEvents events){
         client = new GameClient(config.projectID, config.clientID);
@@ -153,5 +155,22 @@ public class Interactive {
 
     public MixerEvents getEventHandler() {
         return eventHandler;
+    }
+
+    public void switchAllScenes(String scene){
+        for(InteractiveParticipant participant:this.participantHashMap.values()){
+            this.switchSceneForParticipant(participant,scene);
+        }
+    }
+
+    public void pause(){
+        if (this.isPause){
+            switchAllScenes("default");
+            eventHandler.sendMessage("&9&l[Mixer]&r&9 Buttons have been unpaused");
+        }else{
+            switchAllScenes("pause");
+            eventHandler.sendMessage("&9&l[Mixer]&r&9 Buttons have been paused");
+        }
+        this.isPause = !this.isPause;
     }
 }

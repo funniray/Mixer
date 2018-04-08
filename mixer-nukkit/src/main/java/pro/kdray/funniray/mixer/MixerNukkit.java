@@ -1,10 +1,13 @@
 package pro.kdray.funniray.mixer;
 
+import cn.nukkit.command.Command;
+import cn.nukkit.command.CommandSender;
 import cn.nukkit.permission.Permission;
 import cn.nukkit.plugin.Plugin;
 import cn.nukkit.plugin.PluginBase;
 import cn.nukkit.plugin.PluginManager;
 import cn.nukkit.scheduler.AsyncTask;
+import pro.kdray.funniray.mixer.command.pause;
 import pro.kdray.funniray.mixer.events.mixer;
 
 import java.util.concurrent.ExecutionException;
@@ -12,6 +15,7 @@ import java.util.concurrent.ExecutionException;
 public final class MixerNukkit extends PluginBase {
 
     public static Plugin plugin;
+    private static main api;
 
     @Override
     public void onEnable() {
@@ -37,12 +41,14 @@ public final class MixerNukkit extends PluginBase {
             pm.addPermission(perm);
         }
 
+        this.getServer().getCommandMap().register(commands.PAUSE.getName(), new pause());
+
         //Run main class
         getServer().getScheduler().scheduleAsyncTask(this, new AsyncTask() {
             @Override
             public void onRun() {
                 try {
-                    main.initializeAPI(token,new mixer());
+                    api = new main(token,new mixer());
                 } catch (ExecutionException | InterruptedException e) {
                     e.printStackTrace();
                 }
@@ -53,10 +59,18 @@ public final class MixerNukkit extends PluginBase {
     @Override
     public void onDisable() {
         // Plugin shutdown logic
-        main.shutdown();
+        api.shutdown();
     }
 
     public Plugin getPlugin(){
         return this;
+    }
+
+    public static main getApi() {
+        return api;
+    }
+
+    public static void setApi(main api) {
+        MixerNukkit.api = api;
     }
 }

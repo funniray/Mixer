@@ -6,6 +6,7 @@ import net.minecraftforge.common.config.ConfigManager;
 import net.minecraftforge.common.config.Configuration;
 import net.minecraftforge.common.config.Property;
 import net.minecraftforge.fml.client.event.ConfigChangedEvent;
+import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
@@ -14,6 +15,7 @@ import net.minecraftforge.fml.common.event.FMLServerStoppingEvent;
 import net.minecraftforge.fml.common.eventhandler.EventPriority;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import org.apache.logging.log4j.Logger;
+import pro.kdray.funniray.mixer.command.pause;
 import pro.kdray.funniray.mixer.events.mixer;
 
 import java.util.concurrent.ExecutionException;
@@ -25,6 +27,8 @@ public final class MixerForge{
 
     public static final String MODID = "mixerinteractive";
 
+    private static main api;
+
     private static boolean running = false;
 
     private static Configuration configuration;
@@ -32,6 +36,7 @@ public final class MixerForge{
     private static Logger logger;
 
     private static String token;
+    private static boolean global;
 
     @Mod.EventHandler
     public void preInit(FMLPreInitializationEvent event)
@@ -53,13 +58,15 @@ public final class MixerForge{
 
         logger.info("[Mixer] Enabled plugin");
 
+        event.registerServerCommand(new pause());
+
         startMain();
     }
 
     @Mod.EventHandler
     public void onGameStop(FMLServerStoppingEvent event) {
         // Plugin shutdown logic
-        main.shutdown();
+        api.shutdown();
         running = false;
     }
 
@@ -80,16 +87,19 @@ public final class MixerForge{
             configuration.load();
         }
 
+        Property globalProp = configuration.get(Configuration.CATEGORY_GENERAL,"global",false);
         Property tokenProp = configuration.get(Configuration.CATEGORY_GENERAL, "token", "Api key here!");
         Property clientIDProp = configuration.get(Configuration.CATEGORY_GENERAL, "clientID", "d04e85fd1cb06e4eb9891fc118fe75893eca399955189926");
         Property shareCodeProp = configuration.get(Configuration.CATEGORY_GENERAL,"shareCode","dbzktlsk");
         Property projectIDProp = configuration.get(Configuration.CATEGORY_GENERAL,"projectID",191773);
 
+        global = globalProp.getBoolean();
         token = tokenProp.getString();
         config.clientID = clientIDProp.getString();
         config.shareCode = shareCodeProp.getString();
         config.projectID = projectIDProp.getInt();
 
+        globalProp.set(global);
         tokenProp.set(token);
         clientIDProp.set(config.clientID);
         shareCodeProp.set(config.shareCode);
@@ -98,7 +108,7 @@ public final class MixerForge{
         if (configuration.hasChanged()) {
             configuration.save();
             if (running){
-                main.shutdown();
+                api.shutdown();
                 startMain();
             }
         }
@@ -107,7 +117,7 @@ public final class MixerForge{
     public static void startMain(){
         new Thread(() -> {
             try {
-                main.initializeAPI(token,new mixer());//TODO: Make tokens per-player
+                api = new main(token,new mixer());//TODO: Make tokens per-player
                 running = true;
             } catch (ExecutionException | InterruptedException e) {
                 e.printStackTrace();
@@ -120,5 +130,13 @@ public final class MixerForge{
         if (MODID.equals(event.getModID())) {
             syncFromGUI();
         }
+    }
+
+    public static main getApi() {
+        return api;
+    }
+
+    public static void setApi(main api) {
+        MixerForge.api = api;
     }
 }

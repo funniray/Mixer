@@ -13,11 +13,11 @@ import java.util.concurrent.ExecutionException;
 
 public class main {
 
-    private static Interactive interactive;
-    private static Constellation constellation;
-    private static Chat chatHandler;
+    private Interactive interactive;
+    private Constellation constellation;
+    private Chat chatHandler;
 
-    public static void initializeAPI(String APIKey, MixerEvents eventHandler) throws ExecutionException, InterruptedException {
+    public main(String APIKey, MixerEvents eventHandler) throws ExecutionException, InterruptedException {
         MixerAPI mixer = new MixerAPI(APIKey);
 
         MixerUser user = mixer.use(UsersService.class).getCurrent().get();
@@ -28,7 +28,7 @@ public class main {
         chatHandler = new Chat(mixer,user,chat,eventHandler);
     }
 
-    public static void shutdown(){
+    public void shutdown(){
         try {
             interactive.disconnect();
             constellation.disconnect();
@@ -36,5 +36,17 @@ public class main {
         }catch(NullPointerException e){
             //Do nothing because whoops
         }
+    }
+
+    public Interactive getInteractive() {
+        return interactive;
+    }
+
+    public Constellation getConstellation() {
+        return constellation;
+    }
+
+    public Chat getChatHandler() {
+        return chatHandler;
     }
 }

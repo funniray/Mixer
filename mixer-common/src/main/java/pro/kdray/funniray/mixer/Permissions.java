@@ -3,7 +3,8 @@ package pro.kdray.funniray.mixer;
 public enum Permissions {
 
     RUNCOMMANDS(config.permPrefix+".runcommands","Players with this permission will run interactive commands when buttons are pressed.","OP",3),
-    RECIEVEMESSAGES(config.permPrefix+".revieveMessages","Lets the player recieve messages from the Mixer plugin","OP",3);
+    RECIEVEMESSAGES(config.permPrefix+".revieveMessages","Lets the player recieve messages from the Mixer plugin","OP",3),
+    PAUSE(config.permPrefix+".commands.pause","Lets the player run /pause","OP",3);
 
     private String node;
     private String description;

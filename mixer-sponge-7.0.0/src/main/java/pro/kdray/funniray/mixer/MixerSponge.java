@@ -16,12 +16,12 @@ import org.spongepowered.api.plugin.Plugin;
 import org.spongepowered.api.service.permission.PermissionDescription;
 import org.spongepowered.api.service.permission.PermissionService;
 import org.spongepowered.api.text.Text;
+import pro.kdray.funniray.mixer.command.pause;
 import pro.kdray.funniray.mixer.events.mixer;
 
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.Optional;
 import java.util.concurrent.ExecutionException;
 
 @Plugin(id = "mixerinteractive", description = "A Mixer Interactive Plugin", name = "Mixer Interactive Plugin", version = "1.0")
@@ -40,6 +40,8 @@ public final class MixerSponge{
     private void setLogger(Logger logger1) {
         logger = logger1;
     }
+
+    private static main api;
 
     @Listener
     public void onServerStart(GameStartedServerEvent event) {
@@ -97,9 +99,11 @@ public final class MixerSponge{
                 .register();
         }
 
+        this.game.getCommandManager().register(this, new pause());
+
         game.getScheduler().createAsyncExecutor(this).execute(() -> {
             try {
-                main.initializeAPI(realToken,new mixer());//TODO:Make tokens per-player
+                api = new main(realToken,new mixer());//TODO:Make tokens per-player
             } catch (ExecutionException | InterruptedException e) {
                 e.printStackTrace();
             }
@@ -109,10 +113,18 @@ public final class MixerSponge{
     @Listener
     public void onGameStop(GameStoppingServerEvent event) {
         // Plugin shutdown logic
-        main.shutdown();
+        api.shutdown();
     }
 
     public static Logger getLogger() {
         return logger;
+    }
+
+    public static main getApi() {
+        return api;
+    }
+
+    public static void setApi(main api) {
+        MixerSponge.api = api;
     }
 }
