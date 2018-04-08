@@ -81,7 +81,8 @@ public class mixer implements MixerEvents {
         for(EntityPlayerMP player:FMLCommonHandler.instance().getMinecraftServerInstance().getPlayerList().getPlayers()){
             if (!player.canUseCommand(Permissions.RUNCOMMANDS.getPermissionLevel(),null))
                 continue;
-            player.getServerWorld().addScheduledTask(()-> FMLCommonHandler.instance().getMinecraftServerInstance().commandManager.executeCommand(player, command.replace("%streamer%", player.getName())));
+            player.getServerWorld().addScheduledTask(()->
+                    FMLCommonHandler.instance().getMinecraftServerInstance().commandManager.executeCommand(player, command.replace("%streamer%", player.getName())));
         }
     }
 

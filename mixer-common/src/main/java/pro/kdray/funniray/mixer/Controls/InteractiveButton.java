@@ -9,9 +9,11 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-public class InteractiveButton extends ButtonControl {
+public class InteractiveButton {
 
     private Interactive handler;
+
+    private ButtonControl control;
 
     private String summon;
     private String NBT;
@@ -31,8 +33,11 @@ public class InteractiveButton extends ButtonControl {
     private int requiredClicks = 1;
     private List<InteractiveParticipant> clickedBy = new ArrayList<>();
 
-    public InteractiveButton(String controlID, Interactive handler, JsonObject meta) {
-        super(controlID);
+    public InteractiveButton(ButtonControl control, Interactive handler) {
+
+        this.control = control;
+
+        JsonObject meta = control.getMeta();
 
         this.handler = handler;
 
@@ -46,10 +51,13 @@ public class InteractiveButton extends ButtonControl {
                     if (meta.get("NBT") != null){
                         this.NBT = meta.get("NBT").getAsJsonObject().get("value").getAsString();
                     }
+                    break;
                 case "runCommand":
                     this.runCommand = meta.get("action").getAsJsonObject().get("value").getAsString();
+                    break;
                 case "switchWindow":
                     this.switchWindow = meta.get("action").getAsJsonObject().get("value").getAsString();
+                    break;
             }
         }
 
@@ -79,8 +87,8 @@ public class InteractiveButton extends ButtonControl {
 
         boolean updateButton = false;
 
-        if (this.getCooldown() != null)
-            if (this.getCooldown() > new Date().getTime())
+        if (control.getCooldown() != null)
+            if (control.getCooldown() > new Date().getTime())
                 return;
 
         StringBuilder SSLBuilder = new StringBuilder(); //Space Separated List
@@ -90,11 +98,11 @@ public class InteractiveButton extends ButtonControl {
             this.clickedBy.add(participant);
 
             if (this.requiredClicks > this.clickedBy.size()){
-                this.setProgress((float) this.requiredClicks/this.clickedBy.size());
-                this.handler.updateControl(this);
+                control.setProgress((float) this.clickedBy.size()/this.requiredClicks);
+                this.handler.updateControl(control);
                 return;
             }else{
-                this.setProgress(0F);
+                control.setProgress(0F);
                 updateButton = true;
 
                 for (int i = 0; i < this.clickedBy.size()-1; i++){
@@ -102,9 +110,10 @@ public class InteractiveButton extends ButtonControl {
                     HRLBuilder.append(this.clickedBy.get(i).getUsername()).append(" ");
                     SSLBuilder.append(this.clickedBy.get(i).getUsername()).append(",");
                 }
-                SSLBuilder.append(this.clickedBy.get(this.clickedBy.size()-1));
-                HRLBuilder.append(" and ").append(this.clickedBy.get(this.clickedBy.size()-1));
-                CSLBuilder.append(this.clickedBy.get(this.clickedBy.size()-1));
+                SSLBuilder.append(this.clickedBy.get(this.clickedBy.size()-1).getUsername());
+                HRLBuilder.append("and ").append(this.clickedBy.get(this.clickedBy.size()-1).getUsername());
+                CSLBuilder.append(this.clickedBy.get(this.clickedBy.size()-1).getUsername());
+                this.clickedBy = new ArrayList<>();
             }
         }
         String SSL = SSLBuilder.toString();
@@ -116,7 +125,7 @@ public class InteractiveButton extends ButtonControl {
 
 
         if (this.timeout > 0){
-            this.setCooldown(new Date().getTime() + (timeout*1000));
+            control.setCooldown(new Date().getTime() + (timeout*1000));
             updateButton = true;
         }
 
@@ -170,7 +179,7 @@ public class InteractiveButton extends ButtonControl {
                     .replace("%presser%",participant.getUsername()));
 
         if (updateButton) {
-            this.handler.updateControl(this);
+            this.handler.updateControl(control);
         }
     }
 }

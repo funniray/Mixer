@@ -87,7 +87,7 @@ public class Interactive {
                     eventHandler.debug("&9&l[Mixer]&r&9 >>> "+control.getControlID()+" is "+control.getKind()+" on "+control.getSceneID());
                     controlHashMap.put(control.getControlID(),control);
                     if (control.getKind() == InteractiveControlType.BUTTON)
-                        buttonHashMap.put(control.getControlID(),new InteractiveButton(control.getControlID(),this, control.getMeta()));
+                        buttonHashMap.put(control.getControlID(),new InteractiveButton((ButtonControl) control,this));
                 }
 
                 sceneHashMap.put(scene.getSceneID(),scene);
