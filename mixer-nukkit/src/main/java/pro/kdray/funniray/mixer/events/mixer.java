@@ -39,6 +39,15 @@ public class mixer implements MixerEvents {
     }
 
     @Override
+    public void sendActionBar(String title) {
+        for (Player player : Server.getInstance().getOnlinePlayers().values()){
+            if (!player.hasPermission(Permissions.RECIEVEMESSAGES.getNode()))
+                continue;
+            player.sendActionBar(title);
+        }
+    }
+
+    @Override
     public void summon(String entity) {
         runCommandAsConsole("execute %streamer% ~ ~ ~ summon "+entity); //TODO: Make it run the right command
     }

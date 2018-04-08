@@ -20,16 +20,17 @@ public class mixer implements MixerEvents {
     }
     @Override
     public void sendTitle(String title, String subtitle, int fadein, int duration, int fadeout) {
-        for (Player player : Bukkit.getServer().getOnlinePlayers()){
-            player.sendTitle(title,subtitle,fadein,duration,fadeout);
-        }
+        MixerSpigot.versionHandler.sendAllTitle(title, subtitle, fadein, duration, fadeout, Permissions.RECIEVEMESSAGES.getNode());
     }
 
     @Override
     public void sendTitle(String title, String subtitle) {
-        for (Player player : Bukkit.getServer().getOnlinePlayers()){
-            player.sendTitle(title,subtitle);
-        }
+        MixerSpigot.versionHandler.sendAllTitle(title, subtitle, Permissions.RECIEVEMESSAGES.getNode());
+    }
+
+    @Override
+    public void sendActionBar(String title) {
+        MixerSpigot.versionHandler.sendAllActionBar(title, Permissions.RECIEVEMESSAGES.getNode());
     }
 
     @Override

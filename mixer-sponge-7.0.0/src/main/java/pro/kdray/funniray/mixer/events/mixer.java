@@ -4,16 +4,18 @@ import org.spongepowered.api.Sponge;
 import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.text.LiteralText;
 import org.spongepowered.api.text.Text;
+import org.spongepowered.api.text.chat.ChatTypes;
 import org.spongepowered.api.text.format.TextFormat;
 import org.spongepowered.api.text.title.Title;
 import pro.kdray.funniray.mixer.MixerEvents;
 import pro.kdray.funniray.mixer.MixerSponge;
 import pro.kdray.funniray.mixer.Permissions;
+import pro.kdray.funniray.mixer.utils;
 
 public class mixer implements MixerEvents {
     @Override
     public void sendMessage(String message) {
-        LiteralText formatted = Text.of(message.replace("&", "§"));
+        LiteralText formatted = utils.formatText(message);
         for (Player player : Sponge.getServer().getOnlinePlayers()){
             if (!player.hasPermission(Permissions.RECIEVEMESSAGES.getNode()))
                 continue;
@@ -23,17 +25,30 @@ public class mixer implements MixerEvents {
     }
     @Override
     public void sendTitle(String title, String subtitle, int fadein, int duration, int fadeout) {
-        Title titleO = Title.builder().title(Text.of(title)).subtitle(Text.of(subtitle)).fadeIn(fadein).stay(duration).fadeOut(fadeout).build();
+        Title titleO = Title.builder().title(utils.formatText(title)).subtitle(utils.formatText(subtitle)).fadeIn(fadein).stay(duration).fadeOut(fadeout).build();
         for (Player player : Sponge.getServer().getOnlinePlayers()){
+            if (!player.hasPermission(Permissions.RECIEVEMESSAGES.getNode()))
+                continue;
             player.sendTitle(titleO);
         }
     }
 
     @Override
     public void sendTitle(String title, String subtitle) {
-        Title titleO = Title.builder().title(Text.of(title)).subtitle(Text.of(subtitle)).build();
+        Title titleO = Title.builder().title(utils.formatText(title)).subtitle(utils.formatText(subtitle)).build();
         for (Player player : Sponge.getServer().getOnlinePlayers()){
+            if (!player.hasPermission(Permissions.RECIEVEMESSAGES.getNode()))
+                continue;
             player.sendTitle(titleO);
+        }
+    }
+
+    @Override
+    public void sendActionBar(String title) {
+        for (Player player : Sponge.getServer().getOnlinePlayers()) {
+            if (!player.hasPermission(Permissions.RECIEVEMESSAGES.getNode()))
+                continue;
+            player.sendMessage(ChatTypes.ACTION_BAR, utils.formatText(title));
         }
     }
 

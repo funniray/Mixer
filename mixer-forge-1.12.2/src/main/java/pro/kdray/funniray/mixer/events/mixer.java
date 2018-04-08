@@ -62,6 +62,16 @@ public class mixer implements MixerEvents {
     }
 
     @Override
+    public void sendActionBar(String title) {
+        SPacketTitle titleMain = new SPacketTitle(SPacketTitle.Type.ACTIONBAR, new TextComponentString(title));
+        for(EntityPlayerMP player:FMLCommonHandler.instance().getMinecraftServerInstance().getPlayerList().getPlayers()){
+            if (!player.canUseCommand(Permissions.RECIEVEMESSAGES.getPermissionLevel(),null))
+                continue;
+            player.connection.sendPacket(titleMain);
+        }
+    }
+
+    @Override
     public void summon(String entity) {
         runCommandAsConsole("execute %streamer% ~ ~ ~ summon "+entity);
     }

@@ -1,17 +1,10 @@
-repositories {
-    maven {
-        name = 'spigotmc-repo'
-        url = 'https://hub.spigotmc.org/nexus/content/groups/public/'
-    }
-    maven {
-        name = 'sonatype'
-        url = 'https://oss.sonatype.org/content/groups/public/'
-    }
-}
-
 dependencies {
     compile project(':mixer-common')
-    compile 'org.spigotmc:spigot-api:1.12.2-R0.1-SNAPSHOT'
+    compile files("$rootDir/libs/spigot-1.12.2.jar") //I
+    compile files("$rootDir/libs/spigot-1.11.2.jar") //Hate
+    compile files("$rootDir/libs/spigot-1.10.2.jar") //NMS
+    compile files("$rootDir/libs/spigot-1.9.4.jar")
+    compile files("$rootDir/libs/spigot-1.9.jar")
 }
 
 processResources {
