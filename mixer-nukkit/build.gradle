@@ -29,6 +29,7 @@ shadowJar {
         include(dependency("org.apache.httpcomponents:httpcore:${gradle.httpcore}"))
         include(dependency("commons-logging:commons-logging:${gradle.commonsLogging}"))
         include(dependency("org.java-websocket:Java-WebSocket:${gradle.JavaWebSocket}"))
+        include(dependency("com.zaxxer:HikariCP:${gradle.HikariCP}"))
     }
     destinationDir = file("$rootDir/build/jars")
 }

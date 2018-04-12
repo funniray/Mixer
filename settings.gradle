@@ -7,6 +7,7 @@ gradle.ext.httpcore = '4.3.3'
 gradle.ext.commonsLogging = '1.1.3'
 gradle.ext.JWT = '2.2.0'
 gradle.ext.JavaWebSocket = '1.3.4'
+gradle.ext.HikariCP = '3.0.0'
 
 gradle.ext.pluginGroup="pro.kdray.funniray"
 gradle.ext.pluginVersion="1.0-SNAPSHOT"

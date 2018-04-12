@@ -65,5 +65,6 @@ subprojects {
         compile "commons-logging:commons-logging:${gradle.commonsLogging}"
         compile "com.auth0:java-jwt:${gradle.JWT}"
         compile "org.java-websocket:Java-WebSocket:${gradle.JavaWebSocket}"
+        compile "com.zaxxer:HikariCP:${gradle.HikariCP}"
     }
 }

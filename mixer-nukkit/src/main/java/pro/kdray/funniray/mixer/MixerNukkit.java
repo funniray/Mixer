@@ -1,7 +1,5 @@
 package pro.kdray.funniray.mixer;
 
-import cn.nukkit.command.Command;
-import cn.nukkit.command.CommandSender;
 import cn.nukkit.permission.Permission;
 import cn.nukkit.plugin.Plugin;
 import cn.nukkit.plugin.PluginBase;
