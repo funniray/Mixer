@@ -9,4 +9,8 @@ public class config {
     public static String DBUrl;
     public static String DBUsername;
     public static String DBPassword;
+
+    public static String SubscriberCommand;
+    public static String ResubscriberCommand;
+    public static String FollowCommand;
 }

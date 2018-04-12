@@ -28,6 +28,10 @@ public final class MixerNukkit extends PluginBase {
         config.clientID = getConfig().getString("clientID");
         config.projectID = getConfig().getInt("projectID");
 
+        config.FollowCommand = getConfig().getString("followCommand");
+        config.SubscriberCommand = getConfig().getString("subscriberCommand");
+        config.ResubscriberCommand = getConfig().getString("resubscriberCommand");
+
         //Registering permissions
         PluginManager pm = this.getServer().getPluginManager();
         Permission basePerm = new Permission(config.permPrefix+".*");

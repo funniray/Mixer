@@ -93,17 +93,31 @@ public final class MixerForge{
         Property shareCodeProp = configuration.get(Configuration.CATEGORY_GENERAL,"shareCode","dbzktlsk");
         Property projectIDProp = configuration.get(Configuration.CATEGORY_GENERAL,"projectID",191773);
 
+        //Put SQL data here
+
+        Property followCommandProp = configuration.get(Configuration.CATEGORY_GENERAL, "followCommand","command");
+        Property subscriberCommandProp = configuration.get(Configuration.CATEGORY_GENERAL, "subscriberCommand","command");
+        Property resubscriberCommandProp = configuration.get(Configuration.CATEGORY_GENERAL, "resubscriberCommand","command");
+
         global = globalProp.getBoolean();
         token = tokenProp.getString();
         config.clientID = clientIDProp.getString();
         config.shareCode = shareCodeProp.getString();
         config.projectID = projectIDProp.getInt();
 
+        config.FollowCommand = followCommandProp.getString();
+        config.SubscriberCommand = subscriberCommandProp.getString();
+        config.ResubscriberCommand = resubscriberCommandProp.getString();
+
         globalProp.set(global);
         tokenProp.set(token);
         clientIDProp.set(config.clientID);
         shareCodeProp.set(config.shareCode);
         projectIDProp.set(config.projectID);
+
+        followCommandProp.set(config.FollowCommand);
+        subscriberCommandProp.set(config.SubscriberCommand);
+        resubscriberCommandProp.set(config.ResubscriberCommand);
 
         if (configuration.hasChanged()) {
             configuration.save();

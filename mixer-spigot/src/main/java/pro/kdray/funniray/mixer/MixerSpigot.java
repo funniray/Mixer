@@ -39,6 +39,10 @@ public final class MixerSpigot extends JavaPlugin {
         config.clientID = getConfig().getString("clientID");
         config.projectID = getConfig().getInt("projectID");
 
+        config.FollowCommand = getConfig().getString("followCommand");
+        config.SubscriberCommand = getConfig().getString("subscriberCommand");
+        config.ResubscriberCommand = getConfig().getString("resubscriberCommand");
+
         //registering permissions
         PluginManager pm = this.getServer().getPluginManager();
         Permission basePerm = new Permission(config.permPrefix+".*");

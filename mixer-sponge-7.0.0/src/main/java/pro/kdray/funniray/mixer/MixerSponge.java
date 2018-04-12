@@ -77,6 +77,10 @@ public final class MixerSponge{
                 config.projectID = localConfig.getNode("projectID").getInt();
                 config.clientID = localConfig.getNode("shareCode").getString();
                 config.shareCode = localConfig.getNode("clientID").getString();
+
+                config.FollowCommand = localConfig.getNode("followCommand").getString();
+                config.SubscriberCommand = localConfig.getNode("subscriberCommand").getString();
+                config.ResubscriberCommand = localConfig.getNode("resubscriberCommand").getString();
             } catch (IOException e) {
                 e.printStackTrace();
             }

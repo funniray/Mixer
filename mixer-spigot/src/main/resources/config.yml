@@ -2,3 +2,7 @@ token: Api key here
 clientID: d04e85fd1cb06e4eb9891fc118fe75893eca399955189926
 shareCode: dbzktlsk
 projectID: 191773
+
+followCommand: command
+subscriberCommand: command
+resubscriberCommand: command
