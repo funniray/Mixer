@@ -22,6 +22,6 @@ public class pause extends CommandBase {
     public void execute(MinecraftServer server, ICommandSender sender, String[] args) throws CommandException {
         if (!sender.canUseCommand(commands.PAUSE.getPermission().getPermissionLevel(),null))
             return;
-        MixerForge.getApi().getInteractive().pause();
+        MixerForge.getApi().getInteractive().pause(); //TODO: Check if running
     }
 }

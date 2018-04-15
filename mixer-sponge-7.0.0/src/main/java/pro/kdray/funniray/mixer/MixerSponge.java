@@ -1,10 +1,12 @@
 package pro.kdray.funniray.mixer;
 
+import com.google.common.reflect.TypeToken;
 import com.google.inject.Inject;
 import ninja.leaping.configurate.ConfigurationNode;
 import ninja.leaping.configurate.commented.CommentedConfigurationNode;
 import ninja.leaping.configurate.hocon.HoconConfigurationLoader;
 import ninja.leaping.configurate.loader.ConfigurationLoader;
+import ninja.leaping.configurate.objectmapping.ObjectMappingException;
 import org.slf4j.Logger;
 import org.spongepowered.api.Game;
 import org.spongepowered.api.Sponge;
@@ -82,6 +84,12 @@ public final class MixerSponge{
                 config.FollowCommand = localConfig.getNode("followCommand").getString();
                 config.SubscriberCommand = localConfig.getNode("subscriberCommand").getString();
                 config.ResubscriberCommand = localConfig.getNode("resubscriberCommand").getString();
+
+                try {
+                    config.bannedWords = (String[]) localConfig.getNode("bannedWords").getList(TypeToken.of(String.class)).toArray();
+                } catch (ObjectMappingException e) {
+                    e.printStackTrace();
+                }
             } catch (IOException e) {
                 e.printStackTrace();
             }

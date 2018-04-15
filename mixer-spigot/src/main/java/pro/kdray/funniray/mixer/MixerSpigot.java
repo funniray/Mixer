@@ -45,6 +45,8 @@ public final class MixerSpigot extends JavaPlugin {
         config.SubscriberCommand = getConfig().getString("subscriberCommand");
         config.ResubscriberCommand = getConfig().getString("resubscriberCommand");
 
+        config.bannedWords = (String[]) getConfig().getStringList("bannedWords").toArray();
+
         //registering permissions
         PluginManager pm = this.getServer().getPluginManager();
         Permission basePerm = new Permission(config.permPrefix+".*");

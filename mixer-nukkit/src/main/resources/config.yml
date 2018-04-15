@@ -6,3 +6,7 @@ projectID: 191773
 followCommand: command
 subscriberCommand: command
 resubscriberCommand: command
+
+bannedWords:
+  -put multiple
+  -words to remove from chat here

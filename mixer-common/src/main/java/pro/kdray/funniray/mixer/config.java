@@ -13,4 +13,6 @@ public class config {
     public static String SubscriberCommand;
     public static String ResubscriberCommand;
     public static String FollowCommand;
+
+    public static String[] bannedWords;
 }

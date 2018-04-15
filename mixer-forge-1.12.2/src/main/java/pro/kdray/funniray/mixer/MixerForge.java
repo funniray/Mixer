@@ -20,6 +20,7 @@ import pro.kdray.funniray.mixer.command.start;
 import pro.kdray.funniray.mixer.command.stop;
 import pro.kdray.funniray.mixer.events.mixer;
 
+import java.util.ArrayList;
 import java.util.concurrent.ExecutionException;
 
 import static pro.kdray.funniray.mixer.MixerForge.MODID;
@@ -103,6 +104,8 @@ public final class MixerForge{
         Property subscriberCommandProp = configuration.get(Configuration.CATEGORY_GENERAL, "subscriberCommand","command");
         Property resubscriberCommandProp = configuration.get(Configuration.CATEGORY_GENERAL, "resubscriberCommand","command");
 
+        Property bannedWordsProp = configuration.get(Configuration.CATEGORY_GENERAL,"bannedWords",new String[]{"put multiple","words to remove from chat here"});
+
         global = globalProp.getBoolean();
         token = tokenProp.getString();
         config.clientID = clientIDProp.getString();
@@ -113,6 +116,8 @@ public final class MixerForge{
         config.SubscriberCommand = subscriberCommandProp.getString();
         config.ResubscriberCommand = resubscriberCommandProp.getString();
 
+        config.bannedWords = bannedWordsProp.getStringList();
+
         globalProp.set(global);
         tokenProp.set(token);
         clientIDProp.set(config.clientID);
@@ -122,6 +127,8 @@ public final class MixerForge{
         followCommandProp.set(config.FollowCommand);
         subscriberCommandProp.set(config.SubscriberCommand);
         resubscriberCommandProp.set(config.ResubscriberCommand);
+
+        bannedWordsProp.set(config.bannedWords);
 
         if (configuration.hasChanged()) {
             configuration.save();

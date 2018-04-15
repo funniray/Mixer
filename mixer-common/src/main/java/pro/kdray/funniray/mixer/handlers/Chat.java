@@ -10,6 +10,7 @@ import com.mixer.api.resource.chat.replies.AuthenticationReply;
 import com.mixer.api.resource.chat.replies.ReplyHandler;
 import com.mixer.api.resource.chat.ws.MixerChatConnectable;
 import pro.kdray.funniray.mixer.MixerEvents;
+import pro.kdray.funniray.mixer.config;
 import pro.kdray.funniray.mixer.utils;
 
 public class Chat {
@@ -35,7 +36,15 @@ public class Chat {
             for (MessageComponent.MessageTextComponent message : event.data.message.message){
                 finishedMessage.append(message.text);
             }
-            eventHandler.sendMessage(finishedMessage.toString());
+            boolean shouldShow = true;
+            for (String word: config.bannedWords){
+                if (finishedMessage.toString().contains(word)){
+                    shouldShow = false;
+                    break;
+                }
+            }
+            if (shouldShow)
+                eventHandler.sendMessage(finishedMessage.toString());
         });
 
         this.chatConnectable = chatConnectable;

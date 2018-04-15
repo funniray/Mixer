@@ -34,6 +34,8 @@ public final class MixerNukkit extends PluginBase {
         config.SubscriberCommand = getConfig().getString("subscriberCommand");
         config.ResubscriberCommand = getConfig().getString("resubscriberCommand");
 
+        config.bannedWords = (String[]) getConfig().getStringList("bannedWords").toArray();
+
         //Registering permissions
         PluginManager pm = this.getServer().getPluginManager();
         Permission basePerm = new Permission(config.permPrefix+".*");
