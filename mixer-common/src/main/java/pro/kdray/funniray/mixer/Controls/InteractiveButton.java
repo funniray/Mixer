@@ -103,6 +103,10 @@ public class InteractiveButton {
             if (control.getCooldown() > new Date().getTime())
                 return;
 
+        if (this.handler.isPaused()){
+            return;
+        }
+
         StringBuilder SSLBuilder = new StringBuilder(); //Space Separated List
         StringBuilder CSLBuilder = new StringBuilder(); //Comma Separated List
         StringBuilder HRLBuilder = new StringBuilder(); //Human Readable List
