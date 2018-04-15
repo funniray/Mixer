@@ -101,6 +101,18 @@ public class mixer implements MixerEvents {
     }
 
     @Override
+    public void runAsyncAfter(Runnable runnable, int after) {
+        new Thread(()->{
+            try {
+                Thread.sleep(after);
+                runnable.run();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }).start();
+    }
+
+    @Override
     public void debug(String message) {
         MixerForge.getLogger().info(message);
     }

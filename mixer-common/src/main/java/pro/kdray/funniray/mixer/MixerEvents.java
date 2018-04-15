@@ -8,6 +8,7 @@ public interface MixerEvents {
     void summon(String entity);
     void runCommand(String command);
     void runAsync(Runnable runnable);
+    void runAsyncAfter(Runnable runnable, int after);
     void debug(String message);
     void runCommandAsConsole(String command);
 }

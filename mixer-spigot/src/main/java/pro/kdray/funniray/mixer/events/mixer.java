@@ -66,6 +66,11 @@ public class mixer implements MixerEvents {
     }
 
     @Override
+    public void runAsyncAfter(Runnable runnable, int after) {
+        Bukkit.getScheduler().runTaskLaterAsynchronously(MixerSpigot.plugin, runnable, after/20);
+    }
+
+    @Override
     public void debug(String message) {
         Bukkit.getLogger().info(message);
     }

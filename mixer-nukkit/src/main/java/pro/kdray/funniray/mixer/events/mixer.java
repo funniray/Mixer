@@ -3,6 +3,7 @@ package pro.kdray.funniray.mixer.events;
 import cn.nukkit.Player;
 import cn.nukkit.Server;
 import cn.nukkit.scheduler.AsyncTask;
+import cn.nukkit.scheduler.Task;
 import cn.nukkit.utils.TextFormat;
 import pro.kdray.funniray.mixer.MixerEvents;
 import pro.kdray.funniray.mixer.MixerNukkit;
@@ -82,6 +83,21 @@ public class mixer implements MixerEvents {
                 runnable.run();
             }
         });
+    }
+
+    @Override
+    public void runAsyncAfter(Runnable runnable, int after) {
+        Server.getInstance().getScheduler().scheduleDelayedTask(new Task() {
+            @Override
+            public void onRun(int i) {
+                Server.getInstance().getScheduler().scheduleAsyncTask(MixerNukkit.plugin, new AsyncTask() {
+                    @Override
+                    public void onRun() {
+                        runnable.run();
+                    }
+                });
+            }
+        },after/20);
     }
 
     @Override

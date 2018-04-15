@@ -12,6 +12,8 @@ import pro.kdray.funniray.mixer.MixerSponge;
 import pro.kdray.funniray.mixer.Permissions;
 import pro.kdray.funniray.mixer.utils;
 
+import java.util.concurrent.TimeUnit;
+
 public class mixer implements MixerEvents {
     @Override
     public void sendMessage(String message) {
@@ -82,6 +84,11 @@ public class mixer implements MixerEvents {
     @Override
     public void runAsync(Runnable runnable) {
         Sponge.getGame().getScheduler().createAsyncExecutor(MixerSponge.class).execute(runnable);
+    }
+
+    @Override
+    public void runAsyncAfter(Runnable runnable, int after) {
+        Sponge.getGame().getScheduler().createAsyncExecutor(MixerSponge.class).schedule(runnable,after,TimeUnit.MILLISECONDS).run();
     }
 
     @Override
