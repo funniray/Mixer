@@ -216,9 +216,7 @@ public class InteractiveButton {
 
         if (this.tempAllScene != null){
             this.handler.switchAllScenes(this.tempAllScene);
-            this.handler.getEventHandler().runAsyncAfter(()->{
-                this.handler.switchAllScenes("default");
-            },this.tempAllTime);
+            this.handler.getEventHandler().runAsyncAfter(()-> this.handler.switchAllScenes("default"),this.tempAllTime);
         }
 
         if (updateButton)

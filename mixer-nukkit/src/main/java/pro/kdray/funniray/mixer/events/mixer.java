@@ -90,14 +90,9 @@ public class mixer implements MixerEvents {
         Server.getInstance().getScheduler().scheduleDelayedTask(new Task() {
             @Override
             public void onRun(int i) {
-                Server.getInstance().getScheduler().scheduleAsyncTask(MixerNukkit.plugin, new AsyncTask() {
-                    @Override
-                    public void onRun() {
-                        runnable.run();
-                    }
-                });
+                runnable.run();
             }
-        },after/50);
+        },after/50,true);
     }
 
     @Override
