@@ -8,6 +8,8 @@ import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 import pro.kdray.funniray.mixer.command.pause;
+import pro.kdray.funniray.mixer.command.start;
+import pro.kdray.funniray.mixer.command.stop;
 import pro.kdray.funniray.mixer.compadibility.VersionHandler;
 import pro.kdray.funniray.mixer.compadibility.v1_9.Handler_1_9_R1;
 import pro.kdray.funniray.mixer.compadibility.v1_9.Handler_1_9_R2;
@@ -60,6 +62,8 @@ public final class MixerSpigot extends JavaPlugin {
             Object cmdmap = commandMap.invoke(plugin.getServer(), null);
             Method register = cmdmap.getClass().getMethod("register", String.class, Command.class);
             register.invoke(cmdmap, commands.PAUSE.getName(), new pause());
+            register.invoke(cmdmap, commands.STOP.getName(), new stop());
+            register.invoke(cmdmap, commands.START.getName(), new start());
         } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
             e.printStackTrace();
         }
@@ -67,6 +71,18 @@ public final class MixerSpigot extends JavaPlugin {
         getServer().getScheduler().runTaskAsynchronously(this, () -> {
             try {
                 api = new main(token,new mixer());//TODO:Make tokens per-player
+            } catch (ExecutionException | InterruptedException e) {
+                e.printStackTrace();
+            }
+        });
+    }
+
+    public static void startMain(){
+        //Run main class
+        String token = MixerSpigot.plugin.getConfig().getString("token");
+        Bukkit.getScheduler().runTaskAsynchronously(MixerSpigot.plugin, () -> {
+            try {
+                api = new main(token,new mixer());
             } catch (ExecutionException | InterruptedException e) {
                 e.printStackTrace();
             }

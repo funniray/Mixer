@@ -16,6 +16,8 @@ import net.minecraftforge.fml.common.eventhandler.EventPriority;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import org.apache.logging.log4j.Logger;
 import pro.kdray.funniray.mixer.command.pause;
+import pro.kdray.funniray.mixer.command.start;
+import pro.kdray.funniray.mixer.command.stop;
 import pro.kdray.funniray.mixer.events.mixer;
 
 import java.util.concurrent.ExecutionException;
@@ -59,8 +61,10 @@ public final class MixerForge{
         logger.info("[Mixer] Enabled plugin");
 
         event.registerServerCommand(new pause());
+        event.registerServerCommand(new stop());
+        event.registerServerCommand(new start());
 
-        startMain();
+        //startMain();
     }
 
     @Mod.EventHandler

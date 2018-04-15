@@ -22,6 +22,8 @@ public class main {
     private static DataSource dataSource;
     private static StorageHandler storageHandler;
 
+    private MixerEvents eventHandler;
+
     public main(String APIKey, MixerEvents eventHandler) throws ExecutionException, InterruptedException {
 
         if (dataSource != null)
@@ -37,6 +39,8 @@ public class main {
         constellation = new Constellation(mixer,user,eventHandler);
         interactive = new Interactive(mixer,user,APIKey,eventHandler);
         chatHandler = new Chat(mixer,user,chat,eventHandler);
+
+        this.eventHandler = eventHandler;
     }
 
     public void shutdown(){
@@ -44,8 +48,10 @@ public class main {
             interactive.disconnect();
             constellation.disconnect();
             chatHandler.disconnect();
+            eventHandler.sendMessage("&9&l[Mixer]&r&9 Successfully disabled interactive.");
         }catch(NullPointerException e){
             //Do nothing because whoops
+            eventHandler.sendMessage("&9&l[Mixer]&r&9 Error occurred while disabling interactive.");
         }
     }
 

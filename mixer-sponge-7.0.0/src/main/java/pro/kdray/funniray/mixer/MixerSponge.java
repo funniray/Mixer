@@ -32,7 +32,7 @@ public final class MixerSponge{
     private Path defaultConfig;
 
     @Inject
-    private Game game;
+    private static Game game;
 
     private static Logger logger;
 
@@ -42,6 +42,7 @@ public final class MixerSponge{
     }
 
     private static main api;
+    private static String realToken;
 
     @Listener
     public void onServerStart(GameStartedServerEvent event) {
@@ -90,10 +91,10 @@ public final class MixerSponge{
             token = "NoToken";
         }
 
-        String realToken = token;
+        realToken = token;
 
         //registering permissions
-        PermissionService ps = this.game.getServiceManager().getRegistration(PermissionService.class).get().getProvider();
+        PermissionService ps = game.getServiceManager().getRegistration(PermissionService.class).get().getProvider();
         PermissionDescription.Builder builder = ps.newDescriptionBuilder(this);
         for (Permissions permission:Permissions.values()){
             builder.id(permission.getNode())
@@ -103,15 +104,7 @@ public final class MixerSponge{
                 .register();
         }
 
-        this.game.getCommandManager().register(this, new pause());
-
-        game.getScheduler().createAsyncExecutor(this).execute(() -> {
-            try {
-                api = new main(realToken,new mixer());//TODO:Make tokens per-player
-            } catch (ExecutionException | InterruptedException e) {
-                e.printStackTrace();
-            }
-        });
+        game.getCommandManager().register(this, new pause());
     }
 
     @Listener
@@ -130,5 +123,15 @@ public final class MixerSponge{
 
     public static void setApi(main api) {
         MixerSponge.api = api;
+    }
+
+    public static void startMain(){
+        MixerSponge.game.getScheduler().createAsyncExecutor(MixerSponge.class).execute(() -> {
+            try {
+                api = new main(realToken,new mixer());//TODO:Make tokens per-player
+            } catch (ExecutionException | InterruptedException e) {
+                e.printStackTrace();
+            }
+        });
     }
 }

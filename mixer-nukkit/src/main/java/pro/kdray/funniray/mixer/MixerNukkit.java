@@ -1,11 +1,14 @@
 package pro.kdray.funniray.mixer;
 
+import cn.nukkit.Server;
 import cn.nukkit.permission.Permission;
 import cn.nukkit.plugin.Plugin;
 import cn.nukkit.plugin.PluginBase;
 import cn.nukkit.plugin.PluginManager;
 import cn.nukkit.scheduler.AsyncTask;
 import pro.kdray.funniray.mixer.command.pause;
+import pro.kdray.funniray.mixer.command.start;
+import pro.kdray.funniray.mixer.command.stop;
 import pro.kdray.funniray.mixer.events.mixer;
 
 import java.util.concurrent.ExecutionException;
@@ -23,7 +26,6 @@ public final class MixerNukkit extends PluginBase {
         this.saveDefaultConfig();
 
         //Getting config
-        String token = getConfig().getString("token");
         config.shareCode = getConfig().getString("shareCode");
         config.clientID = getConfig().getString("clientID");
         config.projectID = getConfig().getInt("projectID");
@@ -44,9 +46,14 @@ public final class MixerNukkit extends PluginBase {
         }
 
         this.getServer().getCommandMap().register(commands.PAUSE.getName(), new pause());
+        this.getServer().getCommandMap().register(commands.STOP.getName(), new stop());
+        this.getServer().getCommandMap().register(commands.START.getName(), new start());
+    }
 
+    public static void startMain(){
         //Run main class
-        getServer().getScheduler().scheduleAsyncTask(this, new AsyncTask() {
+        String token = MixerNukkit.plugin.getConfig().getString("token");
+        Server.getInstance().getScheduler().scheduleAsyncTask(MixerNukkit.plugin, new AsyncTask() {
             @Override
             public void onRun() {
                 try {
