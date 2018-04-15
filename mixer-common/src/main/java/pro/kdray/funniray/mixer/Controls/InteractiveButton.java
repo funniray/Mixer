@@ -25,6 +25,8 @@ public class InteractiveButton {
     private String title;
     private String subtitle;
     private String actionTitle;
+    private String tempAllScene;
+    private int tempAllTime;
     private int timeout = 0;
     /**TODO:
      * private int time;
@@ -86,6 +88,11 @@ public class InteractiveButton {
 
         if (meta.get("requiredClicks") != null)
             this.requiredClicks = meta.get("requiredClicks").getAsJsonObject().get("value").getAsInt();
+
+        if (meta.get("setTempSceneAll") != null && meta.get("setTempSceneAllTime") != null){
+            this.tempAllScene = meta.get("setTempSceneAll").getAsJsonObject().get("value").getAsString();
+            this.tempAllTime = meta.get("setTempSceneAllTime").getAsJsonObject().get("value").getAsInt();
+        }
     }
 
     public void onClick(InteractiveParticipant participant){
@@ -202,6 +209,13 @@ public class InteractiveButton {
                     .replace("%SSL%",SSL)
                     .replace("%HRL%",HRL)
                     .replace("%presser%",participant.getUsername()));
+
+        if (this.tempAllScene != null){
+            this.handler.switchAllScenes(this.tempAllScene);
+            this.handler.getEventHandler().runAsyncAfter(()->{
+                this.handler.switchAllScenes("default");
+            },this.tempAllTime);
+        }
 
         if (updateButton)
             this.handler.updateControl(control);

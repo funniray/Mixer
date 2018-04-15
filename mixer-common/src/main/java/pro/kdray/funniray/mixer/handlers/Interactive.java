@@ -158,9 +158,19 @@ public class Interactive {
     }
 
     public void switchAllScenes(String scene){
+        InteractiveGroup group = this.getGroup("default").setScene(scene);
         for(InteractiveParticipant participant:this.participantHashMap.values()){
-            this.switchSceneForParticipant(participant,scene);
+            participant.changeGroup("default");
         }
+
+        eventHandler.runAsync(()->{
+            client.using(GameClient.PARTICIPANT_SERVICE_PROVIDER).update(this.participantHashMap.values());
+            client.using(GameClient.GROUP_SERVICE_PROVIDER).update(group);
+        });
+    }
+
+    public boolean isPaused(){
+        return this.isPause;
     }
 
     public void pause(){

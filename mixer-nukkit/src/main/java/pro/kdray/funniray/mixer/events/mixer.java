@@ -97,7 +97,7 @@ public class mixer implements MixerEvents {
                     }
                 });
             }
-        },after/20);
+        },after/50);
     }
 
     @Override
