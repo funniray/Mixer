@@ -27,7 +27,7 @@ public final class MixerForge{
 
     public static final String MODID = "mixerinteractive";
 
-    private static Main api;
+    private static Main api = null;
 
     private static boolean running = false;
 
@@ -130,11 +130,8 @@ public final class MixerForge{
         MixerForge.api = api;
     }
 
-    @Mod.EventHandler
-    public void onGameStop(FMLServerStoppingEvent event) {
-        // Plugin shutdown logic
-        api.shutdown();
-        running = false;
+    public static boolean isRunning() {
+        return running;
     }
 
     @Mod.EventHandler
@@ -153,6 +150,14 @@ public final class MixerForge{
         event.registerServerCommand(new Start());
 
         //startMain();
+    }
+
+    @Mod.EventHandler
+    public void onGameStop(FMLServerStoppingEvent event) {
+        // Plugin shutdown logic
+        if (api != null)
+            api.shutdown();
+        running = false;
     }
 
     @SubscribeEvent(priority = EventPriority.NORMAL) //TODO: Add GUI for Config

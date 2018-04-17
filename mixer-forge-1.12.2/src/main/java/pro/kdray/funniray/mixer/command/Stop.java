@@ -21,6 +21,7 @@ public class Stop extends CommandBase {
     public void execute(MinecraftServer minecraftServer, ICommandSender sender, String[] strings) {
         if (!sender.canUseCommand(Commands.STOP.getPermission().getPermissionLevel(), null))
             return;
-        MixerForge.getApi().shutdown();
+        if (MixerForge.isRunning())
+            MixerForge.getApi().shutdown();
     }
 }

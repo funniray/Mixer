@@ -21,6 +21,7 @@ public class Start extends CommandBase {
     public void execute(MinecraftServer minecraftServer, ICommandSender sender, String[] strings) {
         if (!sender.canUseCommand(Commands.START.getPermission().getPermissionLevel(), null))
             return;
-        MixerForge.startMain();
+        if (MixerForge.isRunning())
+            MixerForge.startMain();
     }
 }

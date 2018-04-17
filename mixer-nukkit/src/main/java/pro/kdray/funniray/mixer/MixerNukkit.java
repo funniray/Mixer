@@ -16,7 +16,7 @@ import java.util.concurrent.ExecutionException;
 public final class MixerNukkit extends PluginBase {
 
     public static Plugin plugin;
-    private static Main api;
+    private static Main api = null;
 
     public static void startMain(){
         //Run Main class
@@ -40,7 +40,9 @@ public final class MixerNukkit extends PluginBase {
     @Override
     public void onDisable() {
         // Plugin shutdown logic
-        api.shutdown();
+        if (api != null) {
+            api.shutdown();
+        }
     }
 
     public Plugin getPlugin(){
@@ -67,7 +69,7 @@ public final class MixerNukkit extends PluginBase {
         Config.subscriberCommand = getConfig().getString("subscriberCommand");
         Config.resubscriberCommand = getConfig().getString("resubscriberCommand");
 
-        Config.bannedWords = (String[]) getConfig().getStringList("bannedWords").toArray();
+        Config.bannedWords = getConfig().getStringList("bannedWords").toArray(new String[0]);
 
         //Registering permissions
         PluginManager pm = this.getServer().getPluginManager();

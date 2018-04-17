@@ -25,7 +25,7 @@ import java.util.concurrent.ExecutionException;
 public final class MixerSpigot extends JavaPlugin {
 
     public static Plugin plugin;
-    public static Main api;
+    public static Main api = null;
 
     public static VersionHandler versionHandler;
 
@@ -79,7 +79,8 @@ public final class MixerSpigot extends JavaPlugin {
     @Override
     public void onDisable() {
         // Plugin shutdown logic
-        api.shutdown();
+        if (api != null)
+            api.shutdown();
     }
 
     public static void setApi(Main api) {
@@ -102,7 +103,7 @@ public final class MixerSpigot extends JavaPlugin {
         Config.subscriberCommand = getConfig().getString("subscriberCommand");
         Config.resubscriberCommand = getConfig().getString("resubscriberCommand");
 
-        Config.bannedWords = (String[]) getConfig().getStringList("bannedWords").toArray();
+        Config.bannedWords = getConfig().getStringList("bannedWords").toArray(new String[0]);
 
         //registering permissions
         PluginManager pm = this.getServer().getPluginManager();

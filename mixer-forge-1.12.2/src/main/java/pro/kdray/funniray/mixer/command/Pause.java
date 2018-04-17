@@ -19,8 +19,10 @@ public class Pause extends CommandBase {
 
     @Override
     public void execute(MinecraftServer server, ICommandSender sender, String[] args) {
-        if (!sender.canUseCommand(Commands.PAUSE.getPermission().getPermissionLevel(), null))
+        if (!sender.canUseCommand(Commands.PAUSE.getPermission().getPermissionLevel(), null)) {
             return;
-        MixerForge.getApi().getInteractive().pause(); //TODO: Check if running
+        }
+        if (MixerForge.isRunning())
+            MixerForge.getApi().getInteractive().pause(); //TODO: Check if running
     }
 }

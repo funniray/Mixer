@@ -43,7 +43,7 @@ public final class MixerSponge{
         logger = logger1;
     }
 
-    private static Main api;
+    private static Main api = null;
     private static String realToken;
 
     public static Main getApi() {
@@ -71,7 +71,8 @@ public final class MixerSponge{
     @Listener
     public void onGameStop(GameStoppingServerEvent event) {
         // Plugin shutdown logic
-        api.shutdown();
+        if (api != null)
+            api.shutdown();
     }
 
     @Listener
@@ -114,7 +115,7 @@ public final class MixerSponge{
                 Config.resubscriberCommand = localConfig.getNode("resubscriberCommand").getString();
 
                 try {
-                    Config.bannedWords = (String[]) localConfig.getNode("bannedWords").getList(TypeToken.of(String.class)).toArray();
+                    Config.bannedWords = localConfig.getNode("bannedWords").getList(TypeToken.of(String.class)).toArray(new String[0]);
                 } catch (ObjectMappingException e) {
                     e.printStackTrace();
                 }
