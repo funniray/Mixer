@@ -18,8 +18,8 @@ import org.spongepowered.api.plugin.Plugin;
 import org.spongepowered.api.service.permission.PermissionDescription;
 import org.spongepowered.api.service.permission.PermissionService;
 import org.spongepowered.api.text.Text;
-import pro.kdray.funniray.mixer.command.pause;
-import pro.kdray.funniray.mixer.events.mixer;
+import pro.kdray.funniray.mixer.command.Pause;
+import pro.kdray.funniray.mixer.events.Mixer;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -43,8 +43,36 @@ public final class MixerSponge{
         logger = logger1;
     }
 
-    private static main api;
+    private static Main api;
     private static String realToken;
+
+    public static Main getApi() {
+        return api;
+    }
+
+    public static void setApi(Main api) {
+        MixerSponge.api = api;
+    }
+
+    public static Logger getLogger() {
+        return logger;
+    }
+
+    public static void startMain() {
+        MixerSponge.game.getScheduler().createAsyncExecutor(MixerSponge.class).execute(() -> {
+            try {
+                api = new Main(realToken, new Mixer());//TODO:Make tokens per-player
+            } catch (ExecutionException | InterruptedException e) {
+                e.printStackTrace();
+            }
+        });
+    }
+
+    @Listener
+    public void onGameStop(GameStoppingServerEvent event) {
+        // Plugin shutdown logic
+        api.shutdown();
+    }
 
     @Listener
     public void onServerStart(GameStartedServerEvent event) {
@@ -63,7 +91,7 @@ public final class MixerSponge{
         }
 
         if (Files.notExists(defaultConfig)){
-            logger.info("Config doesn't exist after loading default config");
+            logger.info("Config doesn't exist after loading default Config");
         }else{
             logger.info("Path is: "+defaultConfig.toFile().getAbsolutePath());
         }
@@ -77,16 +105,16 @@ public final class MixerSponge{
             try {
                 localConfig = loader.load();
                 token = localConfig.getNode("token").getString();
-                config.projectID = localConfig.getNode("projectID").getInt();
-                config.clientID = localConfig.getNode("shareCode").getString();
-                config.shareCode = localConfig.getNode("clientID").getString();
+                Config.projectID = localConfig.getNode("projectID").getInt();
+                Config.clientID = localConfig.getNode("shareCode").getString();
+                Config.shareCode = localConfig.getNode("clientID").getString();
 
-                config.FollowCommand = localConfig.getNode("followCommand").getString();
-                config.SubscriberCommand = localConfig.getNode("subscriberCommand").getString();
-                config.ResubscriberCommand = localConfig.getNode("resubscriberCommand").getString();
+                Config.followCommand = localConfig.getNode("followCommand").getString();
+                Config.subscriberCommand = localConfig.getNode("subscriberCommand").getString();
+                Config.resubscriberCommand = localConfig.getNode("resubscriberCommand").getString();
 
                 try {
-                    config.bannedWords = (String[]) localConfig.getNode("bannedWords").getList(TypeToken.of(String.class)).toArray();
+                    Config.bannedWords = (String[]) localConfig.getNode("bannedWords").getList(TypeToken.of(String.class)).toArray();
                 } catch (ObjectMappingException e) {
                     e.printStackTrace();
                 }
@@ -112,34 +140,6 @@ public final class MixerSponge{
                 .register();
         }
 
-        game.getCommandManager().register(this, new pause());
-    }
-
-    @Listener
-    public void onGameStop(GameStoppingServerEvent event) {
-        // Plugin shutdown logic
-        api.shutdown();
-    }
-
-    public static Logger getLogger() {
-        return logger;
-    }
-
-    public static main getApi() {
-        return api;
-    }
-
-    public static void setApi(main api) {
-        MixerSponge.api = api;
-    }
-
-    public static void startMain(){
-        MixerSponge.game.getScheduler().createAsyncExecutor(MixerSponge.class).execute(() -> {
-            try {
-                api = new main(realToken,new mixer());//TODO:Make tokens per-player
-            } catch (ExecutionException | InterruptedException e) {
-                e.printStackTrace();
-            }
-        });
+        game.getCommandManager().register(this, new Pause());
     }
 }

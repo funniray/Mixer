@@ -6,65 +6,35 @@ import cn.nukkit.plugin.Plugin;
 import cn.nukkit.plugin.PluginBase;
 import cn.nukkit.plugin.PluginManager;
 import cn.nukkit.scheduler.AsyncTask;
-import pro.kdray.funniray.mixer.command.pause;
-import pro.kdray.funniray.mixer.command.start;
-import pro.kdray.funniray.mixer.command.stop;
-import pro.kdray.funniray.mixer.events.mixer;
+import pro.kdray.funniray.mixer.command.Pause;
+import pro.kdray.funniray.mixer.command.Start;
+import pro.kdray.funniray.mixer.command.Stop;
+import pro.kdray.funniray.mixer.events.Mixer;
 
 import java.util.concurrent.ExecutionException;
 
 public final class MixerNukkit extends PluginBase {
 
     public static Plugin plugin;
-    private static main api;
-
-    @Override
-    public void onEnable() {
-        // Plugin startup logic
-        plugin = this;
-
-        this.saveDefaultConfig();
-
-        //Getting config
-        config.shareCode = getConfig().getString("shareCode");
-        config.clientID = getConfig().getString("clientID");
-        config.projectID = getConfig().getInt("projectID");
-
-        config.FollowCommand = getConfig().getString("followCommand");
-        config.SubscriberCommand = getConfig().getString("subscriberCommand");
-        config.ResubscriberCommand = getConfig().getString("resubscriberCommand");
-
-        config.bannedWords = (String[]) getConfig().getStringList("bannedWords").toArray();
-
-        //Registering permissions
-        PluginManager pm = this.getServer().getPluginManager();
-        Permission basePerm = new Permission(config.permPrefix+".*");
-        pm.addPermission(basePerm);
-        for (Permissions permission:Permissions.values()){
-            Permission perm = new Permission(permission.getNode(),permission.getDescription());
-            perm.setDefault(permission.getDefaultMode());
-            perm.addParent(basePerm,true);
-            pm.addPermission(perm);
-        }
-
-        this.getServer().getCommandMap().register(commands.PAUSE.getName(), new pause());
-        this.getServer().getCommandMap().register(commands.STOP.getName(), new stop());
-        this.getServer().getCommandMap().register(commands.START.getName(), new start());
-    }
+    private static Main api;
 
     public static void startMain(){
-        //Run main class
+        //Run Main class
         String token = MixerNukkit.plugin.getConfig().getString("token");
         Server.getInstance().getScheduler().scheduleAsyncTask(MixerNukkit.plugin, new AsyncTask() {
             @Override
             public void onRun() {
                 try {
-                    api = new main(token,new mixer());
+                    api = new Main(token, new Mixer());
                 } catch (ExecutionException | InterruptedException e) {
                     e.printStackTrace();
                 }
             }
         });
+    }
+
+    public static Main getApi() {
+        return api;
     }
 
     @Override
@@ -77,11 +47,41 @@ public final class MixerNukkit extends PluginBase {
         return this;
     }
 
-    public static main getApi() {
-        return api;
+    public static void setApi(Main api) {
+        MixerNukkit.api = api;
     }
 
-    public static void setApi(main api) {
-        MixerNukkit.api = api;
+    @Override
+    public void onEnable() {
+        // Plugin startup logic
+        plugin = this;
+
+        this.saveDefaultConfig();
+
+        //Getting Config
+        Config.shareCode = getConfig().getString("shareCode");
+        Config.clientID = getConfig().getString("clientID");
+        Config.projectID = getConfig().getInt("projectID");
+
+        Config.followCommand = getConfig().getString("followCommand");
+        Config.subscriberCommand = getConfig().getString("subscriberCommand");
+        Config.resubscriberCommand = getConfig().getString("resubscriberCommand");
+
+        Config.bannedWords = (String[]) getConfig().getStringList("bannedWords").toArray();
+
+        //Registering permissions
+        PluginManager pm = this.getServer().getPluginManager();
+        Permission basePerm = new Permission(Config.permPrefix + ".*");
+        pm.addPermission(basePerm);
+        for (Permissions permission : Permissions.values()) {
+            Permission perm = new Permission(permission.getNode(), permission.getDescription());
+            perm.setDefault(permission.getDefaultMode());
+            perm.addParent(basePerm, true);
+            pm.addPermission(perm);
+        }
+
+        this.getServer().getCommandMap().register(Commands.PAUSE.getName(), new Pause());
+        this.getServer().getCommandMap().register(Commands.STOP.getName(), new Stop());
+        this.getServer().getCommandMap().register(Commands.START.getName(), new Start());
     }
 }

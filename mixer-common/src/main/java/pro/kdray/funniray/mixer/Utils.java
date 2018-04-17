@@ -4,7 +4,7 @@ import com.mixer.api.resource.MixerUser;
 
 import java.util.List;
 
-public class utils {
+public class Utils {
     public static String getColorFromRank(List<MixerUser.Role> roles){
         String color = "&4";
 

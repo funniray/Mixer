@@ -1,6 +1,6 @@
 package pro.kdray.funniray.mixer.database;
 
-import pro.kdray.funniray.mixer.main;
+import pro.kdray.funniray.mixer.Main;
 
 import java.util.UUID;
 
@@ -50,6 +50,6 @@ public class PlayerToken {
     }
 
     public void update(){
-        main.getStorageHandler().updateToken(this);
+        Main.getStorageHandler().updateToken(this);
     }
 }

@@ -2,15 +2,15 @@ package pro.kdray.funniray.mixer.command;
 
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.defaults.BukkitCommand;
+import pro.kdray.funniray.mixer.Commands;
 import pro.kdray.funniray.mixer.MixerSpigot;
-import pro.kdray.funniray.mixer.commands;
 
 import java.util.ArrayList;
 
-public class pause extends BukkitCommand {
+public class Pause extends BukkitCommand {
 
-    public pause() {
-        super(commands.PAUSE.getName(), commands.PAUSE.getDescription(), commands.PAUSE.getUsage(), new ArrayList<>());
+    public Pause() {
+        super(Commands.PAUSE.getName(), Commands.PAUSE.getDescription(), Commands.PAUSE.getUsage(), new ArrayList<>());
     }
 
     @Override

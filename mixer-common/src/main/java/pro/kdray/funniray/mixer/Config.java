@@ -1,6 +1,6 @@
 package pro.kdray.funniray.mixer;
 
-public class config {
+public class Config {
     public static String clientID;
     public static String shareCode;
     public static int projectID;
@@ -10,9 +10,9 @@ public class config {
     public static String DBUsername;
     public static String DBPassword;
 
-    public static String SubscriberCommand;
-    public static String ResubscriberCommand;
-    public static String FollowCommand;
+    public static String subscriberCommand;
+    public static String resubscriberCommand;
+    public static String followCommand;
 
     public static String[] bannedWords;
 }

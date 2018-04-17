@@ -17,15 +17,15 @@ import com.mixer.interactive.resources.group.InteractiveGroup;
 import com.mixer.interactive.resources.participant.InteractiveParticipant;
 import com.mixer.interactive.resources.scene.InteractiveScene;
 import com.mixer.interactive.services.SceneServiceProvider;
-import pro.kdray.funniray.mixer.Controls.InteractiveButton;
+import pro.kdray.funniray.mixer.Config;
 import pro.kdray.funniray.mixer.MixerEvents;
-import pro.kdray.funniray.mixer.config;
+import pro.kdray.funniray.mixer.controls.InteractiveButton;
 
 import java.util.HashMap;
 import java.util.Set;
 import java.util.concurrent.ExecutionException;
 
-import static com.mixer.interactive.GameClient.*;
+import static com.mixer.interactive.GameClient.GROUP_SERVICE_PROVIDER;
 
 public class Interactive {
 
@@ -42,8 +42,8 @@ public class Interactive {
     private boolean isPause = false;
 
     public Interactive(MixerAPI mixer, MixerUser user, String token, MixerEvents events){
-        client = new GameClient(config.projectID, config.clientID);
-        client.connect(token,config.shareCode);
+        client = new GameClient(Config.projectID, Config.clientID);
+        client.connect(token, Config.shareCode);
 
         client.getEventBus().register(this);
 

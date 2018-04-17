@@ -7,7 +7,7 @@ import pro.kdray.funniray.mixer.MixerEvents;
 import pro.kdray.funniray.mixer.MixerSpigot;
 import pro.kdray.funniray.mixer.Permissions;
 
-public class mixer implements MixerEvents {
+public class Mixer implements MixerEvents {
     @Override
     public void sendMessage(String message) {
         String formatted = ChatColor.translateAlternateColorCodes('&',message);

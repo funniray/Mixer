@@ -9,9 +9,9 @@ import com.mixer.api.resource.chat.methods.AuthenticateMessage;
 import com.mixer.api.resource.chat.replies.AuthenticationReply;
 import com.mixer.api.resource.chat.replies.ReplyHandler;
 import com.mixer.api.resource.chat.ws.MixerChatConnectable;
+import pro.kdray.funniray.mixer.Config;
 import pro.kdray.funniray.mixer.MixerEvents;
-import pro.kdray.funniray.mixer.config;
-import pro.kdray.funniray.mixer.utils;
+import pro.kdray.funniray.mixer.Utils;
 
 public class Chat {
 
@@ -32,12 +32,12 @@ public class Chat {
         }
 
         chatConnectable.on(IncomingMessageEvent.class, event -> {
-            StringBuilder finishedMessage = new StringBuilder("&9&l[Mixer] "+ utils.getColorFromRank(event.data.userRoles) + event.data.userName + "&9&l: &r&7");
+            StringBuilder finishedMessage = new StringBuilder("&9&l[Mixer] " + Utils.getColorFromRank(event.data.userRoles) + event.data.userName + "&9&l: &r&7");
             for (MessageComponent.MessageTextComponent message : event.data.message.message){
                 finishedMessage.append(message.text);
             }
             boolean shouldShow = true;
-            for (String word: config.bannedWords){
+            for (String word : Config.bannedWords) {
                 if (finishedMessage.toString().contains(word)){
                     shouldShow = false;
                     break;

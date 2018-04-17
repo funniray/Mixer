@@ -1,28 +1,27 @@
 package pro.kdray.funniray.mixer.command;
 
 import org.spongepowered.api.command.CommandCallable;
-import org.spongepowered.api.command.CommandException;
 import org.spongepowered.api.command.CommandSource;
 import org.spongepowered.api.text.Text;
 import org.spongepowered.api.world.Location;
 import org.spongepowered.api.world.World;
-import pro.kdray.funniray.mixer.commands;
-import pro.kdray.funniray.mixer.utils;
+import pro.kdray.funniray.mixer.Commands;
+import pro.kdray.funniray.mixer.Utils;
 
 import javax.annotation.Nullable;
 import java.util.List;
 import java.util.Optional;
 
-public abstract class abstractCommand implements CommandCallable {
+public abstract class AbstractCommand implements CommandCallable {
 
-    private commands command;
+    private Commands command;
 
-    public abstractCommand(commands command){
+    public AbstractCommand(Commands command) {
         this.command = command;
     }
 
     @Override
-    public List<String> getSuggestions(CommandSource source, String arguments, @Nullable Location<World> targetPosition) throws CommandException {
+    public List<String> getSuggestions(CommandSource source, String arguments, @Nullable Location<World> targetPosition) {
         return null;
     }
 
@@ -33,17 +32,17 @@ public abstract class abstractCommand implements CommandCallable {
 
     @Override
     public Optional<Text> getShortDescription(CommandSource source) {
-        return Optional.of(utils.formatText(command.getDescription()));
+        return Optional.of(Utils.formatText(command.getDescription()));
     }
 
     @Override
     public Optional<Text> getHelp(CommandSource source) {
-        return Optional.of(utils.formatText(command.getDescription()));
+        return Optional.of(Utils.formatText(command.getDescription()));
     }
 
     @Override
     public Text getUsage(CommandSource source) {
-        return utils.formatText(command.getUsage());
+        return Utils.formatText(command.getUsage());
     }
 }
 

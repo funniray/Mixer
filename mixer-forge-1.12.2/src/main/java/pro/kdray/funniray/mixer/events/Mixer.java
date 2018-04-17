@@ -10,7 +10,7 @@ import pro.kdray.funniray.mixer.MixerEvents;
 import pro.kdray.funniray.mixer.MixerForge;
 import pro.kdray.funniray.mixer.Permissions;
 
-public class mixer implements MixerEvents {
+public class Mixer implements MixerEvents {
     @Override
     public void sendMessage(String message) {
         ITextComponent text = new TextComponentString(message.replace("&", "§"));

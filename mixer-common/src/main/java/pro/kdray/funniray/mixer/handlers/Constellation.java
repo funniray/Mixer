@@ -9,8 +9,8 @@ import com.mixer.api.resource.constellation.events.LiveEvent;
 import com.mixer.api.resource.constellation.methods.LiveSubscribeMethod;
 import com.mixer.api.resource.constellation.methods.data.LiveRequestData;
 import com.mixer.api.resource.constellation.ws.MixerConstellationConnectable;
+import pro.kdray.funniray.mixer.Config;
 import pro.kdray.funniray.mixer.MixerEvents;
-import pro.kdray.funniray.mixer.config;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -54,17 +54,17 @@ public class Constellation {
                         break;
                     eventHandler.sendActionBar(actionUser+" followed!");
                     eventHandler.sendMessage("&9&l[Mixer] &r&9"+actionUser+" followed!");
-                    eventHandler.runCommandAsConsole(config.FollowCommand.replace("%user%",actionUser));
+                    eventHandler.runCommandAsConsole(Config.followCommand.replace("%user%", actionUser));
                     break;
                 case "subscribed":
                     eventHandler.sendTitle(actionUser+" subscribed!", "");
                     eventHandler.sendMessage("&9&l[Mixer] &r&9"+actionUser+" subscribed!");
-                    eventHandler.runCommandAsConsole(config.SubscriberCommand.replace("%user%",actionUser));
+                    eventHandler.runCommandAsConsole(Config.subscriberCommand.replace("%user%", actionUser));
                     break;
                 case "resubscribed":
                     eventHandler.sendTitle(actionUser+" resubscribed!", "");
                     eventHandler.sendMessage("&9&l[Mixer] &r&9"+actionUser+" resubscribed!");
-                    eventHandler.runCommandAsConsole(config.ResubscriberCommand.replace("%user%",actionUser).replace("%totalMonths%",""+event.data.payload.get("totalMonths").getAsInt()));
+                    eventHandler.runCommandAsConsole(Config.resubscriberCommand.replace("%user%", actionUser).replace("%totalMonths%", "" + event.data.payload.get("totalMonths").getAsInt()));
                     break;
                 //case "update":
                 //    message = "&9Channel update, new title is "+event.data.payload.get("name").getAsString();

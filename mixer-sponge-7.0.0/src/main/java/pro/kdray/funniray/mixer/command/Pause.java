@@ -1,15 +1,14 @@
 package pro.kdray.funniray.mixer.command;
 
-import org.spongepowered.api.command.CommandException;
 import org.spongepowered.api.command.CommandResult;
 import org.spongepowered.api.command.CommandSource;
+import pro.kdray.funniray.mixer.Commands;
 import pro.kdray.funniray.mixer.MixerSponge;
-import pro.kdray.funniray.mixer.commands;
 
-public class pause extends abstractCommand {
+public class Pause extends AbstractCommand {
 
-    public pause() {
-        super(commands.PAUSE);
+    public Pause() {
+        super(Commands.PAUSE);
     }
 
     @Override

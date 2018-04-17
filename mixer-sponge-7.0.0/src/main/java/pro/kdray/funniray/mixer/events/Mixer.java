@@ -3,21 +3,19 @@ package pro.kdray.funniray.mixer.events;
 import org.spongepowered.api.Sponge;
 import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.text.LiteralText;
-import org.spongepowered.api.text.Text;
 import org.spongepowered.api.text.chat.ChatTypes;
-import org.spongepowered.api.text.format.TextFormat;
 import org.spongepowered.api.text.title.Title;
 import pro.kdray.funniray.mixer.MixerEvents;
 import pro.kdray.funniray.mixer.MixerSponge;
 import pro.kdray.funniray.mixer.Permissions;
-import pro.kdray.funniray.mixer.utils;
+import pro.kdray.funniray.mixer.Utils;
 
 import java.util.concurrent.TimeUnit;
 
-public class mixer implements MixerEvents {
+public class Mixer implements MixerEvents {
     @Override
     public void sendMessage(String message) {
-        LiteralText formatted = utils.formatText(message);
+        LiteralText formatted = Utils.formatText(message);
         for (Player player : Sponge.getServer().getOnlinePlayers()){
             if (!player.hasPermission(Permissions.RECIEVEMESSAGES.getNode()))
                 continue;
@@ -27,7 +25,7 @@ public class mixer implements MixerEvents {
     }
     @Override
     public void sendTitle(String title, String subtitle, int fadein, int duration, int fadeout) {
-        Title titleO = Title.builder().title(utils.formatText(title)).subtitle(utils.formatText(subtitle)).fadeIn(fadein).stay(duration).fadeOut(fadeout).build();
+        Title titleO = Title.builder().title(Utils.formatText(title)).subtitle(Utils.formatText(subtitle)).fadeIn(fadein).stay(duration).fadeOut(fadeout).build();
         for (Player player : Sponge.getServer().getOnlinePlayers()){
             if (!player.hasPermission(Permissions.RECIEVEMESSAGES.getNode()))
                 continue;
@@ -37,7 +35,7 @@ public class mixer implements MixerEvents {
 
     @Override
     public void sendTitle(String title, String subtitle) {
-        Title titleO = Title.builder().title(utils.formatText(title)).subtitle(utils.formatText(subtitle)).build();
+        Title titleO = Title.builder().title(Utils.formatText(title)).subtitle(Utils.formatText(subtitle)).build();
         for (Player player : Sponge.getServer().getOnlinePlayers()){
             if (!player.hasPermission(Permissions.RECIEVEMESSAGES.getNode()))
                 continue;
@@ -50,7 +48,7 @@ public class mixer implements MixerEvents {
         for (Player player : Sponge.getServer().getOnlinePlayers()) {
             if (!player.hasPermission(Permissions.RECIEVEMESSAGES.getNode()))
                 continue;
-            player.sendMessage(ChatTypes.ACTION_BAR, utils.formatText(title));
+            player.sendMessage(ChatTypes.ACTION_BAR, Utils.formatText(title));
         }
     }
 

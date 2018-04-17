@@ -1,6 +1,6 @@
 package pro.kdray.funniray.mixer;
 
-public enum commands {
+public enum Commands {
 
     PAUSE("pause","Pauses interactive buttons","/pause",Permissions.PAUSE),
     STOP("stop","Stops interactive","/stop",Permissions.STOP),
@@ -11,7 +11,7 @@ public enum commands {
     private String usage;
     private Permissions permission;
 
-    commands(String name, String description, String usage, Permissions permission){
+    Commands(String name, String description, String usage, Permissions permission) {
         this.name = name;
         this.description = description;
         this.usage = usage;

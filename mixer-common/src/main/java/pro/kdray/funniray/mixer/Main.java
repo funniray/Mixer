@@ -13,7 +13,7 @@ import pro.kdray.funniray.mixer.handlers.Interactive;
 
 import java.util.concurrent.ExecutionException;
 
-public class main {
+public class Main {
 
     private Interactive interactive;
     private Constellation constellation;
@@ -24,10 +24,10 @@ public class main {
 
     private MixerEvents eventHandler;
 
-    public main(String APIKey, MixerEvents eventHandler) throws ExecutionException, InterruptedException {
+    public Main(String APIKey, MixerEvents eventHandler) throws ExecutionException, InterruptedException {
 
         if (dataSource != null)
-            dataSource = new DataSource(config.DBUrl,config.DBUsername,config.DBPassword);
+            dataSource = new DataSource(Config.DBUrl, Config.DBUsername, Config.DBPassword);
         if (storageHandler != null)
             storageHandler = new StorageHandler(dataSource);
 

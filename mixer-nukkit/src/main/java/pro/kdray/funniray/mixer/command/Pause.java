@@ -2,13 +2,13 @@ package pro.kdray.funniray.mixer.command;
 
 import cn.nukkit.command.Command;
 import cn.nukkit.command.CommandSender;
+import pro.kdray.funniray.mixer.Commands;
 import pro.kdray.funniray.mixer.MixerNukkit;
-import pro.kdray.funniray.mixer.commands;
 
-public class pause extends Command {
-    public pause() {
-        super(commands.PAUSE.getName(), commands.PAUSE.getDescription(), commands.PAUSE.getUsage());
-        this.setPermission(commands.PAUSE.getPermission().getNode());
+public class Pause extends Command {
+    public Pause() {
+        super(Commands.PAUSE.getName(), Commands.PAUSE.getDescription(), Commands.PAUSE.getUsage());
+        this.setPermission(Commands.PAUSE.getPermission().getNode());
     }
 
     @Override

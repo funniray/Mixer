@@ -1,4 +1,4 @@
-package pro.kdray.funniray.mixer.Controls;
+package pro.kdray.funniray.mixer.controls;
 
 import com.google.gson.JsonObject;
 import com.mixer.interactive.resources.control.ButtonControl;

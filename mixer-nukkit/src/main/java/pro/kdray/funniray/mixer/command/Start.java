@@ -2,14 +2,14 @@ package pro.kdray.funniray.mixer.command;
 
 import cn.nukkit.command.Command;
 import cn.nukkit.command.CommandSender;
+import pro.kdray.funniray.mixer.Commands;
 import pro.kdray.funniray.mixer.MixerNukkit;
-import pro.kdray.funniray.mixer.commands;
 
-public class start extends Command {
+public class Start extends Command {
 
-    public start(){
-        super(commands.START.getName(), commands.START.getDescription(), commands.START.getUsage());
-        this.setPermission(commands.START.getPermission().getNode());
+    public Start() {
+        super(Commands.START.getName(), Commands.START.getDescription(), Commands.START.getUsage());
+        this.setPermission(Commands.START.getPermission().getNode());
     }
 
     @Override
