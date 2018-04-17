@@ -2,9 +2,9 @@ package pro.kdray.funniray.mixer;
 
 public enum Commands {
 
-    PAUSE("pause", "Pauses interactive buttons", "/ipause", Permissions.PAUSE),
-    STOP("stop", "Stops interactive", "/istop", Permissions.STOP),
-    START("start", "Starts interactive", "/istart", Permissions.START);
+    PAUSE("ipause", "Pauses interactive buttons", "/ipause", Permissions.PAUSE),
+    STOP("istop", "Stops interactive", "/istop", Permissions.STOP),
+    START("istart", "Starts interactive", "/istart", Permissions.START);
 
     private String name;
     private String description;
