@@ -1,5 +1,5 @@
 # Mixer
-Mixer plugin for Nukkit and Bukkit
+Mixer plugin for Nukkit (Broken until rewrite comes out), Bukkit, Sponge and Forge
 
 
 # Building

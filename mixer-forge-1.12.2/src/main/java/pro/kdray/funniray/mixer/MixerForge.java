@@ -94,13 +94,14 @@ public final class MixerForge{
         if (configuration.hasChanged()) {
             configuration.save();
             if (running){
-                api.shutdown();
+                stopMain();
                 startMain();
             }
         }
     }
 
     public static void startMain(){
+        running = true;
         new Thread(() -> {
             try {
                 api = new Main(token, new Mixer());//TODO: Make tokens per-player
@@ -109,6 +110,13 @@ public final class MixerForge{
                 e.printStackTrace();
             }
         }).start();
+    }
+
+    public static void stopMain() {
+        if (api != null) {
+            running = false;
+            api.shutdown();
+        }
     }
 
     public static Logger getLogger() {
@@ -156,9 +164,8 @@ public final class MixerForge{
     @Mod.EventHandler
     public void onGameStop(FMLServerStoppingEvent event) {
         // Plugin shutdown logic
-        if (api != null)
-            api.shutdown();
-        running = false;
+        if (running)
+            stopMain();
     }
 
     @SubscribeEvent(priority = EventPriority.NORMAL) //TODO: Add GUI for Config

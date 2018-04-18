@@ -36,8 +36,10 @@ public final class MixerNukkit extends PluginBase {
     }
 
     public static void stopMain() {
-        isRunning = false;
-        api.shutdown();
+        if (api != null) {
+            api.shutdown();
+            isRunning = false;
+        }
     }
 
     public static Main getApi() {

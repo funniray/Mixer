@@ -75,8 +75,10 @@ public final class MixerSponge{
     }
 
     public static void stopMain() {
-        api.shutdown();
-        isRunning = false;
+        if (api != null) {
+            api.shutdown();
+            isRunning = false;
+        }
     }
 
     @Listener

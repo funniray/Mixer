@@ -23,7 +23,7 @@ public class Stop extends CommandBase {
         if (!sender.canUseCommand(Commands.STOP.getPermission().getPermissionLevel(), null))
             return;
         if (MixerForge.isRunning()) {
-            MixerForge.getApi().shutdown();
+            MixerForge.stopMain();
         } else {
             sender.sendMessage(new TextComponentString("&9&l[Mixer]&r&3 Interactive isn't running".replace('&', '§')));
         }

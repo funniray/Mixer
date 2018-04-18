@@ -44,8 +44,10 @@ public final class MixerSpigot extends JavaPlugin {
     }
 
     public static void stopMain() {
-        isRunning = false;
-        api.shutdown();
+        if (api != null) {
+            isRunning = false;
+            api.shutdown();
+        }
     }
 
     public static Main getApi() {
