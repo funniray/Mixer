@@ -1,5 +1,6 @@
 package pro.kdray.funniray.mixer.command;
 
+import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.defaults.BukkitCommand;
 import pro.kdray.funniray.mixer.Commands;
@@ -15,7 +16,11 @@ public class Pause extends BukkitCommand {
 
     @Override
     public boolean execute(CommandSender commandSender, String s, String[] strings) {
-        MixerSpigot.getApi().getInteractive().pause();
+        if (MixerSpigot.isRunning()) {
+            MixerSpigot.getApi().getInteractive().pause();
+        } else {
+            commandSender.sendMessage(ChatColor.BLUE + "" + ChatColor.BOLD + "[Mixer]" + ChatColor.RESET + ChatColor.RED + " Interactive isn't running");
+        }
         return true;
     }
 }

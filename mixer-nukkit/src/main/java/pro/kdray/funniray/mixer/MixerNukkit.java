@@ -17,8 +17,10 @@ public final class MixerNukkit extends PluginBase {
 
     public static Plugin plugin;
     private static Main api = null;
+    private static boolean isRunning = false;
 
     public static void startMain(){
+        isRunning = true;
         //Run Main class
         String token = MixerNukkit.plugin.getConfig().getString("token");
         Server.getInstance().getScheduler().scheduleAsyncTask(MixerNukkit.plugin, new AsyncTask() {
@@ -33,24 +35,33 @@ public final class MixerNukkit extends PluginBase {
         });
     }
 
+    public static void stopMain() {
+        isRunning = false;
+        api.shutdown();
+    }
+
     public static Main getApi() {
         return api;
+    }
+
+    public static boolean isRunning() {
+        return isRunning;
+    }
+
+    public static void setApi(Main api) {
+        MixerNukkit.api = api;
+    }
+
+    public Plugin getPlugin() {
+        return this;
     }
 
     @Override
     public void onDisable() {
         // Plugin shutdown logic
-        if (api != null) {
-            api.shutdown();
+        if (isRunning) {
+            stopMain();
         }
-    }
-
-    public Plugin getPlugin(){
-        return this;
-    }
-
-    public static void setApi(Main api) {
-        MixerNukkit.api = api;
     }
 
     @Override
@@ -69,7 +80,7 @@ public final class MixerNukkit extends PluginBase {
         Config.subscriberCommand = getConfig().getString("subscriberCommand");
         Config.resubscriberCommand = getConfig().getString("resubscriberCommand");
 
-        Config.bannedWords = getConfig().getStringList("bannedWords").toArray(new String[0]);
+        Config.bannedWords = getConfig().getStringList("bannedWords");
 
         //Registering permissions
         PluginManager pm = this.getServer().getPluginManager();

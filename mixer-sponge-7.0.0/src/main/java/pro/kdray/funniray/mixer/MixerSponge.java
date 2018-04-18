@@ -45,6 +45,11 @@ public final class MixerSponge{
 
     private static Main api = null;
     private static String realToken;
+    private static boolean isRunning = false;
+
+    public static boolean isRunning() {
+        return isRunning;
+    }
 
     public static Main getApi() {
         return api;
@@ -59,6 +64,7 @@ public final class MixerSponge{
     }
 
     public static void startMain() {
+        isRunning = true;
         MixerSponge.game.getScheduler().createAsyncExecutor(MixerSponge.class).execute(() -> {
             try {
                 api = new Main(realToken, new Mixer());//TODO:Make tokens per-player
@@ -68,11 +74,16 @@ public final class MixerSponge{
         });
     }
 
+    public static void stopMain() {
+        api.shutdown();
+        isRunning = false;
+    }
+
     @Listener
     public void onGameStop(GameStoppingServerEvent event) {
         // Plugin shutdown logic
-        if (api != null)
-            api.shutdown();
+        if (isRunning)
+            stopMain();
     }
 
     @Listener
@@ -115,7 +126,7 @@ public final class MixerSponge{
                 Config.resubscriberCommand = localConfig.getNode("resubscriberCommand").getString();
 
                 try {
-                    Config.bannedWords = localConfig.getNode("bannedWords").getList(TypeToken.of(String.class)).toArray(new String[0]);
+                    Config.bannedWords = localConfig.getNode("bannedWords").getList(TypeToken.of(String.class));
                 } catch (ObjectMappingException e) {
                     e.printStackTrace();
                 }

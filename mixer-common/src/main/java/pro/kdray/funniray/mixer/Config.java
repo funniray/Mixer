@@ -1,5 +1,7 @@
 package pro.kdray.funniray.mixer;
 
+import java.util.List;
+
 public class Config {
     public static String clientID;
     public static String shareCode;
@@ -14,5 +16,5 @@ public class Config {
     public static String resubscriberCommand;
     public static String followCommand;
 
-    public static String[] bannedWords;
+    public static List<String> bannedWords;
 }

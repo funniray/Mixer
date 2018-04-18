@@ -18,6 +18,7 @@ import pro.kdray.funniray.mixer.command.Start;
 import pro.kdray.funniray.mixer.command.Stop;
 import pro.kdray.funniray.mixer.events.Mixer;
 
+import java.util.Arrays;
 import java.util.concurrent.ExecutionException;
 
 import static pro.kdray.funniray.mixer.MixerForge.MODID;
@@ -76,7 +77,7 @@ public final class MixerForge{
         Config.subscriberCommand = subscriberCommandProp.getString();
         Config.resubscriberCommand = resubscriberCommandProp.getString();
 
-        Config.bannedWords = bannedWordsProp.getStringList();
+        Config.bannedWords = Arrays.asList(bannedWordsProp.getStringList());
 
         globalProp.set(global);
         tokenProp.set(token);
@@ -88,7 +89,7 @@ public final class MixerForge{
         subscriberCommandProp.set(Config.subscriberCommand);
         resubscriberCommandProp.set(Config.resubscriberCommand);
 
-        bannedWordsProp.set(Config.bannedWords);
+        bannedWordsProp.set(bannedWordsProp.getStringList());
 
         if (configuration.hasChanged()) {
             configuration.save();

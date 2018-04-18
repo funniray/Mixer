@@ -26,10 +26,12 @@ public final class MixerSpigot extends JavaPlugin {
 
     public static Plugin plugin;
     public static Main api = null;
+    private static boolean isRunning = false;
 
     public static VersionHandler versionHandler;
 
     public static void startMain(){
+        isRunning = true;
         //Run Main class
         String token = MixerSpigot.plugin.getConfig().getString("token");
         Bukkit.getScheduler().runTaskAsynchronously(MixerSpigot.plugin, () -> {
@@ -41,8 +43,17 @@ public final class MixerSpigot extends JavaPlugin {
         });
     }
 
+    public static void stopMain() {
+        isRunning = false;
+        api.shutdown();
+    }
+
     public static Main getApi() {
         return api;
+    }
+
+    public static boolean isRunning() {
+        return isRunning;
     }
 
     private void getVersion(){
@@ -79,8 +90,8 @@ public final class MixerSpigot extends JavaPlugin {
     @Override
     public void onDisable() {
         // Plugin shutdown logic
-        if (api != null)
-            api.shutdown();
+        if (isRunning)
+            stopMain();
     }
 
     public static void setApi(Main api) {
@@ -103,7 +114,7 @@ public final class MixerSpigot extends JavaPlugin {
         Config.subscriberCommand = getConfig().getString("subscriberCommand");
         Config.resubscriberCommand = getConfig().getString("resubscriberCommand");
 
-        Config.bannedWords = getConfig().getStringList("bannedWords").toArray(new String[0]);
+        Config.bannedWords = getConfig().getStringList("bannedWords");
 
         //registering permissions
         PluginManager pm = this.getServer().getPluginManager();
