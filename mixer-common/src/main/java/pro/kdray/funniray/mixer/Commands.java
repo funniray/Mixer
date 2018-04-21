@@ -4,7 +4,8 @@ public enum Commands {
 
     PAUSE("ipause", "Pauses interactive buttons", "/ipause", Permissions.PAUSE),
     STOP("istop", "Stops interactive", "/istop", Permissions.STOP),
-    START("istart", "Starts interactive", "/istart", Permissions.START);
+    START("istart", "Starts interactive", "/istart", Permissions.START),
+    SWITCHSCENE("iswitchscene", "Sets the default scene to the specified scene", "/istart <scene>", Permissions.START);
 
     private String name;
     private String description;

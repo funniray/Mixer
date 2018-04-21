@@ -6,7 +6,8 @@ public enum Permissions {
     RECEIVEMESSAGES(Config.permPrefix + ".receiveMessages", "Lets the player recieve messages from the Mixer plugin", "OP", 3),
     PAUSE(Config.permPrefix + ".Commands.pause", "Lets the player run /pause", "OP", 3),
     STOP(Config.permPrefix + ".Commands.stop", "Lets the player run /stop", "OP", 3),
-    START(Config.permPrefix + ".Commands.start", "Lets the player run /start", "OP", 3);
+    START(Config.permPrefix + ".Commands.start", "Lets the player run /start", "OP", 3),
+    SWITCHSCENE(Config.permPrefix + ".Commands.switchscene", "Lets the player run /iswitchscene", "OP", 3);
 
     private String node;
     private String description;

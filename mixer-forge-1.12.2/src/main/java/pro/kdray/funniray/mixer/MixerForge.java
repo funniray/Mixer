@@ -16,6 +16,7 @@ import org.apache.logging.log4j.Logger;
 import pro.kdray.funniray.mixer.command.Pause;
 import pro.kdray.funniray.mixer.command.Start;
 import pro.kdray.funniray.mixer.command.Stop;
+import pro.kdray.funniray.mixer.command.SwitchScene;
 import pro.kdray.funniray.mixer.events.Mixer;
 
 import java.util.Arrays;
@@ -157,6 +158,7 @@ public final class MixerForge{
         event.registerServerCommand(new Pause());
         event.registerServerCommand(new Stop());
         event.registerServerCommand(new Start());
+        event.registerServerCommand(new SwitchScene());
 
         //startMain();
     }

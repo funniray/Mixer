@@ -9,6 +9,7 @@ import cn.nukkit.scheduler.AsyncTask;
 import pro.kdray.funniray.mixer.command.Pause;
 import pro.kdray.funniray.mixer.command.Start;
 import pro.kdray.funniray.mixer.command.Stop;
+import pro.kdray.funniray.mixer.command.SwitchScene;
 import pro.kdray.funniray.mixer.events.Mixer;
 
 import java.util.concurrent.ExecutionException;
@@ -98,5 +99,6 @@ public final class MixerNukkit extends PluginBase {
         this.getServer().getCommandMap().register(Commands.PAUSE.getName(), new Pause());
         this.getServer().getCommandMap().register(Commands.STOP.getName(), new Stop());
         this.getServer().getCommandMap().register(Commands.START.getName(), new Start());
+        this.getServer().getCommandMap().register(Commands.SWITCHSCENE.getName(), new SwitchScene());
     }
 }
