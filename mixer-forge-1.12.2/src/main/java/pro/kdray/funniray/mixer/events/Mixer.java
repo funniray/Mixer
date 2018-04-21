@@ -16,7 +16,7 @@ public class Mixer implements MixerEvents {
         ITextComponent text = new TextComponentString(message.replace("&", "§"));
         this.debug(text.getUnformattedText());
         for(EntityPlayerMP player:FMLCommonHandler.instance().getMinecraftServerInstance().getPlayerList().getPlayers()) {
-            if (!player.canUseCommand(Permissions.RECIEVEMESSAGES.getPermissionLevel(),null))
+            if (!player.canUseCommand(Permissions.RECEIVEMESSAGES.getPermissionLevel(), null))
                 continue;
             player.sendMessage(text);
         }
@@ -26,7 +26,7 @@ public class Mixer implements MixerEvents {
         if (title != null) {
             SPacketTitle titleMain = new SPacketTitle(SPacketTitle.Type.TITLE, new TextComponentString(title),fadein,duration,fadeout);
             for(EntityPlayerMP player:FMLCommonHandler.instance().getMinecraftServerInstance().getPlayerList().getPlayers()){
-                if (!player.canUseCommand(Permissions.RECIEVEMESSAGES.getPermissionLevel(),null))
+                if (!player.canUseCommand(Permissions.RECEIVEMESSAGES.getPermissionLevel(), null))
                     continue;
                 player.connection.sendPacket(titleMain);
             }
@@ -34,7 +34,7 @@ public class Mixer implements MixerEvents {
         if (subtitle != null){
             SPacketTitle titleMain = new SPacketTitle(SPacketTitle.Type.SUBTITLE, new TextComponentString(subtitle),fadein,duration,fadeout);
             for(EntityPlayerMP player:FMLCommonHandler.instance().getMinecraftServerInstance().getPlayerList().getPlayers()){
-                if (!player.canUseCommand(Permissions.RECIEVEMESSAGES.getPermissionLevel(),null))
+                if (!player.canUseCommand(Permissions.RECEIVEMESSAGES.getPermissionLevel(), null))
                     continue;
                 player.connection.sendPacket(titleMain);
             }
@@ -46,7 +46,7 @@ public class Mixer implements MixerEvents {
         if (title != null) {
             SPacketTitle titleMain = new SPacketTitle(SPacketTitle.Type.TITLE, new TextComponentString(title));
             for(EntityPlayerMP player:FMLCommonHandler.instance().getMinecraftServerInstance().getPlayerList().getPlayers()){
-                if (!player.canUseCommand(Permissions.RECIEVEMESSAGES.getPermissionLevel(),null))
+                if (!player.canUseCommand(Permissions.RECEIVEMESSAGES.getPermissionLevel(), null))
                     continue;
                 player.connection.sendPacket(titleMain);
             }
@@ -54,7 +54,7 @@ public class Mixer implements MixerEvents {
         if (subtitle != null){
             SPacketTitle titleMain = new SPacketTitle(SPacketTitle.Type.SUBTITLE, new TextComponentString(subtitle));
             for(EntityPlayerMP player:FMLCommonHandler.instance().getMinecraftServerInstance().getPlayerList().getPlayers()){
-                if (!player.canUseCommand(Permissions.RECIEVEMESSAGES.getPermissionLevel(),null))
+                if (!player.canUseCommand(Permissions.RECEIVEMESSAGES.getPermissionLevel(), null))
                     continue;
                 player.connection.sendPacket(titleMain);
             }
@@ -65,7 +65,7 @@ public class Mixer implements MixerEvents {
     public void sendActionBar(String title) {
         SPacketTitle titleMain = new SPacketTitle(SPacketTitle.Type.ACTIONBAR, new TextComponentString(title));
         for(EntityPlayerMP player:FMLCommonHandler.instance().getMinecraftServerInstance().getPlayerList().getPlayers()){
-            if (!player.canUseCommand(Permissions.RECIEVEMESSAGES.getPermissionLevel(),null))
+            if (!player.canUseCommand(Permissions.RECEIVEMESSAGES.getPermissionLevel(), null))
                 continue;
             player.connection.sendPacket(titleMain);
         }

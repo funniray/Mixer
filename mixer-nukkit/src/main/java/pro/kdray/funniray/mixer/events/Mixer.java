@@ -14,7 +14,7 @@ public class Mixer implements MixerEvents {
     public void sendMessage(String message) {
         String formatted = TextFormat.colorize('&',message);
         for (Player player : Server.getInstance().getOnlinePlayers().values()){
-            if (!player.hasPermission(Permissions.RECIEVEMESSAGES.getNode()))
+            if (!player.hasPermission(Permissions.RECEIVEMESSAGES.getNode()))
                 continue;
             player.sendMessage(formatted);
         }
@@ -24,7 +24,7 @@ public class Mixer implements MixerEvents {
     @Override
     public void sendTitle(String title, String subtitle, int fadein, int duration, int fadeout) {
         for (Player player : Server.getInstance().getOnlinePlayers().values()){
-            if (!player.hasPermission(Permissions.RECIEVEMESSAGES.getNode()))
+            if (!player.hasPermission(Permissions.RECEIVEMESSAGES.getNode()))
                 continue;
             player.sendTitle(title,subtitle,fadein,duration,fadeout);
         }
@@ -33,7 +33,7 @@ public class Mixer implements MixerEvents {
     @Override
     public void sendTitle(String title, String subtitle) {
         for (Player player : Server.getInstance().getOnlinePlayers().values()){
-            if (!player.hasPermission(Permissions.RECIEVEMESSAGES.getNode()))
+            if (!player.hasPermission(Permissions.RECEIVEMESSAGES.getNode()))
                 continue;
             player.sendTitle(title,subtitle);
         }
@@ -42,7 +42,7 @@ public class Mixer implements MixerEvents {
     @Override
     public void sendActionBar(String title) {
         for (Player player : Server.getInstance().getOnlinePlayers().values()){
-            if (!player.hasPermission(Permissions.RECIEVEMESSAGES.getNode()))
+            if (!player.hasPermission(Permissions.RECEIVEMESSAGES.getNode()))
                 continue;
             player.sendActionBar(title);
         }

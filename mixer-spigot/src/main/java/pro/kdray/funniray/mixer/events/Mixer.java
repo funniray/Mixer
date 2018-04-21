@@ -12,7 +12,7 @@ public class Mixer implements MixerEvents {
     public void sendMessage(String message) {
         String formatted = ChatColor.translateAlternateColorCodes('&',message);
         for (Player player : Bukkit.getServer().getOnlinePlayers()){
-            if (!player.hasPermission(Permissions.RECIEVEMESSAGES.getNode()))
+            if (!player.hasPermission(Permissions.RECEIVEMESSAGES.getNode()))
                 continue;
             player.sendMessage(formatted);
         }
@@ -20,17 +20,17 @@ public class Mixer implements MixerEvents {
     }
     @Override
     public void sendTitle(String title, String subtitle, int fadein, int duration, int fadeout) {
-        MixerSpigot.versionHandler.sendAllTitle(title, subtitle, fadein, duration, fadeout, Permissions.RECIEVEMESSAGES.getNode());
+        MixerSpigot.versionHandler.sendAllTitle(title, subtitle, fadein, duration, fadeout, Permissions.RECEIVEMESSAGES.getNode());
     }
 
     @Override
     public void sendTitle(String title, String subtitle) {
-        MixerSpigot.versionHandler.sendAllTitle(title, subtitle, Permissions.RECIEVEMESSAGES.getNode());
+        MixerSpigot.versionHandler.sendAllTitle(title, subtitle, Permissions.RECEIVEMESSAGES.getNode());
     }
 
     @Override
     public void sendActionBar(String title) {
-        MixerSpigot.versionHandler.sendAllActionBar(title, Permissions.RECIEVEMESSAGES.getNode());
+        MixerSpigot.versionHandler.sendAllActionBar(title, Permissions.RECEIVEMESSAGES.getNode());
     }
 
     @Override

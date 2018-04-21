@@ -17,7 +17,7 @@ public class Mixer implements MixerEvents {
     public void sendMessage(String message) {
         LiteralText formatted = Utils.formatText(message);
         for (Player player : Sponge.getServer().getOnlinePlayers()){
-            if (!player.hasPermission(Permissions.RECIEVEMESSAGES.getNode()))
+            if (!player.hasPermission(Permissions.RECEIVEMESSAGES.getNode()))
                 continue;
             player.sendMessage(formatted);
         }
@@ -27,7 +27,7 @@ public class Mixer implements MixerEvents {
     public void sendTitle(String title, String subtitle, int fadein, int duration, int fadeout) {
         Title titleO = Title.builder().title(Utils.formatText(title)).subtitle(Utils.formatText(subtitle)).fadeIn(fadein).stay(duration).fadeOut(fadeout).build();
         for (Player player : Sponge.getServer().getOnlinePlayers()){
-            if (!player.hasPermission(Permissions.RECIEVEMESSAGES.getNode()))
+            if (!player.hasPermission(Permissions.RECEIVEMESSAGES.getNode()))
                 continue;
             player.sendTitle(titleO);
         }
@@ -37,7 +37,7 @@ public class Mixer implements MixerEvents {
     public void sendTitle(String title, String subtitle) {
         Title titleO = Title.builder().title(Utils.formatText(title)).subtitle(Utils.formatText(subtitle)).build();
         for (Player player : Sponge.getServer().getOnlinePlayers()){
-            if (!player.hasPermission(Permissions.RECIEVEMESSAGES.getNode()))
+            if (!player.hasPermission(Permissions.RECEIVEMESSAGES.getNode()))
                 continue;
             player.sendTitle(titleO);
         }
@@ -46,7 +46,7 @@ public class Mixer implements MixerEvents {
     @Override
     public void sendActionBar(String title) {
         for (Player player : Sponge.getServer().getOnlinePlayers()) {
-            if (!player.hasPermission(Permissions.RECIEVEMESSAGES.getNode()))
+            if (!player.hasPermission(Permissions.RECEIVEMESSAGES.getNode()))
                 continue;
             player.sendMessage(ChatTypes.ACTION_BAR, Utils.formatText(title));
         }
