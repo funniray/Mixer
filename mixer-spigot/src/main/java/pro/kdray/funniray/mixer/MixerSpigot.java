@@ -140,13 +140,5 @@ public final class MixerSpigot extends JavaPlugin {
         } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
             e.printStackTrace();
         }
-
-        getServer().getScheduler().runTaskAsynchronously(this, () -> {
-            try {
-                api = new Main(token, new Mixer());//TODO:Make tokens per-player
-            } catch (ExecutionException | InterruptedException e) {
-                e.printStackTrace();
-            }
-        });
     }
 }
