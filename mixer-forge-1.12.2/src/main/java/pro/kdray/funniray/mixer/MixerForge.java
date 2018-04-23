@@ -43,18 +43,11 @@ public final class MixerForge{
     private static boolean global;
 
     @Mod.EventHandler
-    public void preInit(FMLPreInitializationEvent event)
-    {
+    public void preInit(FMLPreInitializationEvent event) {
         logger = event.getModLog();
         MinecraftForge.EVENT_BUS.register(this);
         configuration = new Configuration(event.getSuggestedConfigurationFile());
         syncFromFile();
-
-        for (Permissions permission : Permissions.values()) {
-            PermissionAPI.registerNode(permission.getNode(),
-                    DefaultPermissionLevel.valueOf(permission.getDefaultMode()),
-                    permission.getDescription());
-        }
     }
 
     private static void syncConfig(boolean loadConfigFromFile) {
@@ -155,6 +148,14 @@ public final class MixerForge{
     @Mod.EventHandler
     public void init(FMLInitializationEvent event) {
         ConfigManager.sync(MODID, net.minecraftforge.common.config.Config.Type.INSTANCE);
+
+        for (Permissions permission : Permissions.values()) {
+            if (permission.getNode() == null || permission.getDescription() == null)
+                continue;
+            PermissionAPI.registerNode(permission.getNode(),
+                    DefaultPermissionLevel.valueOf(permission.getDefaultMode()),
+                    permission.getDescription());
+        }
     }
 
     @Mod.EventHandler

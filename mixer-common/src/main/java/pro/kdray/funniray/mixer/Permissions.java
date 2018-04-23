@@ -17,6 +17,7 @@ public enum Permissions {
 
     Permissions(String node, String description, String defaultMode, int permissionLevel){
         this.node = node;
+        this.description = description;
         this.defaultMode = defaultMode;
         this.permissionLevel = permissionLevel;
     }
