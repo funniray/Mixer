@@ -21,16 +21,17 @@ public final class MixerNukkit extends PluginBase {
     private static boolean isRunning = false;
 
     public static void startMain(){
-        isRunning = true;
         //Run Main class
         String token = MixerNukkit.plugin.getConfig().getString("token");
         Server.getInstance().getScheduler().scheduleAsyncTask(MixerNukkit.plugin, new AsyncTask() {
             @Override
             public void onRun() {
                 try {
-                    api = new Main(token, new Mixer());
+                    api = new Main(token, new Mixer());//TODO:Make tokens per-player
+                    isRunning = true;
                 } catch (ExecutionException | InterruptedException e) {
                     e.printStackTrace();
+                    new Mixer().sendMessage("&4&l[Mixer] &r&cFailed to start interactive, could be due to invalid API key");
                 }
             }
         });

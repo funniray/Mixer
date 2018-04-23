@@ -31,14 +31,15 @@ public final class MixerSpigot extends JavaPlugin {
     public static VersionHandler versionHandler;
 
     public static void startMain(){
-        isRunning = true;
         //Run Main class
         String token = MixerSpigot.plugin.getConfig().getString("token");
         Bukkit.getScheduler().runTaskAsynchronously(MixerSpigot.plugin, () -> {
             try {
                 api = new Main(token, new Mixer());
+                isRunning = true;
             } catch (ExecutionException | InterruptedException e) {
                 e.printStackTrace();
+                new Mixer().sendMessage("&4&l[Mixer] &r&cFailed to start interactive, could be due to invalid API key");
             }
         });
     }

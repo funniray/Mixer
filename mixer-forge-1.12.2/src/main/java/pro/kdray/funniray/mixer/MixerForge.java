@@ -102,13 +102,13 @@ public final class MixerForge{
     }
 
     public static void startMain(){
-        running = true;
         new Thread(() -> {
             try {
-                api = new Main(token, new Mixer());//TODO: Make tokens per-player
+                api = new Main(token, new Mixer());//TODO:Make tokens per-player
                 running = true;
             } catch (ExecutionException | InterruptedException e) {
                 e.printStackTrace();
+                new Mixer().sendMessage("&4&l[Mixer] &r&cFailed to start interactive, could be due to invalid API key");
             }
         }).start();
     }

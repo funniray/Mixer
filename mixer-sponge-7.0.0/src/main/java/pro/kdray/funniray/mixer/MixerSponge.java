@@ -64,12 +64,13 @@ public final class MixerSponge{
     }
 
     public static void startMain() {
-        isRunning = true;
         MixerSponge.game.getScheduler().createAsyncExecutor(MixerSponge.class).execute(() -> {
             try {
                 api = new Main(realToken, new Mixer());//TODO:Make tokens per-player
+                isRunning = true;
             } catch (ExecutionException | InterruptedException e) {
                 e.printStackTrace();
+                new Mixer().sendMessage("&4&l[Mixer] &r&cFailed to start interactive, could be due to invalid API key");
             }
         });
     }
