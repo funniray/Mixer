@@ -2,14 +2,13 @@ package pro.kdray.funniray.mixer;
 
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
+import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.permissions.Permission;
 import org.bukkit.permissions.PermissionDefault;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
-import pro.kdray.funniray.mixer.command.Pause;
-import pro.kdray.funniray.mixer.command.Start;
-import pro.kdray.funniray.mixer.command.Stop;
+import pro.kdray.funniray.mixer.command.*;
 import pro.kdray.funniray.mixer.compadibility.VersionHandler;
 import pro.kdray.funniray.mixer.compadibility.v1_10.Handler_1_10_R1;
 import pro.kdray.funniray.mixer.compadibility.v1_11.Handler_1_11_R1;
@@ -102,6 +101,38 @@ public final class MixerSpigot extends JavaPlugin {
         MixerSpigot.api = api;
     }
 
+    public static void reload() {
+        boolean wasRunning = false;
+        if (MixerSpigot.isRunning) {
+            stopMain();
+            wasRunning = true;
+        }
+        MixerSpigot.loadConfig();
+        if (wasRunning)
+            startMain();
+    }
+
+    public static void setConfig(String path, String value) {
+        MixerSpigot.plugin.getConfig().set(path, value);
+        MixerSpigot.plugin.saveConfig();
+    }
+
+    public static void loadConfig() {
+        MixerSpigot.plugin.reloadConfig();
+
+        FileConfiguration configuration = MixerSpigot.plugin.getConfig();
+
+        Config.shareCode = configuration.getString("shareCode");
+        Config.clientID = configuration.getString("clientID");
+        Config.projectID = configuration.getInt("projectID");
+
+        Config.followCommand = configuration.getString("followCommand");
+        Config.subscriberCommand = configuration.getString("subscriberCommand");
+        Config.resubscriberCommand = configuration.getString("resubscriberCommand");
+
+        Config.bannedWords = configuration.getStringList("bannedWords");
+    }
+
     @Override
     public void onEnable() {
         // Plugin startup logic
@@ -109,17 +140,8 @@ public final class MixerSpigot extends JavaPlugin {
 
         this.saveDefaultConfig();
         this.reloadConfig();
+        loadConfig();
 
-        String token = getConfig().getString("token");
-        Config.shareCode = getConfig().getString("shareCode");
-        Config.clientID = getConfig().getString("clientID");
-        Config.projectID = getConfig().getInt("projectID");
-
-        Config.followCommand = getConfig().getString("followCommand");
-        Config.subscriberCommand = getConfig().getString("subscriberCommand");
-        Config.resubscriberCommand = getConfig().getString("resubscriberCommand");
-
-        Config.bannedWords = getConfig().getStringList("bannedWords");
 
         //registering permissions
         PluginManager pm = this.getServer().getPluginManager();
@@ -140,6 +162,8 @@ public final class MixerSpigot extends JavaPlugin {
             register.invoke(cmdmap, Commands.PAUSE.getName(), new Pause());
             register.invoke(cmdmap, Commands.STOP.getName(), new Stop());
             register.invoke(cmdmap, Commands.START.getName(), new Start());
+            register.invoke(cmdmap, Commands.SWITCHSCENE.getName(), new SwitchScene());
+            register.invoke(cmdmap, Commands.MAIN.getName(), new MainCommand());
         } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
             e.printStackTrace();
         }

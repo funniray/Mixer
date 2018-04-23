@@ -6,10 +6,7 @@ import cn.nukkit.plugin.Plugin;
 import cn.nukkit.plugin.PluginBase;
 import cn.nukkit.plugin.PluginManager;
 import cn.nukkit.scheduler.AsyncTask;
-import pro.kdray.funniray.mixer.command.Pause;
-import pro.kdray.funniray.mixer.command.Start;
-import pro.kdray.funniray.mixer.command.Stop;
-import pro.kdray.funniray.mixer.command.SwitchScene;
+import pro.kdray.funniray.mixer.command.*;
 import pro.kdray.funniray.mixer.events.Mixer;
 
 import java.util.concurrent.ExecutionException;
@@ -69,6 +66,38 @@ public final class MixerNukkit extends PluginBase {
         }
     }
 
+    public static void reload() {
+        boolean wasRunning = false;
+        if (MixerNukkit.isRunning) {
+            stopMain();
+            wasRunning = true;
+        }
+        MixerNukkit.loadConfig();
+        if (wasRunning)
+            startMain();
+    }
+
+    public static void setConfig(String path, String value) {
+        MixerNukkit.plugin.getConfig().set(path, value);
+        MixerNukkit.plugin.saveConfig();
+    }
+
+    public static void loadConfig() {
+        MixerNukkit.plugin.reloadConfig();
+
+        cn.nukkit.utils.Config configuration = MixerNukkit.plugin.getConfig();
+
+        Config.shareCode = configuration.getString("shareCode");
+        Config.clientID = configuration.getString("clientID");
+        Config.projectID = configuration.getInt("projectID");
+
+        Config.followCommand = configuration.getString("followCommand");
+        Config.subscriberCommand = configuration.getString("subscriberCommand");
+        Config.resubscriberCommand = configuration.getString("resubscriberCommand");
+
+        Config.bannedWords = configuration.getStringList("bannedWords");
+    }
+
     @Override
     public void onEnable() {
         // Plugin startup logic
@@ -76,17 +105,7 @@ public final class MixerNukkit extends PluginBase {
 
         this.saveDefaultConfig();
         this.reloadConfig();
-
-        //Getting Config
-        Config.shareCode = getConfig().getString("shareCode");
-        Config.clientID = getConfig().getString("clientID");
-        Config.projectID = getConfig().getInt("projectID");
-
-        Config.followCommand = getConfig().getString("followCommand");
-        Config.subscriberCommand = getConfig().getString("subscriberCommand");
-        Config.resubscriberCommand = getConfig().getString("resubscriberCommand");
-
-        Config.bannedWords = getConfig().getStringList("bannedWords");
+        loadConfig();
 
         //Registering permissions
         PluginManager pm = this.getServer().getPluginManager();
@@ -103,5 +122,6 @@ public final class MixerNukkit extends PluginBase {
         this.getServer().getCommandMap().register(Commands.STOP.getName(), new Stop());
         this.getServer().getCommandMap().register(Commands.START.getName(), new Start());
         this.getServer().getCommandMap().register(Commands.SWITCHSCENE.getName(), new SwitchScene());
+        this.getServer().getCommandMap().register(Commands.MAIN.getName(), new MainCommand());
     }
 }

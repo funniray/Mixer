@@ -5,7 +5,8 @@ public enum Commands {
     PAUSE("ipause", "Pauses interactive buttons", "/ipause", Permissions.PAUSE),
     STOP("istop", "Stops interactive", "/istop", Permissions.STOP),
     START("istart", "Starts interactive", "/istart", Permissions.START),
-    SWITCHSCENE("iswitchscene", "Sets the default scene to the specified scene", "/istart <scene>", Permissions.START);
+    SWITCHSCENE("iswitchscene", "Sets the default scene to the specified scene", "/istart <scene>", Permissions.START),
+    MAIN("mixer", "Sets various settings related to the plugin", "/mixer (reload) | (token <token>)", Permissions.MAINCOMMAND);
 
     private String name;
     private String description;
