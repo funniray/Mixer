@@ -12,6 +12,8 @@ import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
 import net.minecraftforge.fml.common.event.FMLServerStoppingEvent;
 import net.minecraftforge.fml.common.eventhandler.EventPriority;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.server.permission.DefaultPermissionLevel;
+import net.minecraftforge.server.permission.PermissionAPI;
 import org.apache.logging.log4j.Logger;
 import pro.kdray.funniray.mixer.command.Pause;
 import pro.kdray.funniray.mixer.command.Start;
@@ -47,6 +49,12 @@ public final class MixerForge{
         MinecraftForge.EVENT_BUS.register(this);
         configuration = new Configuration(event.getSuggestedConfigurationFile());
         syncFromFile();
+
+        for (Permissions permission : Permissions.values()) {
+            PermissionAPI.registerNode(permission.getNode(),
+                    DefaultPermissionLevel.valueOf(permission.getDefaultMode()),
+                    permission.getDescription());
+        }
     }
 
     private static void syncConfig(boolean loadConfigFromFile) {

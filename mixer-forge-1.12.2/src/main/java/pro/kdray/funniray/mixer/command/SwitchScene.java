@@ -5,6 +5,7 @@ import net.minecraft.command.ICommandSender;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.text.TextComponentString;
 import pro.kdray.funniray.mixer.Commands;
+import pro.kdray.funniray.mixer.ForgeUtils;
 import pro.kdray.funniray.mixer.MixerForge;
 
 public class SwitchScene extends CommandBase {
@@ -20,7 +21,7 @@ public class SwitchScene extends CommandBase {
 
     @Override
     public void execute(MinecraftServer minecraftServer, ICommandSender sender, String[] strings) {
-        if (!sender.canUseCommand(Commands.SWITCHSCENE.getPermission().getPermissionLevel(), null))
+        if (!ForgeUtils.hasPermission(sender, Commands.SWITCHSCENE.getPermission().getNode()))
             return;
         if (strings.length <= 0) {
             sender.sendMessage(new TextComponentString("&9&l[Mixer]&r&3 You must put in a valid scene".replace('&', '§')));

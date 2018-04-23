@@ -5,6 +5,7 @@ import net.minecraft.command.ICommandSender;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.text.TextComponentString;
 import pro.kdray.funniray.mixer.Commands;
+import pro.kdray.funniray.mixer.ForgeUtils;
 import pro.kdray.funniray.mixer.MixerForge;
 
 public class Pause extends CommandBase {
@@ -20,9 +21,8 @@ public class Pause extends CommandBase {
 
     @Override
     public void execute(MinecraftServer server, ICommandSender sender, String[] args) {
-        if (!sender.canUseCommand(Commands.PAUSE.getPermission().getPermissionLevel(), null)) {
+        if (!ForgeUtils.hasPermission(sender, Commands.PAUSE.getPermission().getNode()))
             return;
-        }
         if (MixerForge.isRunning()) {
             MixerForge.getApi().getInteractive().pause();
         } else {

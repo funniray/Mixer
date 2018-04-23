@@ -5,6 +5,7 @@ import net.minecraft.command.ICommandSender;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.text.TextComponentString;
 import pro.kdray.funniray.mixer.Commands;
+import pro.kdray.funniray.mixer.ForgeUtils;
 import pro.kdray.funniray.mixer.MixerForge;
 
 public class Stop extends CommandBase {
@@ -20,7 +21,7 @@ public class Stop extends CommandBase {
 
     @Override
     public void execute(MinecraftServer minecraftServer, ICommandSender sender, String[] strings) {
-        if (!sender.canUseCommand(Commands.STOP.getPermission().getPermissionLevel(), null))
+        if (!ForgeUtils.hasPermission(sender, Commands.STOP.getPermission().getNode()))
             return;
         if (MixerForge.isRunning()) {
             MixerForge.stopMain();
