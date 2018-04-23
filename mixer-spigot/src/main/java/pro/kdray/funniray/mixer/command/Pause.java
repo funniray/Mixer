@@ -16,6 +16,10 @@ public class Pause extends BukkitCommand {
 
     @Override
     public boolean execute(CommandSender commandSender, String s, String[] strings) {
+        if (commandSender.hasPermission(Commands.PAUSE.getPermission().getNode())) {
+            commandSender.sendMessage(ChatColor.BLUE + "" + ChatColor.BOLD + "[Mixer] " + ChatColor.RESET + ChatColor.RED + "You do not have permission to run this command");
+            return true;
+        }
         if (MixerSpigot.isRunning()) {
             MixerSpigot.getApi().getInteractive().pause();
         } else {

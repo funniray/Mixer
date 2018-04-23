@@ -16,6 +16,10 @@ public class Start extends BukkitCommand {
 
     @Override
     public boolean execute(CommandSender commandSender, String s, String[] strings) {
+        if (commandSender.hasPermission(Commands.START.getPermission().getNode())) {
+            commandSender.sendMessage(ChatColor.BLUE + "" + ChatColor.BOLD + "[Mixer] " + ChatColor.RESET + ChatColor.RED + "You do not have permission to run this command");
+            return true;
+        }
         if (!MixerSpigot.isRunning()) {
             MixerSpigot.startMain();
         } else {

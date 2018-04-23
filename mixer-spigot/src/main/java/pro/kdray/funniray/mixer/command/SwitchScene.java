@@ -15,6 +15,10 @@ public class SwitchScene extends BukkitCommand {
 
     @Override
     public boolean execute(CommandSender commandSender, String s, String[] strings) {
+        if (commandSender.hasPermission(Commands.SWITCHSCENE.getPermission().getNode())) {
+            commandSender.sendMessage(ChatColor.BLUE + "" + ChatColor.BOLD + "[Mixer] " + ChatColor.RESET + ChatColor.RED + "You do not have permission to run this command");
+            return true;
+        }
         if (strings.length == 0) {
             commandSender.sendMessage(ChatColor.BLUE + "" + ChatColor.BOLD + "[Mixer]" + ChatColor.RESET + ChatColor.RED + " You need to provide a valid scene");
         }
