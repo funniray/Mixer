@@ -16,7 +16,7 @@ public class Stop extends BukkitCommand {
 
     @Override
     public boolean execute(CommandSender commandSender, String s, String[] strings) {
-        if (commandSender.hasPermission(Commands.STOP.getPermission().getNode())) {
+        if (!commandSender.hasPermission(Commands.STOP.getPermission().getNode())) {
             commandSender.sendMessage(ChatColor.BLUE + "" + ChatColor.BOLD + "[Mixer] " + ChatColor.RESET + ChatColor.RED + "You do not have permission to run this command");
             return true;
         }
