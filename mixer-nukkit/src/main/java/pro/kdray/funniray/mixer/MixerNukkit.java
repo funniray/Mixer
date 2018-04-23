@@ -22,6 +22,7 @@ public final class MixerNukkit extends PluginBase {
 
     public static void startMain(){
         //Run Main class
+        MixerNukkit.plugin.reloadConfig();
         String token = MixerNukkit.plugin.getConfig().getString("token");
         Server.getInstance().getScheduler().scheduleAsyncTask(MixerNukkit.plugin, new AsyncTask() {
             @Override
@@ -74,6 +75,7 @@ public final class MixerNukkit extends PluginBase {
         plugin = this;
 
         this.saveDefaultConfig();
+        this.reloadConfig();
 
         //Getting Config
         Config.shareCode = getConfig().getString("shareCode");

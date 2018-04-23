@@ -32,6 +32,7 @@ public final class MixerSpigot extends JavaPlugin {
 
     public static void startMain(){
         //Run Main class
+        MixerSpigot.plugin.reloadConfig();
         String token = MixerSpigot.plugin.getConfig().getString("token");
         Bukkit.getScheduler().runTaskAsynchronously(MixerSpigot.plugin, () -> {
             try {
@@ -107,6 +108,7 @@ public final class MixerSpigot extends JavaPlugin {
         plugin = this;
 
         this.saveDefaultConfig();
+        this.reloadConfig();
 
         String token = getConfig().getString("token");
         Config.shareCode = getConfig().getString("shareCode");
