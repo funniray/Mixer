@@ -31,7 +31,7 @@ public final class MixerSponge{
 
     @Inject
     @DefaultConfig(sharedRoot = true)
-    private Path defaultConfig;
+    private static Path defaultConfig;
 
     @Inject
     private static Game game;
@@ -66,7 +66,7 @@ public final class MixerSponge{
     public static void startMain() {
         MixerSponge.game.getScheduler().createAsyncExecutor(MixerSponge.class).execute(() -> {
             try {
-                api = new Main(realToken, new Mixer());//TODO:Make tokens per-player
+                api.startAll();
                 isRunning = true;
             } catch (ExecutionException | InterruptedException e) {
                 e.printStackTrace();
@@ -89,26 +89,32 @@ public final class MixerSponge{
             stopMain();
     }
 
-    @Listener
-    public void onServerStart(GameStartedServerEvent event) {
-        // Plugin startup logic
+    public static void reload() {
+        boolean wasRunning = false;
+        if (isRunning) {
+            stopMain();
+            wasRunning = true;
+        }
+        loadConfig();
+        if (wasRunning)
+            startMain();
+    }
 
-        logger.info("[Mixer] Enabled plugin");
-
+    public static void loadConfig() {
         ConfigurationLoader<CommentedConfigurationNode> loader = null;
 
         if (Files.notExists(defaultConfig)) {
             try {
-                Sponge.getAssetManager().getAsset(this,"defaultConfig.conf").get().copyToFile(defaultConfig);
+                Sponge.getAssetManager().getAsset(MixerSponge.class, "defaultConfig.conf").get().copyToFile(defaultConfig);
             } catch (IOException e) {
                 e.printStackTrace();
             }
         }
 
-        if (Files.notExists(defaultConfig)){
+        if (Files.notExists(defaultConfig)) {
             logger.info("Config doesn't exist after loading default Config");
-        }else{
-            logger.info("Path is: "+defaultConfig.toFile().getAbsolutePath());
+        } else {
+            logger.info("Path is: " + defaultConfig.toFile().getAbsolutePath());
         }
 
         loader = HoconConfigurationLoader.builder().setPath(defaultConfig).build();
@@ -116,7 +122,7 @@ public final class MixerSponge{
         ConfigurationNode localConfig;
         String token = null;
 
-        if (loader != null){
+        if (loader != null) {
             try {
                 localConfig = loader.load();
                 token = localConfig.getNode("token").getString();
@@ -137,12 +143,23 @@ public final class MixerSponge{
                 e.printStackTrace();
             }
         }
-        if (token == null){
+        if (token == null) {
             logger.info("Config won't load :/");
             token = "NoToken";
         }
 
         realToken = token;
+
+        if (!isRunning) {
+            api = new Main(realToken, new Mixer());
+        }
+    }
+
+    @Listener
+    public void onServerStart(GameStartedServerEvent event) {
+        // Plugin startup logic
+
+        logger.info("[Mixer] Enabled plugin");
 
         //registering permissions
         PermissionService ps = game.getServiceManager().getRegistration(PermissionService.class).get().getProvider();
@@ -151,10 +168,11 @@ public final class MixerSponge{
             builder.id(permission.getNode())
                 .description(Text.of(permission.getDescription()))
                 .assign(PermissionDescription.ROLE_STAFF,!permission.getDefaultMode().equals("false"))
-                .assign(PermissionDescription.ROLE_USER,(permission.getDefaultMode().equals("true")))
+                    .assign(PermissionDescription.ROLE_USER, permission.getDefaultMode().equals("true"))
                 .register();
         }
 
         game.getCommandManager().register(this, new Pause());
+        api = new Main(realToken, new Mixer());
     }
 }

@@ -15,10 +15,7 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.server.permission.DefaultPermissionLevel;
 import net.minecraftforge.server.permission.PermissionAPI;
 import org.apache.logging.log4j.Logger;
-import pro.kdray.funniray.mixer.command.Pause;
-import pro.kdray.funniray.mixer.command.Start;
-import pro.kdray.funniray.mixer.command.Stop;
-import pro.kdray.funniray.mixer.command.SwitchScene;
+import pro.kdray.funniray.mixer.command.*;
 import pro.kdray.funniray.mixer.events.Mixer;
 
 import java.util.Arrays;
@@ -33,7 +30,8 @@ public final class MixerForge{
 
     private static Main api = null;
 
-    private static boolean running = false;
+    public static boolean chatRunning = false;
+    public static boolean interactiveRunning = false;
 
     private static Configuration configuration;
 
@@ -95,9 +93,21 @@ public final class MixerForge{
 
         if (configuration.hasChanged()) {
             configuration.save();
-            if (running){
-                stopMain();
-                startMain();
+            if (chatRunning) {
+                api.stopChat();
+                try {
+                    api.startChat();
+                } catch (ExecutionException | InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+            if (interactiveRunning) {
+                api.stopInteractive();
+                try {
+                    api.startInteractive();
+                } catch (ExecutionException | InterruptedException e) {
+                    e.printStackTrace();
+                }
             }
         }
     }
@@ -105,8 +115,9 @@ public final class MixerForge{
     public static void startMain(){
         new Thread(() -> {
             try {
-                api = new Main(token, new Mixer());//TODO:Make tokens per-player
-                running = true;
+                api.startAll();
+                chatRunning = true;
+                interactiveRunning = true;
             } catch (ExecutionException | InterruptedException e) {
                 e.printStackTrace();
                 new Mixer().sendMessage("&4&l[Mixer] &r&cFailed to start interactive, could be due to invalid API key");
@@ -116,7 +127,8 @@ public final class MixerForge{
 
     public static void stopMain() {
         if (api != null) {
-            running = false;
+            chatRunning = false;
+            interactiveRunning = false;
             api.shutdown();
         }
     }
@@ -142,7 +154,7 @@ public final class MixerForge{
     }
 
     public static boolean isRunning() {
-        return running;
+        return chatRunning || interactiveRunning;
     }
 
     @Mod.EventHandler
@@ -158,6 +170,17 @@ public final class MixerForge{
         }
     }
 
+    public static void reload() {
+        syncFromFile();
+        boolean wasRunning = false;
+        if (MixerForge.isRunning()) {
+            stopMain();
+            wasRunning = true;
+        }
+        if (wasRunning)
+            startMain();
+    }
+
     @Mod.EventHandler
     public void onServerStart(FMLServerStartingEvent event) {
         // Plugin startup logic
@@ -168,15 +191,10 @@ public final class MixerForge{
         event.registerServerCommand(new Stop());
         event.registerServerCommand(new Start());
         event.registerServerCommand(new SwitchScene());
+        event.registerServerCommand(new MainCommand());
 
+        api = new Main(token, new Mixer());
         //startMain();
-    }
-
-    @Mod.EventHandler
-    public void onGameStop(FMLServerStoppingEvent event) {
-        // Plugin shutdown logic
-        if (running)
-            stopMain();
     }
 
     @SubscribeEvent(priority = EventPriority.NORMAL) //TODO: Add GUI for Config
@@ -184,5 +202,12 @@ public final class MixerForge{
         if (MODID.equals(event.getModID())) {
             syncFromGUI();
         }
+    }
+
+    @Mod.EventHandler
+    public void onGameStop(FMLServerStoppingEvent event) {
+        // Plugin shutdown logic
+        if (isRunning())
+            stopMain();
     }
 }

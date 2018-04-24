@@ -20,12 +20,11 @@ public final class MixerNukkit extends PluginBase {
     public static void startMain(){
         //Run Main class
         MixerNukkit.plugin.reloadConfig();
-        String token = MixerNukkit.plugin.getConfig().getString("token");
         Server.getInstance().getScheduler().scheduleAsyncTask(MixerNukkit.plugin, new AsyncTask() {
             @Override
             public void onRun() {
                 try {
-                    api = new Main(token, new Mixer());//TODO:Make tokens per-player
+                    api.startAll();
                     isRunning = true;
                 } catch (ExecutionException | InterruptedException e) {
                     e.printStackTrace();
@@ -96,6 +95,11 @@ public final class MixerNukkit extends PluginBase {
         Config.resubscriberCommand = configuration.getString("resubscriberCommand");
 
         Config.bannedWords = configuration.getStringList("bannedWords");
+
+        if (!isRunning) {
+            String token = configuration.getString("token");
+            api = new Main(token, new Mixer());
+        }
     }
 
     @Override
@@ -123,5 +127,8 @@ public final class MixerNukkit extends PluginBase {
         this.getServer().getCommandMap().register(Commands.START.getName(), new Start());
         this.getServer().getCommandMap().register(Commands.SWITCHSCENE.getName(), new SwitchScene());
         this.getServer().getCommandMap().register(Commands.MAIN.getName(), new MainCommand());
+
+        String token = MixerNukkit.plugin.getConfig().getString("token");
+        api = new Main(token, new Mixer());
     }
 }

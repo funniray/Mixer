@@ -6,7 +6,7 @@ import org.spongepowered.api.text.Text;
 import org.spongepowered.api.world.Location;
 import org.spongepowered.api.world.World;
 import pro.kdray.funniray.mixer.Commands;
-import pro.kdray.funniray.mixer.Utils;
+import pro.kdray.funniray.mixer.SpongeUtils;
 
 import javax.annotation.Nullable;
 import java.util.List;
@@ -32,17 +32,17 @@ public abstract class AbstractCommand implements CommandCallable {
 
     @Override
     public Optional<Text> getShortDescription(CommandSource source) {
-        return Optional.of(Utils.formatText(command.getDescription()));
+        return Optional.of(SpongeUtils.formatText(command.getDescription()));
     }
 
     @Override
     public Optional<Text> getHelp(CommandSource source) {
-        return Optional.of(Utils.formatText(command.getDescription()));
+        return Optional.of(SpongeUtils.formatText(command.getDescription()));
     }
 
     @Override
     public Text getUsage(CommandSource source) {
-        return Utils.formatText(command.getUsage());
+        return SpongeUtils.formatText(command.getUsage());
     }
 }
 

@@ -32,10 +32,9 @@ public final class MixerSpigot extends JavaPlugin {
     public static void startMain(){
         //Run Main class
         MixerSpigot.plugin.reloadConfig();
-        String token = MixerSpigot.plugin.getConfig().getString("token");
         Bukkit.getScheduler().runTaskAsynchronously(MixerSpigot.plugin, () -> {
             try {
-                api = new Main(token, new Mixer());
+                api.startAll();
                 isRunning = true;
             } catch (ExecutionException | InterruptedException e) {
                 e.printStackTrace();
@@ -131,6 +130,11 @@ public final class MixerSpigot extends JavaPlugin {
         Config.resubscriberCommand = configuration.getString("resubscriberCommand");
 
         Config.bannedWords = configuration.getStringList("bannedWords");
+
+        if (!isRunning) {
+            String token = configuration.getString("token");
+            api = new Main(token, new Mixer());
+        }
     }
 
     @Override
@@ -167,5 +171,8 @@ public final class MixerSpigot extends JavaPlugin {
         } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
             e.printStackTrace();
         }
+
+        String token = this.getConfig().getString("token");
+        api = new Main(token, new Mixer());
     }
 }
