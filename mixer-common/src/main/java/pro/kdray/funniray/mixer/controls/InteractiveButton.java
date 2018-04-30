@@ -48,6 +48,7 @@ public class InteractiveButton {
             return;
 
         if (meta.get("type") != null){
+            handler.getEventHandler().debug("&9&l[Mixer] &r&9You're still using type/action. This is depreciated and might be removed.");
             switch (meta.get("type").getAsJsonObject().get("value").getAsString()){
                 case "summon":
                     this.summon = meta.get("action").getAsJsonObject().get("value").getAsString();
@@ -65,6 +66,21 @@ public class InteractiveButton {
                 case "switchWindow":
                     this.switchWindow = meta.get("action").getAsJsonObject().get("value").getAsString();
                     break;
+            }
+        }
+
+        if (meta.get("runCommand") != null)
+            this.runCommand = meta.get("runCommand").getAsJsonObject().get("value").getAsString();
+
+        if (meta.get("runCommandAsServer") != null) {
+            this.runCommand = meta.get("runCommand").getAsJsonObject().get("value").getAsString();
+            this.runAsServer = true;
+        }
+
+        if (meta.get("summon") != null){
+            this.summon = meta.get("summon").getAsJsonObject().get("value").getAsString();
+            if (meta.get("NBT") != null){
+                this.NBT = meta.get("NBT").getAsJsonObject().get("value").getAsString();
             }
         }
 
