@@ -73,7 +73,7 @@ public class InteractiveButton {
             this.runCommand = meta.get("runCommand").getAsJsonObject().get("value").getAsString();
 
         if (meta.get("runCommandAsServer") != null) {
-            this.runCommand = meta.get("runCommand").getAsJsonObject().get("value").getAsString();
+            this.runCommand = meta.get("runCommandAsServer").getAsJsonObject().get("value").getAsString();
             this.runAsServer = true;
         }
 
