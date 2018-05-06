@@ -111,16 +111,18 @@ public class InteractiveButton {
         }
     }
 
-    public void onClick(InteractiveParticipant participant){
+    public boolean onClick(InteractiveParticipant participant){
+
+        boolean didAction = false;
 
         boolean updateButton = false;
 
         if (control.getCooldown() != null)
             if (control.getCooldown() > new Date().getTime())
-                return;
+                return false;
 
         if (this.handler.isPaused()){
-            return;
+            return false;
         }
 
         StringBuilder SSLBuilder = new StringBuilder(); //Space Separated List
@@ -132,7 +134,7 @@ public class InteractiveButton {
             if (this.requiredClicks > this.clickedBy.size()){
                 control.setProgress((float) this.clickedBy.size()/this.requiredClicks);
                 this.handler.updateControl(control);
-                return;
+                return true;
             }else {
                 control.setProgress(0F);
                 updateButton = true;
@@ -166,8 +168,10 @@ public class InteractiveButton {
         String CSL = CSLBuilder.toString();
         String HRL = HRLBuilder.toString();
 
-        if (this.switchWindow != null)
-            handler.switchSceneForParticipant(participant,this.switchWindow);
+        if (this.switchWindow != null) {
+            handler.switchSceneForParticipant(participant, this.switchWindow);
+            didAction = true;
+        }
 
 
         if (this.timeout > 0){
@@ -183,8 +187,10 @@ public class InteractiveButton {
                     .replace("%presser%", participant.getUsername());
             if (this.runAsServer) {
                 this.handler.getEventHandler().runCommandAsConsole(command);
+                didAction = true;
             }else{
                 this.handler.getEventHandler().runCommand(command);
+                didAction = true;
             }
         }
 
@@ -195,12 +201,14 @@ public class InteractiveButton {
                         .replace("%SSL%",SSL)
                         .replace("%HRL%",HRL)
                         .replace("%presser%",participant.getUsername()));
+                didAction = true;
             }else{
                 this.handler.getEventHandler().summon(this.summon
                         .replace("%CSL%",CSL)
                         .replace("%SSL%",SSL)
                         .replace("%HRL%",HRL)
                         .replace("%presser%",participant.getUsername()));
+                didAction = true;
             }
         }
 
@@ -233,9 +241,12 @@ public class InteractiveButton {
         if (this.tempAllScene != null){
             this.handler.switchAllScenes(this.tempAllScene);
             this.handler.getEventHandler().runAsyncAfter(()-> this.handler.switchAllScenes("default"),this.tempAllTime);
+            didAction = true;
         }
 
         if (updateButton)
             this.handler.updateControl(control);
+
+        return didAction;
     }
 }
