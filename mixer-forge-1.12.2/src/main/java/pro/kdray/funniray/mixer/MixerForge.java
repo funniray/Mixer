@@ -23,7 +23,7 @@ import java.util.concurrent.ExecutionException;
 
 import static pro.kdray.funniray.mixer.MixerForge.MODID;
 
-@Mod(modid = MODID, name = "Mixer Interactive Plugin", version = "1.0", acceptableRemoteVersions="*") //TODO:Make it so it's optional on clients
+@Mod(modid = MODID, name = "Mixer Interactive Plugin", version = "1.0", acceptableRemoteVersions = "*")
 public final class MixerForge{
 
     public static final String MODID = "mixerinteractive";

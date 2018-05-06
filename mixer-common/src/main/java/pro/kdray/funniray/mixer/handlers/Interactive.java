@@ -21,8 +21,8 @@ import pro.kdray.funniray.mixer.Config;
 import pro.kdray.funniray.mixer.MixerEvents;
 import pro.kdray.funniray.mixer.controls.InteractiveButton;
 
-import java.util.HashMap;
 import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ExecutionException;
 
 import static com.mixer.interactive.GameClient.GROUP_SERVICE_PROVIDER;
@@ -33,11 +33,11 @@ public class Interactive {
     private GameClient client;
     private MixerEvents eventHandler;
 
-    private HashMap<String,InteractiveParticipant> participantHashMap = new HashMap<>();
-    private HashMap<String,InteractiveControl> controlHashMap = new HashMap<>();
-    private HashMap<String,InteractiveGroup> groupHashMap = new HashMap<>();
-    private HashMap<String,InteractiveScene> sceneHashMap = new HashMap<>();
-    private HashMap<String,InteractiveButton> buttonHashMap = new HashMap<>();
+    private ConcurrentHashMap<String, InteractiveParticipant> participantHashMap = new ConcurrentHashMap<>();
+    private ConcurrentHashMap<String, InteractiveControl> controlHashMap = new ConcurrentHashMap<>();
+    private ConcurrentHashMap<String, InteractiveGroup> groupHashMap = new ConcurrentHashMap<>();
+    private ConcurrentHashMap<String, InteractiveScene> sceneHashMap = new ConcurrentHashMap<>();
+    private ConcurrentHashMap<String, InteractiveButton> buttonHashMap = new ConcurrentHashMap<>();
 
     private boolean isPause = false;
 
@@ -63,7 +63,7 @@ public class Interactive {
 
     @Subscribe
     public void onParticipantLeave(ParticipantLeaveEvent event){
-        HashMap<String,InteractiveParticipant> oldParticipants = participantHashMap;
+        ConcurrentHashMap<String, InteractiveParticipant> oldParticipants = participantHashMap;
         for(InteractiveParticipant participant:event.getParticipants()){
             oldParticipants.remove(participant.getSessionID());
         }
