@@ -142,6 +142,8 @@ public final class MixerSpigot extends JavaPlugin {
         // Plugin startup logic
         plugin = this;
 
+        this.getVersion();
+
         this.saveDefaultConfig();
         this.reloadConfig();
         loadConfig();
