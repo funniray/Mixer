@@ -8,5 +8,5 @@ subscriberCommand: command
 resubscriberCommand: command
 
 bannedWords:
-  -put multiple
-  -words to remove from chat here
+  - "put multiple"
+  - "words to remove from chat here"
