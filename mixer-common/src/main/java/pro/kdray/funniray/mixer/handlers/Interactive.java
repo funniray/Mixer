@@ -63,13 +63,9 @@ public class Interactive {
 
     @Subscribe
     public void onParticipantLeave(ParticipantLeaveEvent event){
-        ConcurrentHashMap<String, InteractiveParticipant> oldParticipants = participantHashMap;
-        for(InteractiveParticipant participant:event.getParticipants()){
-            oldParticipants.remove(participant.getSessionID());
-        }
-        for(String id:oldParticipants.keySet()){
-            participantHashMap.remove(id);
-            eventHandler.debug("&9&l[Mixer]&r&9 >>> "+id+" left");
+        for (InteractiveParticipant user : event.getParticipants()) {
+            participantHashMap.remove(user.getSessionID());
+            eventHandler.debug("&9&l[Mixer]&r&9 >>> " + user.getUsername() + " left");
         }
     }
 
