@@ -3,6 +3,7 @@ package pro.kdray.funniray.mixer.controls;
 import com.google.gson.JsonObject;
 import com.mixer.interactive.resources.control.ButtonControl;
 import com.mixer.interactive.resources.participant.InteractiveParticipant;
+import com.mixer.interactive.resources.scene.InteractiveScene;
 import pro.kdray.funniray.mixer.handlers.Interactive;
 
 import java.util.ArrayList;
@@ -248,5 +249,25 @@ public class InteractiveButton {
             this.handler.updateControl(control);
 
         return didAction;
+    }
+
+    public void resetButton(boolean update){
+        this.clickedBy = new ArrayList<>();
+        this.control.setProgress(0F);
+        this.control.setCooldown(0);
+        if (update)
+            this.handler.updateControl(control);
+    }
+
+    public void resetButton(){
+        this.resetButton(true);
+    }
+
+    public ButtonControl getButton(){
+        return this.control;
+    }
+
+    public String getSceneID(){
+        return this.control.getSceneID();
     }
 }

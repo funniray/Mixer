@@ -126,6 +126,7 @@ public final class MixerNukkit extends PluginBase {
         this.getServer().getCommandMap().register(Commands.STOP.getName(), new Stop());
         this.getServer().getCommandMap().register(Commands.START.getName(), new Start());
         this.getServer().getCommandMap().register(Commands.SWITCHSCENE.getName(), new SwitchScene());
+        this.getServer().getCommandMap().register(Commands.RESETSCENE.getName(), new ResetScene());
         this.getServer().getCommandMap().register(Commands.MAIN.getName(), new MainCommand());
 
         String token = MixerNukkit.plugin.getConfig().getString("token");

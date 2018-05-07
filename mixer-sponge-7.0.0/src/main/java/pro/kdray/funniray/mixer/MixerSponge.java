@@ -18,7 +18,7 @@ import org.spongepowered.api.plugin.Plugin;
 import org.spongepowered.api.service.permission.PermissionDescription;
 import org.spongepowered.api.service.permission.PermissionService;
 import org.spongepowered.api.text.Text;
-import pro.kdray.funniray.mixer.command.Pause;
+import pro.kdray.funniray.mixer.command.*;
 import pro.kdray.funniray.mixer.events.Mixer;
 
 import java.io.IOException;
@@ -173,6 +173,10 @@ public final class MixerSponge{
         }
 
         game.getCommandManager().register(this, new Pause());
+        game.getCommandManager().register(this, new Start());
+        game.getCommandManager().register(this, new Stop());
+        game.getCommandManager().register(this, new SwitchScene());
+        game.getCommandManager().register(this, new ResetScene());
         api = new Main(realToken, new Mixer());
     }
 }

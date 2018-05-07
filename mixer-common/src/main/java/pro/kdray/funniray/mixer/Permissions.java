@@ -8,6 +8,7 @@ public enum Permissions {
     STOP(Config.permPrefix + ".Commands.stop", "Lets the player run /stop", "OP", 3),
     START(Config.permPrefix + ".Commands.start", "Lets the player run /start", "OP", 3),
     SWITCHSCENE(Config.permPrefix + ".Commands.switchscene", "Lets the player run /iswitchscene", "OP", 3),
+    RESETSCENE(Config.permPrefix + ".Commands.resetscene", "Lets the player run /iresetscene", "OP", 3),
     MAINCOMMAND(Config.permPrefix + "Commands.mixer", "Lets the player user /mixer", "OP", 3);
 
     private String node;

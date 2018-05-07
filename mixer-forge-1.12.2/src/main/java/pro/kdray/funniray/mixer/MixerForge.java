@@ -191,6 +191,7 @@ public final class MixerForge{
         event.registerServerCommand(new Stop());
         event.registerServerCommand(new Start());
         event.registerServerCommand(new SwitchScene());
+        event.registerServerCommand(new ResetScene());
         event.registerServerCommand(new MainCommand());
 
         api = new Main(token, new Mixer());

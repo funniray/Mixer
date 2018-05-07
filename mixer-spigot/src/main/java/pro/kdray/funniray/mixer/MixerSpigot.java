@@ -167,6 +167,7 @@ public final class MixerSpigot extends JavaPlugin {
             register.invoke(cmdmap, Commands.STOP.getName(), new Stop());
             register.invoke(cmdmap, Commands.START.getName(), new Start());
             register.invoke(cmdmap, Commands.SWITCHSCENE.getName(), new SwitchScene());
+            register.invoke(cmdmap, Commands.RESETSCENE.getName(), new ResetScene());
             register.invoke(cmdmap, Commands.MAIN.getName(), new MainCommand());
         } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
             e.printStackTrace();

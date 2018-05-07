@@ -21,6 +21,9 @@ import pro.kdray.funniray.mixer.Config;
 import pro.kdray.funniray.mixer.MixerEvents;
 import pro.kdray.funniray.mixer.controls.InteractiveButton;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ExecutionException;
@@ -139,6 +142,16 @@ public class Interactive {
         });
     }
 
+    public void updateControls(Collection<InteractiveControl> controls){
+        eventHandler.runAsync(() -> {
+            try {
+                client.using(GameClient.CONTROL_SERVICE_PROVIDER).update(controls).get();
+            } catch (InterruptedException | ExecutionException e) {
+                //I don't really care what happens here
+            }
+        });
+    }
+
     public void switchSceneForParticipant(InteractiveParticipant participant, String group){
         participant.changeGroup(getGroup(group));
         eventHandler.runAsync(() -> {
@@ -159,6 +172,19 @@ public class Interactive {
 
     public void disconnect(){
         this.client.disconnect();
+    }
+
+    public void resetScene(String sceneID){
+        List<InteractiveControl> updated = new ArrayList<>();
+        for (InteractiveButton button:this.buttonHashMap.values()){
+            if (button.getSceneID().equals(sceneID)){
+                button.resetButton(false);
+                updated.add(button.getButton());
+            }
+        }
+        if (!updated.isEmpty()){
+            this.updateControls(updated);
+        }
     }
 
     public MixerEvents getEventHandler() {
