@@ -36,7 +36,7 @@ public class Chat {
                 return;
             StringBuilder finishedMessage = new StringBuilder("&9&l[Mixer] " + Utils.getColorFromRank(event.data.userRoles) + event.data.userName + "&9&l: &r&7");
             for (MessageComponent.MessageTextComponent message : event.data.message.message){
-                finishedMessage.append(message.text.replace("§", "§§").replace("&", "&&"));
+                finishedMessage.append(message.text.replace("§", "§§").replace("&", "&&7"));
             }
             boolean shouldShow = true;
             for (String word : Config.bannedWords) {
