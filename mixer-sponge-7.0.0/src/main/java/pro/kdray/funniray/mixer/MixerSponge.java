@@ -10,6 +10,7 @@ import ninja.leaping.configurate.objectmapping.ObjectMappingException;
 import org.slf4j.Logger;
 import org.spongepowered.api.Game;
 import org.spongepowered.api.Sponge;
+import org.spongepowered.api.command.CommandMapping;
 import org.spongepowered.api.config.DefaultConfig;
 import org.spongepowered.api.event.Listener;
 import org.spongepowered.api.event.game.state.GameStartedServerEvent;
@@ -24,6 +25,7 @@ import pro.kdray.funniray.mixer.events.Mixer;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.Optional;
 import java.util.concurrent.ExecutionException;
 
 @Plugin(id = "mixerinteractive", description = "A Mixer Interactive Plugin", name = "Mixer Interactive Plugin", version = "1.0")
@@ -172,11 +174,11 @@ public final class MixerSponge{
                 .register();
         }
 
-        game.getCommandManager().register(this, new Pause());
-        game.getCommandManager().register(this, new Start());
-        game.getCommandManager().register(this, new Stop());
-        game.getCommandManager().register(this, new SwitchScene());
-        game.getCommandManager().register(this, new ResetScene());
+        game.getCommandManager().register(this, new Pause(), Commands.PAUSE.getName());
+        game.getCommandManager().register(this, new Start(), Commands.START.getName());
+        game.getCommandManager().register(this, new Stop(), Commands.STOP.getName());
+        game.getCommandManager().register(this, new SwitchScene(), Commands.SWITCHSCENE.getName());
+        game.getCommandManager().register(this, new ResetScene(), Commands.RESETSCENE.getName());
         api = new Main(realToken, new Mixer());
     }
 }
