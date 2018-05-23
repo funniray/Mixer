@@ -26,7 +26,7 @@ public class Pause extends CommandBase {
         if (MixerForge.isRunning()) {
             MixerForge.getApi().getInteractive().pause();
         } else {
-            sender.sendMessage(new TextComponentString("&9&l[Mixer]&r&c Interactive isn't running".replace('&', '§')));
+            sender.sendMessage(new TextComponentString("&9&l[Mixer]&r&c Interactive isn't running".replace("&", "§")));
         }
     }
 }

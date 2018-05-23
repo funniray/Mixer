@@ -6,6 +6,7 @@ buildscript {
 
     dependencies {
         classpath 'com.github.jengelman.gradle.plugins:shadow:2.0.2'
+        classpath 'org.apache.httpcomponents:httpclient:4.5.2'
     }
 }
 

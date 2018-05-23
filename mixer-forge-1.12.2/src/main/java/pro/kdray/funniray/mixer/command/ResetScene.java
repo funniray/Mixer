@@ -24,14 +24,14 @@ public class ResetScene extends CommandBase {
         if (!ForgeUtils.hasPermission(sender, Commands.RESETSCENE.getPermission().getNode()))
             return;
         if (strings.length <= 0) {
-            sender.sendMessage(new TextComponentString("&9&l[Mixer]&r&3 You must put in a valid scene".replace('&', '§')));
+            sender.sendMessage(new TextComponentString("&9&l[Mixer]&r&3 You must put in a valid scene".replace("&", "§")));
             return;
         }
 
         if (MixerForge.isRunning()) {
             MixerForge.getApi().getInteractive().resetScene(strings[0]);
         } else {
-            sender.sendMessage(new TextComponentString("&9&l[Mixer]&r&3 Interactive isn't running".replace('&', '§')));
+            sender.sendMessage(new TextComponentString("&9&l[Mixer]&r&3 Interactive isn't running".replace("&", "§")));
         }
     }
 }

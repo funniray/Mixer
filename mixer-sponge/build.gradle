@@ -1,0 +1,89 @@
+buildscript {
+    repositories {
+        mavenLocal()
+        mavenCentral()
+        maven {
+            name 'sponge-repo'
+            url 'https://repo.spongepowered.org/maven'
+        }
+        maven {
+            name = 'sonatype'
+            url = 'https://oss.sonatype.org/content/groups/public/'
+        }
+    }
+    dependencies {
+        classpath 'org.spongepowered:spongegradle:0.8.2-SNAPSHOT'
+    }
+}
+
+project.ext.fileVersion = rootProject.version + System.getenv('BUILD_NUMBER')
+
+apply plugin: 'org.spongepowered.plugin'
+apply plugin: 'org.spongepowered.meta'
+apply plugin: 'org.spongepowered.ore'
+apply plugin: 'signing'
+
+dependencies {
+    compile project(':mixer-common')
+    compile 'org.spongepowered:spongeapi:7.0.0'
+}
+
+processResources {
+    from(sourceSets.main.resources.srcDirs) {
+        expand 'version': project.version
+    }
+}
+
+shadowJar {
+    dependencies {
+        include(dependency(':mixer-common'))
+        include(dependency("com.mixer:api:${gradle.mixerAPI}"))
+        include(dependency("com.mixer:mixer-interactive-api:${gradle.mixerInteractiveAPI}"))
+        include(dependency("org.apache.httpcomponents:httpclient:${gradle.httpclient}"))
+        include(dependency("org.apache.httpcomponents:httpcore:${gradle.httpcore}"))
+        include(dependency("commons-logging:commons-logging:${gradle.commonsLogging}"))
+        include(dependency("org.java-websocket:Java-WebSocket:${gradle.JavaWebSocket}"))
+        include(dependency("com.zaxxer:HikariCP:${gradle.HikariCP}"))
+    }
+    destinationDir = file("$rootDir/build/jars")
+}
+
+
+signing {
+    required {
+        project.properties.hasProperty("signing.keyId")
+    }
+    configuration=configurations.shadow
+    sign configurations.shadow
+}
+
+task signArchives(dependsOn: 'signShadow') {
+    // dummy task to make the ore deploy plugin work
+}
+
+task copyAsc(type: Copy, dependsOn: 'signArchives') {
+    from([signShadow.getSignatureFiles()])
+    into project.file('output')
+}
+
+task buildAndSign {
+    dependsOn 'build'
+    dependsOn 'signArchives'
+    dependsOn 'signShadow'
+    dependsOn 'copyAsc'
+}
+
+task deploy {
+    dependsOn 'oreDeploy'
+}
+
+signArchives.dependsOn(shadowJar)
+copyAsc.dependsOn(signArchives)
+signShadow.dependsOn(shadowJar).mustRunAfter(shadowJar)
+copyAsc.dependsOn(signShadow)
+oreDeploy.dependsOn(buildAndSign)
+
+oreDeploy.setChannel("snapshot")
+
+oreDeploy.setRecommended(false)
+oreDeploy.setDeploy(project.configurations.shadow) // yet another hack

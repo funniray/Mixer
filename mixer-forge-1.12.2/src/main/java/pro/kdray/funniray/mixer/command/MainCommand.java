@@ -26,7 +26,7 @@ public class MainCommand extends CommandBase {
     @Override
     public void execute(MinecraftServer minecraftServer, ICommandSender iCommandSender, String[] strings) throws CommandException {
         if (!ForgeUtils.hasPermission(iCommandSender, Commands.MAIN.getPermission().getNode())) {
-            iCommandSender.sendMessage(new TextComponentString("&9&l[Mixer]&r&c You don't have permission to run this command".replace('&', '§')));
+            iCommandSender.sendMessage(new TextComponentString("&9&l[Mixer]&r&c You don't have permission to run this command".replace("&", "§")));
             return;
         }
         switch (strings.length) {
@@ -37,7 +37,7 @@ public class MainCommand extends CommandBase {
                 switch (strings[0]) {
                     case "reload":
                         MixerForge.reload();
-                        iCommandSender.sendMessage(new TextComponentString("&9&l[Mixer]&r&9 Reloaded the config".replace('&', '§')));
+                        iCommandSender.sendMessage(new TextComponentString("&9&l[Mixer]&r&9 Reloaded the config".replace("&", "§")));
                         return;
                     default:
                         iCommandSender.sendMessage(new TextComponentString(this.getUsage(iCommandSender)));
@@ -52,7 +52,7 @@ public class MainCommand extends CommandBase {
                                     MixerForge.getApi().startChat();
                                 } catch (ExecutionException | InterruptedException e) {
                                     e.printStackTrace();
-                                    iCommandSender.sendMessage(new TextComponentString("&9&l[Mixer]&r&9 Failed to start chat".replace('&', '§')));
+                                    iCommandSender.sendMessage(new TextComponentString("&9&l[Mixer]&r&9 Failed to start chat".replace("&", "§")));
                                 }
                                 return;
                             case "interactive":
@@ -60,14 +60,14 @@ public class MainCommand extends CommandBase {
                                     MixerForge.getApi().startInteractive();
                                 } catch (ExecutionException | InterruptedException e) {
                                     e.printStackTrace();
-                                    iCommandSender.sendMessage(new TextComponentString("&9&l[Mixer]&r&9 Failed to start interactive".replace('&', '§')));
+                                    iCommandSender.sendMessage(new TextComponentString("&9&l[Mixer]&r&9 Failed to start interactive".replace("&", "§")));
                                 }
                                 return;
                             case "all":
                                 if (!MixerForge.isRunning()) {
                                     MixerForge.startMain();
                                 } else {
-                                    iCommandSender.sendMessage(new TextComponentString("&9&l[Mixer]&r&9 Interactive is already running".replace('&', '§')));
+                                    iCommandSender.sendMessage(new TextComponentString("&9&l[Mixer]&r&9 Interactive is already running".replace("&", "§")));
                                 }
                             default:
                                 iCommandSender.sendMessage(new TextComponentString(this.getUsage(iCommandSender)));
@@ -77,25 +77,25 @@ public class MainCommand extends CommandBase {
                         switch (strings[1]) {
                             case "chat":
                                 MixerForge.getApi().stopChat();
-                                iCommandSender.sendMessage(new TextComponentString("&9&l[Mixer]&r&9 Stopped chat".replace('&', '§')));
+                                iCommandSender.sendMessage(new TextComponentString("&9&l[Mixer]&r&9 Stopped chat".replace("&", "§")));
                                 return;
                             case "interactive":
                                 MixerForge.getApi().stopInteractive();
-                                iCommandSender.sendMessage(new TextComponentString("&9&l[Mixer]&r&9 Stopped interactive".replace('&', '§')));
+                                iCommandSender.sendMessage(new TextComponentString("&9&l[Mixer]&r&9 Stopped interactive".replace("&", "§")));
                                 return;
                             case "all":
                                 if (!MixerForge.isRunning()) {
                                     MixerForge.stopMain();
-                                    iCommandSender.sendMessage(new TextComponentString("&9&l[Mixer]&r&9 Stopped everything".replace('&', '§')));
+                                    iCommandSender.sendMessage(new TextComponentString("&9&l[Mixer]&r&9 Stopped everything".replace("&", "§")));
                                 } else {
-                                    iCommandSender.sendMessage(new TextComponentString("&9&l[Mixer]&r&3 Interactive isn't running".replace('&', '§')));
+                                    iCommandSender.sendMessage(new TextComponentString("&9&l[Mixer]&r&3 Interactive isn't running".replace("&", "§")));
                                 }
                             default:
                                 iCommandSender.sendMessage(new TextComponentString(this.getUsage(iCommandSender)));
                                 return;
                         }
                     case "token":
-                        iCommandSender.sendMessage(new TextComponentString("&9&l[Mixer]&r&c Not there yet".replace('&', '§'))); //TODO
+                        iCommandSender.sendMessage(new TextComponentString("&9&l[Mixer]&r&c Not there yet".replace("&", "§"))); //TODO
                         return;
                     default:
                         iCommandSender.sendMessage(new TextComponentString(this.getUsage(iCommandSender)));

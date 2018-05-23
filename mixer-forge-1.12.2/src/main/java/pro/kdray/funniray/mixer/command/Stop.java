@@ -26,7 +26,7 @@ public class Stop extends CommandBase {
         if (MixerForge.isRunning()) {
             MixerForge.stopMain();
         } else {
-            sender.sendMessage(new TextComponentString("&9&l[Mixer]&r&3 Interactive isn't running".replace('&', '§')));
+            sender.sendMessage(new TextComponentString("&9&l[Mixer]&r&3 Interactive isn't running".replace("&", "§")));
         }
     }
 }

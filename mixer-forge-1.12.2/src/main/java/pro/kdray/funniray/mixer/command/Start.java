@@ -26,7 +26,7 @@ public class Start extends CommandBase {
         if (!MixerForge.isRunning()) {
             MixerForge.startMain();
         } else {
-            sender.sendMessage(new TextComponentString("&9&l[Mixer]&r&3 Interactive is already running".replace('&', '§')));
+            sender.sendMessage(new TextComponentString("&9&l[Mixer]&r&3 Interactive is already running".replace("&", "§")));
         }
     }
 }

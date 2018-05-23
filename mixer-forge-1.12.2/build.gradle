@@ -26,7 +26,7 @@ compileJava {
 
 minecraft {
     version = "1.12.2-14.23.2.2611"
-    runDir = "run"
+    runDir = "mixer-forge/run"
     
     // the mappings can be changed at any time, and must be in the following format.
     // snapshot_YYYYMMDD   snapshot are built nightly.
@@ -78,11 +78,17 @@ curseforge {
     project {
         id = '291641'
         changelog = "Unstable build, please refer to github for changes."
-        releaseType = 'alpha'
+        releaseType = 'beta'
         addGameVersion '1.12.2'
 
-        mainArtifact(jar) {
-            displayName = archivesBaseName+project.version+".jar"
+        mainArtifact(shadowJar) {
+            displayName = archivesBaseName+project.version+"-"+System.getenv('BUILD_NUMBER')
         }
     }
 }
+
+task deploy {
+    dependsOn 'curseforge'
+}
+
+tasks.curseforge.dependsOn(shadowJar)

@@ -14,4 +14,4 @@ gradle.ext.pluginGroup="pro.kdray.funniray"
 gradle.ext.pluginVersion="1.0-SNAPSHOT"
 
 
-include 'mixer-common', 'mixer-spigot', 'mixer-nukkit', 'mixer-sponge-7.0.0', 'mixer-forge-1.12.2'
+include 'mixer-common', 'mixer-spigot', 'mixer-nukkit', 'mixer-sponge', 'mixer-forge-1.12.2'
