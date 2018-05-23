@@ -28,7 +28,7 @@ import java.nio.file.Path;
 import java.util.Optional;
 import java.util.concurrent.ExecutionException;
 
-@Plugin(id = "mixerinteractive", description = "A Mixer Interactive Plugin", name = "Mixer Interactive Plugin", version = "1.0")
+@Plugin(id = "mixer-sponge", description = "A Mixer Interactive Plugin", name = "Mixer Interactive Plugin", version = "1.0")
 public final class MixerSponge{
 
     @Inject
