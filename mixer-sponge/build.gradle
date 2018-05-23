@@ -23,6 +23,14 @@ apply plugin: 'signing'
 
 project.version = version = rootProject.version + '-' + System.getenv('BUILD_NUMBER')
 
+sponge {
+    plugin {
+        meta {
+            version = rootProject.version + '-' + System.getenv('BUILD_NUMBER')
+        }
+    }
+}
+
 dependencies {
     compile project(':mixer-common')
     compile 'org.spongepowered:spongeapi:7.0.0'
