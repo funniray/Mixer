@@ -16,12 +16,12 @@ buildscript {
     }
 }
 
-project.ext.fileVersion = rootProject.version + System.getenv('BUILD_NUMBER')
-
 apply plugin: 'org.spongepowered.plugin'
 apply plugin: 'org.spongepowered.meta'
 apply plugin: 'org.spongepowered.ore'
 apply plugin: 'signing'
+
+project.version = version = rootProject.version + '-' + System.getenv('BUILD_NUMBER')
 
 dependencies {
     compile project(':mixer-common')
@@ -46,8 +46,8 @@ shadowJar {
         include(dependency("com.zaxxer:HikariCP:${gradle.HikariCP}"))
     }
     destinationDir = file("$rootDir/build/jars")
+    version = rootProject.version
 }
-
 
 signing {
     required {

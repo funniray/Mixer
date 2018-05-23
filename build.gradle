@@ -15,6 +15,8 @@ plugins {
     id "co.riiid.gradle" version "0.4.2"
 }
 
+version = gradle.pluginVersion
+
 github {
     owner = 'funniray'
     repo = 'Mixer'
@@ -29,7 +31,7 @@ Idk what to put here honestly
             "$rootDir/build/jars/mixer-forge-1.0-SNAPSHOT-all.jar",
             "$rootDir/build/jars/mixer-nukkit-1.0-SNAPSHOT-all.jar",
             "$rootDir/build/jars/mixer-spigot-1.0-SNAPSHOT-all.jar",
-            "$rootDir/build/jars/mixer-sponge-7.0.0-1.0-SNAPSHOT-all.jar"
+            "$rootDir/build/jars/mixer-sponge-1.0-SNAPSHOT-all.jar"
     ]
 }
 
