@@ -21,6 +21,7 @@ public class InteractiveButton {
     private String switchWindow;
     private String runCommand;
     private boolean runAsServer = false;
+    private boolean resetScene = false;
     //TODO: private String move;
     private String message;
     private String title;
@@ -109,6 +110,10 @@ public class InteractiveButton {
         if (meta.get("setTempSceneAll") != null && meta.get("setTempSceneAllTime") != null){
             this.tempAllScene = meta.get("setTempSceneAll").getAsJsonObject().get("value").getAsString();
             this.tempAllTime = meta.get("setTempSceneAllTime").getAsJsonObject().get("value").getAsInt();
+        }
+
+        if (meta.get("resetScene") != null && meta.get("resetScene").getAsBoolean()){
+            this.resetScene = true;
         }
     }
 
@@ -247,6 +252,10 @@ public class InteractiveButton {
 
         if (updateButton)
             this.handler.updateControl(control);
+
+        if (this.resetScene) {
+            this.handler.resetScene(this.getButton().getSceneID());
+        }
 
         return didAction;
     }
