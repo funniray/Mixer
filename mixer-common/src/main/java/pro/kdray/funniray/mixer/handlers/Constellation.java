@@ -53,7 +53,6 @@ public class Constellation {
                     if (!event.data.payload.get("following").getAsBoolean())
                         break;
                     eventHandler.sendActionBar(actionUser+" followed!");
-                    eventHandler.sendMessage("&9&l[Mixer] &r&9"+actionUser+" followed!");
                     eventHandler.runCommandAsConsole(Config.followCommand.replace("%user%", actionUser));
                     break;
                 case "subscribed":
