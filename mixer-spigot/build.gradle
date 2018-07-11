@@ -34,5 +34,5 @@ shadowJar {
 }
 
 task deploy {
-    dependsOn 'build'
+    dependsOn 'shadowJar'
 }
