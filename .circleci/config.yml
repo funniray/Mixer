@@ -45,6 +45,7 @@ jobs:
           - v1-dependencies-
 
       - run: gradle --continue deploy
+      - run: gradle githubRelease
 
       - save_cache:
           paths:

@@ -16,6 +16,7 @@ plugins {
 }
 
 version = gradle.pluginVersion
+project.version = version
 
 github {
     owner = 'funniray'
@@ -71,7 +72,3 @@ subprojects {
         compile "com.zaxxer:HikariCP:${gradle.HikariCP}"
     }
 }
-
-task deploy {}
-deploy.dependsOn(shadowJar)
-deploy.dependsOn(githubRelease)

@@ -16,6 +16,8 @@ buildscript {
     }
 }
 
+project.version = rootProject.version
+
 plugins {
     id 'ninja.miserable.blossom' version '1.0.1'
 }
