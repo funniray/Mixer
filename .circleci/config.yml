@@ -3,6 +3,12 @@
 # Check https://circleci.com/docs/2.0/language-java/ for more details
 #
 version: 2
+
+dependencies:
+  pre:
+    - openssl aes-256-cbc -d -a -in secring.gpg.enc -out ~/secring.gpg -k $KEY
+    #Update openssl aes-256-cbc -a -salt -in gradle.properties -out gradle.properties.enc -k $KEY
+    - openssl aes-256-cbc -d -a -in gradle.properties.enc -out gradle.properties -k $KEY
 jobs:
   build:
     docker:

@@ -21,9 +21,9 @@ github {
     owner = 'funniray'
     repo = 'Mixer'
     token = project.githubToken
-    tagName = gradle.pluginVersion +"-"+ System.getenv('BUILD_NUMBER')
+    tagName = gradle.pluginVersion +"-"+ System.getenv('CIRCLE_BUILD_NUM')
     targetCommitish = 'master'
-    name = 'v'+gradle.pluginVersion +"-"+ System.getenv('BUILD_NUMBER')
+    name = 'v'+gradle.pluginVersion +"-"+ System.getenv('CIRCLE_BUILD_NUM')
     body = """# Unofficial Mixer Plugin.
 Idk what to put here honestly
 """
