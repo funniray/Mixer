@@ -36,9 +36,11 @@ jobs:
           # fallback to using the latest cache if no exact match is found
           - v1-dependencies-
 
-      - run: gradle deploy
+      - run: gradle --continue deploy
 
       - save_cache:
           paths:
             - ~/.gradle
           key: v1-dependencies-{{ checksum "build.gradle" }}
+      - save_artifacts:
+          path: ~/repo/build/jars
