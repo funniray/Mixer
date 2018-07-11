@@ -16,20 +16,15 @@ buildscript {
     }
 }
 
+plugins {
+    id 'ninja.miserable.blossom' version '1.0.1'
+}
+
 apply plugin: 'org.spongepowered.plugin'
 apply plugin: 'org.spongepowered.meta'
 apply plugin: 'org.spongepowered.ore'
 apply plugin: 'signing'
 
-project.version = version = rootProject.version + '-' + System.getenv('CIRCLE_BUILD_NUM')
-
-sponge {
-    plugin {
-        meta {
-            version = rootProject.version + '-' + System.getenv('CIRCLE_BUILD_NUM')
-        }
-    }
-}
 
 dependencies {
     compile project(':mixer-common')
@@ -55,6 +50,11 @@ shadowJar {
     }
     destinationDir = file("$rootDir/build/jars")
     version = rootProject.version
+}
+
+blossom {
+    replaceTokenIn('src/main/java/pro/kdray/funniray/mixer/MixerSponge.java')
+    replaceToken '@version@', rootProject.version + '-' + System.getenv('CIRCLE_BUILD_NUM')
 }
 
 signing {

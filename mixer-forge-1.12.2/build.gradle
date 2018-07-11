@@ -82,7 +82,7 @@ curseforge {
         addGameVersion '1.12.2'
 
         mainArtifact(shadowJar) {
-            displayName = archivesBaseName+project.version+"-"+System.getenv('BUILD_NUMBER')
+            displayName = archivesBaseName+project.version+"-"+System.getenv('CIRCLE_BUILD_NUM')
         }
     }
 }
