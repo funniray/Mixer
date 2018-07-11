@@ -44,8 +44,9 @@ jobs:
           # fallback to using the latest cache if no exact match is found
           - v1-dependencies-
 
-      - run: gradle --continue deploy
+      - run: gradle shadowJar
       - run: gradle githubRelease
+      - run: gradle --continue deploy
 
       - save_cache:
           paths:

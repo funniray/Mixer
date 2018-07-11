@@ -55,7 +55,7 @@ shadowJar {
 
 blossom {
     replaceTokenIn('src/main/java/pro/kdray/funniray/mixer/MixerSponge.java')
-    replaceToken '@version@', rootProject.version + '-' + System.getenv('CIRCLE_BUILD_NUM')
+    replaceToken '@version@', rootProject.version
 }
 
 signing {
