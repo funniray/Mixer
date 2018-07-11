@@ -42,5 +42,6 @@ jobs:
           paths:
             - ~/.gradle
           key: v1-dependencies-{{ checksum "build.gradle" }}
-      - save_artifacts:
+
+      - store_artifacts:
           path: ~/repo/build/jars
