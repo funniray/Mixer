@@ -25,9 +25,9 @@ jobs:
     steps:
       - checkout
 
-      - run: openssl aes-256-cbc -d -a -in ~/repo/secring.gpg.enc -out ~/secring.gpg -k $KEY
-      #Update openssl aes-256-cbc -a -salt -in gradle.properties -out gradle.properties.enc -k $KEY
-      - run: openssl aes-256-cbc -d -a -in ~/repo/gradle.properties.enc -out ~/repo/gradle.properties -k $KEY
+      - run: openssl aes-256-cbc -d -a -in ~/repo/secring.gpg.enc -out ~/secring.gpg -k $KEY -md sha256
+      #Update openssl aes-256-cbc -a -salt -in gradle.properties -out gradle.properties.enc -k $KEY -md sha256
+      - run: openssl aes-256-cbc -d -a -in ~/repo/gradle.properties.enc -out ~/repo/gradle.properties -k $KEY -md sha256
 
       # Download and cache dependencies
       - restore_cache:
