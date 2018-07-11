@@ -16,8 +16,6 @@ buildscript {
     }
 }
 
-project.version = rootProject.version
-
 plugins {
     id 'ninja.miserable.blossom' version '1.0.1'
 }
@@ -26,7 +24,6 @@ apply plugin: 'org.spongepowered.plugin'
 apply plugin: 'org.spongepowered.meta'
 apply plugin: 'org.spongepowered.ore'
 apply plugin: 'signing'
-
 
 dependencies {
     compile project(':mixer-common')
@@ -38,6 +35,8 @@ processResources {
         expand 'version': project.version
     }
 }
+
+project.version = rootProject.version
 
 shadowJar {
     dependencies {
