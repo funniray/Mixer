@@ -72,5 +72,6 @@ subprojects {
     }
 }
 
+task deploy {}
 deploy.dependsOn(shadowJar)
 deploy.dependsOn(githubRelease)
