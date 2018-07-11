@@ -4,11 +4,6 @@
 #
 version: 2
 
-dependencies:
-  pre:
-    - openssl aes-256-cbc -d -a -in secring.gpg.enc -out ~/secring.gpg -k $KEY
-    #Update openssl aes-256-cbc -a -salt -in gradle.properties -out gradle.properties.enc -k $KEY
-    - openssl aes-256-cbc -d -a -in gradle.properties.enc -out gradle.properties -k $KEY
 jobs:
   build:
     docker:
@@ -30,6 +25,10 @@ jobs:
     steps:
       - checkout
 
+      - run: openssl aes-256-cbc -d -a -in ~/repo/secring.gpg.enc -out ~/secring.gpg -k $KEY
+      #Update openssl aes-256-cbc -a -salt -in gradle.properties -out gradle.properties.enc -k $KEY
+      - run: openssl aes-256-cbc -d -a -in ~/repo/gradle.properties.enc -out ~/repo/gradle.properties -k $KEY
+
       # Download and cache dependencies
       - restore_cache:
           keys:
@@ -37,7 +36,7 @@ jobs:
           # fallback to using the latest cache if no exact match is found
           - v1-dependencies-
 
-      - run: gradle dependencies
+      - run: gradle deploy
 
       - save_cache:
           paths:
