@@ -33,3 +33,7 @@ shadowJar {
     }
     destinationDir = file("$rootDir/build/jars")
 }
+
+task deploy {
+    dependsOn 'build'
+}
