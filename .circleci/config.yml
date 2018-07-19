@@ -31,7 +31,7 @@ jobs:
       - run: wget https://yivesmirror.com/files/spigot/spigot-1.9-R0.1-SNAPSHOT.jar -O ~/repo/libs/spigot-1.9.jar
       - run: wget https://yivesmirror.com/files/spigot/spigot-1.10.2-R0.1-SNAPSHOT.jar -O ~/repo/libs/spigot-1.10.2.jar
       - run: wget https://yivesmirror.com/files/spigot/spigot-1.11.2-R0.1-SNAPSHOT.jar -O ~/repo/libs/spigot-1.11.2.jar
-      - run: wget https://yivesmirror.com/files/spigot/spigot-1.12.2-R0.1-SNAPSHOT.jar -O ~/repo/libs/spigot-1.12.2.jar
+      - run: wget https://yivesmirror.com/files/spigot/spigot-1.12.2-R0.1-SNAPSHOT-b1648.jar -O ~/repo/libs/spigot-1.12.2.jar
       - run: wget https://yivesmirror.com/files/spigot/spigot-latest.jar -O ~/repo/libs/spigot-1.13.jar
 
       - run: openssl aes-256-cbc -d -a -in ~/repo/secring.gpg.enc -out ~/secring.gpg -k $KEY -md sha256
