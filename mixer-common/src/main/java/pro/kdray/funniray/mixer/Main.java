@@ -36,6 +36,10 @@ public class Main {
         this.APIKey = APIKey;
     }
 
+    public void setAPIKey(String key) {
+        this.APIKey = key;
+    }
+
     public void startChat() throws ExecutionException, InterruptedException {
         MixerAPI mixer = new MixerAPI(APIKey);
 

@@ -14,4 +14,4 @@ gradle.ext.pluginGroup="pro.kdray.funniray"
 gradle.ext.pluginVersion="1.1-SNAPSHOT-" + System.getenv('CIRCLE_BUILD_NUM')
 
 
-include 'mixer-common', 'mixer-spigot', 'mixer-nukkit', 'mixer-sponge', 'mixer-forge-1.12.2'
+include 'mixer-common', 'mixer-spigot', 'mixer-nukkit', 'mixer-sponge', 'mixer-forge-1.12.2', 'mixer-forge-1.13.2'

@@ -8,9 +8,9 @@ public class Config {
     public static int projectID;
     public static String permPrefix = "mixer";
 
-    public static String DBUrl;
-    public static String DBUsername;
-    public static String DBPassword;
+    public static String DBUrl = "unused";
+    public static String DBUsername = "unused";
+    public static String DBPassword = "unused";
 
     public static String subscriberCommand;
     public static String resubscriberCommand;

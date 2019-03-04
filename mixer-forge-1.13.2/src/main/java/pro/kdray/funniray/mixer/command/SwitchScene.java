@@ -1,37 +1,37 @@
 package pro.kdray.funniray.mixer.command;
 
-import net.minecraft.command.CommandBase;
-import net.minecraft.command.ICommandSender;
-import net.minecraft.server.MinecraftServer;
+import com.mojang.brigadier.CommandDispatcher;
+import com.mojang.brigadier.builder.LiteralArgumentBuilder;
+import com.mojang.brigadier.builder.RequiredArgumentBuilder;
+import net.minecraft.command.CommandSource;
 import net.minecraft.util.text.TextComponentString;
 import pro.kdray.funniray.mixer.Commands;
-import pro.kdray.funniray.mixer.ForgeUtils;
 import pro.kdray.funniray.mixer.MixerForge;
 
-public class SwitchScene extends CommandBase {
-    @Override
-    public String getName() {
-        return Commands.SWITCHSCENE.getName();
-    }
+import static com.mojang.brigadier.arguments.StringArgumentType.getString;
+import static com.mojang.brigadier.arguments.StringArgumentType.string;
 
-    @Override
-    public String getUsage(ICommandSender iCommandSender) {
-        return Commands.SWITCHSCENE.getUsage();
-    }
+public class SwitchScene {
 
-    @Override
-    public void execute(MinecraftServer minecraftServer, ICommandSender sender, String[] strings) {
-        if (!ForgeUtils.hasPermission(sender, Commands.SWITCHSCENE.getPermission().getNode()))
-            return;
-        if (strings.length <= 0) {
-            sender.sendMessage(new TextComponentString("&9&l[Mixer]&r&3 You must put in a valid scene".replace("&", "§")));
-            return;
-        }
+    public SwitchScene(CommandDispatcher dispatcher) {
+        dispatcher.register(LiteralArgumentBuilder.literal(Commands.SWITCHSCENE.getName())
+            .then(
+                RequiredArgumentBuilder.argument("Scene", string())
+                    .executes(c -> {
+                        CommandSource commandSource = (CommandSource) c.getSource();
+                        if (!commandSource.asPlayer().hasPermissionLevel(Commands.START.getPermission().getPermissionLevel()))
+                            return 0;
 
-        if (MixerForge.isRunning()) {
-            MixerForge.getApi().getInteractive().switchAllScenes(strings[0]);
-        } else {
-            sender.sendMessage(new TextComponentString("&9&l[Mixer]&r&3 Interactive isn't running".replace("&", "§")));
-        }
+                        if (MixerForge.isRunning()) {
+                            MixerForge.getApi().getInteractive().switchAllScenes(getString(c, Commands.SWITCHSCENE.getName()));
+                            return 1;
+                        } else {
+                            commandSource.asPlayer().sendMessage(new TextComponentString("&9&l[Mixer]&r&3 Interactive isn't running".replace("&", "§")));
+                            return 0;
+                        }
+                    }
+                )
+            )
+        );
     }
 }

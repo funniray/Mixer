@@ -1,32 +1,28 @@
 package pro.kdray.funniray.mixer.command;
 
-import net.minecraft.command.CommandBase;
-import net.minecraft.command.ICommandSender;
-import net.minecraft.server.MinecraftServer;
+import com.mojang.brigadier.CommandDispatcher;
+import com.mojang.brigadier.builder.LiteralArgumentBuilder;
+import net.minecraft.command.CommandSource;
 import net.minecraft.util.text.TextComponentString;
 import pro.kdray.funniray.mixer.Commands;
-import pro.kdray.funniray.mixer.ForgeUtils;
 import pro.kdray.funniray.mixer.MixerForge;
 
-public class Stop extends CommandBase {
-    @Override
-    public String getName() {
-        return Commands.STOP.getName();
+public class Stop {
+
+    public Stop(CommandDispatcher dispatcher) {
+        dispatcher.register(LiteralArgumentBuilder.literal(Commands.STOP.getName())
+                .executes(c -> {
+                    CommandSource commandSource = (CommandSource) c.getSource();
+                    if (!commandSource.asPlayer().hasPermissionLevel(Commands.START.getPermission().getPermissionLevel()))
+                        return 0;
+                    if (MixerForge.isRunning()) {
+                        MixerForge.stopMain();
+                    } else {
+                        commandSource.asPlayer().sendMessage(new TextComponentString("&9&l[Mixer]&r&3 Interactive isn't running".replace("&", "§")));
+                        return 0;
+                    }
+                    return 1;
+                }));
     }
 
-    @Override
-    public String getUsage(ICommandSender iCommandSender) {
-        return Commands.STOP.getUsage();
-    }
-
-    @Override
-    public void execute(MinecraftServer minecraftServer, ICommandSender sender, String[] strings) {
-        if (!ForgeUtils.hasPermission(sender, Commands.STOP.getPermission().getNode()))
-            return;
-        if (MixerForge.isRunning()) {
-            MixerForge.stopMain();
-        } else {
-            sender.sendMessage(new TextComponentString("&9&l[Mixer]&r&3 Interactive isn't running".replace("&", "§")));
-        }
-    }
 }

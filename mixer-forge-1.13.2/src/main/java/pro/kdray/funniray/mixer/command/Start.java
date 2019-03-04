@@ -1,32 +1,27 @@
 package pro.kdray.funniray.mixer.command;
 
-import net.minecraft.command.CommandBase;
-import net.minecraft.command.ICommandSender;
-import net.minecraft.server.MinecraftServer;
+import com.mojang.brigadier.CommandDispatcher;
+import com.mojang.brigadier.builder.LiteralArgumentBuilder;
+import net.minecraft.command.CommandSource;
 import net.minecraft.util.text.TextComponentString;
 import pro.kdray.funniray.mixer.Commands;
-import pro.kdray.funniray.mixer.ForgeUtils;
 import pro.kdray.funniray.mixer.MixerForge;
 
-public class Start extends CommandBase {
-    @Override
-    public String getName() {
-        return Commands.START.getName();
-    }
+public class Start {
 
-    @Override
-    public String getUsage(ICommandSender iCommandSender) {
-        return Commands.START.getUsage();
-    }
-
-    @Override
-    public void execute(MinecraftServer minecraftServer, ICommandSender sender, String[] strings) {
-        if (!ForgeUtils.hasPermission(sender, Commands.START.getPermission().getNode()))
-            return;
-        if (!MixerForge.isRunning()) {
-            MixerForge.startMain();
-        } else {
-            sender.sendMessage(new TextComponentString("&9&l[Mixer]&r&3 Interactive is already running".replace("&", "§")));
-        }
+    public Start(CommandDispatcher dispatcher) {
+        dispatcher.register(LiteralArgumentBuilder.literal(Commands.START.getName())
+                .executes(c -> {
+                    CommandSource commandSource = (CommandSource) c.getSource();
+                    if (!commandSource.asPlayer().hasPermissionLevel(Commands.START.getPermission().getPermissionLevel()))
+                        return 0;
+                    if (!MixerForge.isRunning()) {
+                        MixerForge.startMain();
+                    } else {
+                        commandSource.asPlayer().sendMessage(new TextComponentString("&9&l[Mixer]&r&3 Interactive is already running".replace("&", "§")));
+                        return 0;
+                    }
+                    return 1;
+                }));
     }
 }

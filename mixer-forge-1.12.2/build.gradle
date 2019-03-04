@@ -17,7 +17,7 @@ apply plugin: 'net.minecraftforge.gradle.forge'
 
 version = project.version
 group = "pro.kdray.funniray" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
-archivesBaseName = "mixer-forge"
+archivesBaseName = "mixer-forge-1.12"
 
 sourceCompatibility = targetCompatibility = '1.8' // Need this here so eclipse task generates correctly.
 compileJava {

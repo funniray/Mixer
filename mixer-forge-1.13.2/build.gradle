@@ -17,7 +17,7 @@ apply plugin: 'eclipse'
 
 version = project.version
 group = 'pro.kdray.funniray' // http://maven.apache.org/guides/mini/guide-naming-conventions.html
-archivesBaseName = 'mixer'
+archivesBaseName = 'mixer-forge-1.13'
 
 sourceCompatibility = targetCompatibility = compileJava.sourceCompatibility = compileJava.targetCompatibility = '1.8' // Need this here so eclipse task generates correctly.
 
@@ -100,7 +100,7 @@ dependencies {
 jar {
     manifest {
         attributes([
-                "Specification-Title": "mixer",
+                "Specification-Title": "mixerinteractive",
                 "Specification-Vendor": "funniray",
                 "Specification-Version": "1", // We are version 1 of ourselves
                 "Implementation-Title": project.name,
@@ -165,7 +165,7 @@ curseforge {
         id = '291641'
         changelog = "Unstable build, please refer to github for changes."
         releaseType = 'beta'
-        addGameVersion '1.12.2'
+        addGameVersion '1.13.2'
 
         mainArtifact(shadowJar) {
             displayName = archivesBaseName+project.version

@@ -31,7 +31,8 @@ github {
 Idk what to put here honestly
 """
     assets = [
-            "$rootDir/build/jars/mixer-forge-${version}-all.jar",
+            "$rootDir/build/jars/mixer-forge-1.12-${version}-all.jar",
+            "$rootDir/build/jars/mixer-forge-1.13-${version}-all.jar",
             "$rootDir/build/jars/mixer-nukkit-${version}-all.jar",
             "$rootDir/build/jars/mixer-spigot-${version}-all.jar",
             "$rootDir/build/jars/mixer-sponge-${version}-all.jar"

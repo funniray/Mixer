@@ -1,32 +1,26 @@
 package pro.kdray.funniray.mixer.command;
 
-import net.minecraft.command.CommandBase;
-import net.minecraft.command.ICommandSender;
-import net.minecraft.server.MinecraftServer;
+import com.mojang.brigadier.CommandDispatcher;
+import com.mojang.brigadier.builder.LiteralArgumentBuilder;
+import net.minecraft.command.CommandSource;
 import net.minecraft.util.text.TextComponentString;
 import pro.kdray.funniray.mixer.Commands;
-import pro.kdray.funniray.mixer.ForgeUtils;
 import pro.kdray.funniray.mixer.MixerForge;
 
-public class Pause extends CommandBase {
-    @Override
-    public String getName() {
-        return Commands.PAUSE.getName();
-    }
-
-    @Override
-    public String getUsage(ICommandSender sender) {
-        return Commands.PAUSE.getUsage();
-    }
-
-    @Override
-    public void execute(MinecraftServer server, ICommandSender sender, String[] args) {
-        if (!ForgeUtils.hasPermission(sender, Commands.PAUSE.getPermission().getNode()))
-            return;
-        if (MixerForge.isRunning()) {
-            MixerForge.getApi().getInteractive().pause();
-        } else {
-            sender.sendMessage(new TextComponentString("&9&l[Mixer]&r&c Interactive isn't running".replace("&", "§")));
-        }
+public class Pause {
+    public Pause(CommandDispatcher dispatcher) {
+        dispatcher.register( LiteralArgumentBuilder.literal(Commands.START.getName())
+            .executes(c -> {
+                CommandSource commandSource = (CommandSource) c.getSource();
+                if (!commandSource.asPlayer().hasPermissionLevel(Commands.START.getPermission().getPermissionLevel()))
+                    return 0;
+                if (!MixerForge.isRunning()) {
+                    MixerForge.getApi().getInteractive().pause();
+                } else {
+                    commandSource.asPlayer().sendMessage(new TextComponentString("&9&l[Mixer]&r&3 Interactive is already running".replace("&", "§")));
+                    return 0;
+                }
+                return 1;
+            }));
     }
 }

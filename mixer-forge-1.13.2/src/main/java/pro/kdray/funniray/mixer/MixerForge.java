@@ -1,29 +1,29 @@
 package pro.kdray.funniray.mixer;
 
+import com.electronwill.nightconfig.core.CommentedConfig;
+import com.mojang.brigadier.CommandDispatcher;
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.common.config.ConfigManager;
-import net.minecraftforge.common.config.Configuration;
-import net.minecraftforge.common.config.Property;
-import net.minecraftforge.fml.client.event.ConfigChangedEvent;
+import net.minecraftforge.eventbus.api.IEventBus;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.common.event.FMLInitializationEvent;
-import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
-import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
-import net.minecraftforge.fml.common.event.FMLServerStoppingEvent;
-import net.minecraftforge.fml.common.eventhandler.EventPriority;
-import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.fml.config.ModConfig;
+import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
+import net.minecraftforge.fml.event.server.FMLServerStartingEvent;
+import net.minecraftforge.fml.event.server.FMLServerStoppingEvent;
+import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.server.permission.DefaultPermissionLevel;
 import net.minecraftforge.server.permission.PermissionAPI;
+import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import pro.kdray.funniray.mixer.command.*;
 import pro.kdray.funniray.mixer.events.Mixer;
 
-import java.util.Arrays;
 import java.util.concurrent.ExecutionException;
 
 import static pro.kdray.funniray.mixer.MixerForge.MODID;
 
-@Mod(modid = MODID, name = "Mixer Interactive Plugin", version = "1.0", acceptableRemoteVersions = "*")
+@Mod(MODID)
 public final class MixerForge{
 
     public static final String MODID = "mixerinteractive";
@@ -33,81 +33,36 @@ public final class MixerForge{
     public static boolean chatRunning = false;
     public static boolean interactiveRunning = false;
 
-    private static Configuration configuration;
+    public static CommentedConfig configuration;
 
-    private static Logger logger;
+    private static Logger logger = LogManager.getLogger();
 
-    private static String token;
     private static boolean global;
 
-    @Mod.EventHandler
-    public void preInit(FMLPreInitializationEvent event) {
-        logger = event.getModLog();
+    public MixerForge() {
+        FMLJavaModLoadingContext.get().getModEventBus().addListener(this::init);
+        IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
         MinecraftForge.EVENT_BUS.register(this);
-        configuration = new Configuration(event.getSuggestedConfigurationFile());
-        syncFromFile();
+        modEventBus.register(MixerConfig.class);
+        ModLoadingContext.get().registerConfig(ModConfig.Type.SERVER, MixerConfig.CONFIG_SPEC);
     }
 
-    private static void syncConfig(boolean loadConfigFromFile) {
-        if (loadConfigFromFile) {
-            configuration.load();
-        }
-
-        Property globalProp = configuration.get(Configuration.CATEGORY_GENERAL,"global",false);
-        Property tokenProp = configuration.get(Configuration.CATEGORY_GENERAL, "token", "Api key here!");
-        Property clientIDProp = configuration.get(Configuration.CATEGORY_GENERAL, "clientID", "d04e85fd1cb06e4eb9891fc118fe75893eca399955189926");
-        Property shareCodeProp = configuration.get(Configuration.CATEGORY_GENERAL,"shareCode","dbzktlsk");
-        Property projectIDProp = configuration.get(Configuration.CATEGORY_GENERAL,"projectID",191773);
-
-        //Put SQL data here
-
-        Property followCommandProp = configuration.get(Configuration.CATEGORY_GENERAL, "followCommand","command");
-        Property subscriberCommandProp = configuration.get(Configuration.CATEGORY_GENERAL, "subscriberCommand","command");
-        Property resubscriberCommandProp = configuration.get(Configuration.CATEGORY_GENERAL, "resubscriberCommand","command");
-
-        Property bannedWordsProp = configuration.get(Configuration.CATEGORY_GENERAL,"bannedWords",new String[]{"put multiple","words to remove from chat here"});
-
-        global = globalProp.getBoolean();
-        token = tokenProp.getString();
-        Config.clientID = clientIDProp.getString();
-        Config.shareCode = shareCodeProp.getString();
-        Config.projectID = projectIDProp.getInt();
-
-        Config.followCommand = followCommandProp.getString();
-        Config.subscriberCommand = subscriberCommandProp.getString();
-        Config.resubscriberCommand = resubscriberCommandProp.getString();
-
-        Config.bannedWords = Arrays.asList(bannedWordsProp.getStringList());
-
-        globalProp.set(global);
-        tokenProp.set(token);
-        clientIDProp.set(Config.clientID);
-        shareCodeProp.set(Config.shareCode);
-        projectIDProp.set(Config.projectID);
-
-        followCommandProp.set(Config.followCommand);
-        subscriberCommandProp.set(Config.subscriberCommand);
-        resubscriberCommandProp.set(Config.resubscriberCommand);
-
-        bannedWordsProp.set(bannedWordsProp.getStringList());
-
-        if (configuration.hasChanged()) {
-            configuration.save();
-            if (chatRunning) {
-                api.stopChat();
-                try {
-                    api.startChat();
-                } catch (ExecutionException | InterruptedException e) {
-                    e.printStackTrace();
-                }
+    public static void onFileChange() {
+        MixerConfig.load();
+        if (chatRunning) {
+            api.stopChat();
+            try {
+                api.startChat();
+            } catch (ExecutionException | InterruptedException e) {
+                e.printStackTrace();
             }
-            if (interactiveRunning) {
-                api.stopInteractive();
-                try {
-                    api.startInteractive();
-                } catch (ExecutionException | InterruptedException e) {
-                    e.printStackTrace();
-                }
+        }
+        if (interactiveRunning) {
+            api.stopInteractive();
+            try {
+                api.startInteractive();
+            } catch (ExecutionException | InterruptedException e) {
+                e.printStackTrace();
             }
         }
     }
@@ -120,7 +75,7 @@ public final class MixerForge{
                 interactiveRunning = true;
             } catch (ExecutionException | InterruptedException e) {
                 e.printStackTrace();
-                new Mixer().sendMessage("&4&l[Mixer] &r&cFailed to start interactive, could be due to invalid API key");
+                api.getInteractive().getEventHandler().sendMessage("&4&l[Mixer] &r&cFailed to start interactive, could be due to invalid API key");
             }
         }).start();
     }
@@ -137,14 +92,6 @@ public final class MixerForge{
         return logger;
     }
 
-    public static void syncFromFile() {
-        syncConfig(true);
-    }
-
-    public static void syncFromGUI() {
-        syncConfig(false);
-    }
-
     public static Main getApi() {
         return api;
     }
@@ -157,10 +104,8 @@ public final class MixerForge{
         return chatRunning || interactiveRunning;
     }
 
-    @Mod.EventHandler
-    public void init(FMLInitializationEvent event) {
-        ConfigManager.sync(MODID, net.minecraftforge.common.config.Config.Type.INSTANCE);
-
+    @SubscribeEvent
+    public void init(FMLCommonSetupEvent event) {
         for (Permissions permission : Permissions.values()) {
             if (permission.getNode() == null || permission.getDescription() == null)
                 continue;
@@ -171,7 +116,6 @@ public final class MixerForge{
     }
 
     public static void reload() {
-        syncFromFile();
         boolean wasRunning = false;
         if (MixerForge.isRunning()) {
             stopMain();
@@ -181,31 +125,25 @@ public final class MixerForge{
             startMain();
     }
 
-    @Mod.EventHandler
+    @SubscribeEvent
     public void onServerStart(FMLServerStartingEvent event) {
         // Plugin startup logic
 
         logger.info("[Mixer] Enabled plugin");
 
-        event.registerServerCommand(new Pause());
-        event.registerServerCommand(new Stop());
-        event.registerServerCommand(new Start());
-        event.registerServerCommand(new SwitchScene());
-        event.registerServerCommand(new ResetScene());
-        event.registerServerCommand(new MainCommand());
+        CommandDispatcher dispatcher = event.getServer().getCommandManager().getDispatcher();
 
-        api = new Main(token, new Mixer());
+        new Pause(dispatcher);
+        new ResetScene(dispatcher);
+        new Start(dispatcher);
+        new Stop(dispatcher);
+        new SwitchScene(dispatcher);
+
+        api = new Main(MixerConfig.token, new Mixer(event.getServer()));
         //startMain();
     }
 
-    @SubscribeEvent(priority = EventPriority.NORMAL) //TODO: Add GUI for Config
-    public void onEvent(ConfigChangedEvent.OnConfigChangedEvent event) {
-        if (MODID.equals(event.getModID())) {
-            syncFromGUI();
-        }
-    }
-
-    @Mod.EventHandler
+    @SubscribeEvent
     public void onGameStop(FMLServerStoppingEvent event) {
         // Plugin shutdown logic
         if (isRunning())
