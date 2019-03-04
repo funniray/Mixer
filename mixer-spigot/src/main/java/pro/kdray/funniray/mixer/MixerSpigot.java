@@ -9,11 +9,13 @@ import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 import pro.kdray.funniray.mixer.command.*;
+import pro.kdray.funniray.mixer.compadibility.NullHandler;
 import pro.kdray.funniray.mixer.compadibility.VersionHandler;
 import pro.kdray.funniray.mixer.compadibility.v1_10.Handler_1_10_R1;
 import pro.kdray.funniray.mixer.compadibility.v1_11.Handler_1_11_R1;
 import pro.kdray.funniray.mixer.compadibility.v1_12.Handler_1_12_R1;
 import pro.kdray.funniray.mixer.compadibility.v1_13.Handler_1_13_R1;
+import pro.kdray.funniray.mixer.compadibility.v1_13.Handler_1_13_R2;
 import pro.kdray.funniray.mixer.compadibility.v1_9.Handler_1_9_R1;
 import pro.kdray.funniray.mixer.compadibility.v1_9.Handler_1_9_R2;
 import pro.kdray.funniray.mixer.events.Mixer;
@@ -65,6 +67,9 @@ public final class MixerSpigot extends JavaPlugin {
         version = version.substring(version.lastIndexOf('.') + 1);
 
         switch(version){
+            case "v1_13_R2":
+                versionHandler = new Handler_1_13_R2();
+                break;
             case "v1_13_R1":
                 versionHandler = new Handler_1_13_R1();
                 break;
@@ -84,8 +89,8 @@ public final class MixerSpigot extends JavaPlugin {
                 versionHandler = new Handler_1_9_R1();
                 break;
             default:
-                this.getLogger().warning("This version is unsupported, disabling. We currently don't support \":"+version);
-                Bukkit.getPluginManager().disablePlugin(this);
+                this.getLogger().warning("This version is unsupported, Titles and ActionBars won't work. Current Version\":"+version);
+                versionHandler = new NullHandler();
         }
     }
 

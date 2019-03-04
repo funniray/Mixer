@@ -27,12 +27,8 @@ jobs:
 
       #Download Spigot dependencies
       - run: mkdir ~/repo/libs
-      - run: wget https://yivesmirror.com/files/spigot/spigot-1.9.4-R0.1-SNAPSHOT.jar -O ~/repo/libs/spigot-1.9.4.jar
-      - run: wget https://yivesmirror.com/files/spigot/spigot-1.9-R0.1-SNAPSHOT.jar -O ~/repo/libs/spigot-1.9.jar
-      - run: wget https://yivesmirror.com/files/spigot/spigot-1.10.2-R0.1-SNAPSHOT.jar -O ~/repo/libs/spigot-1.10.2.jar
-      - run: wget https://yivesmirror.com/files/spigot/spigot-1.11.2-R0.1-SNAPSHOT.jar -O ~/repo/libs/spigot-1.11.2.jar
-      - run: wget https://yivesmirror.com/files/spigot/spigot-1.12.2-R0.1-SNAPSHOT-b1648.jar -O ~/repo/libs/spigot-1.12.2.jar
-      - run: wget https://yivesmirror.com/files/spigot/spigot-latest.jar -O ~/repo/libs/spigot-1.13.jar
+      - run: cd ~/repo
+      - run: ./download.sh
 
       - run: openssl aes-256-cbc -d -a -in ~/repo/secring.gpg.enc -out ~/secring.gpg -k $KEY -md sha256
       #Update openssl aes-256-cbc -a -salt -in gradle.properties -out gradle.properties.enc -k $KEY -md sha256
@@ -45,9 +41,9 @@ jobs:
           # fallback to using the latest cache if no exact match is found
           - v1-dependencies-
 
-      - run: gradle shadowJar
-      - run: gradle githubRelease
-      - run: gradle --continue deploy
+      - run: ./gradlew gradle shadowJar
+      - run: ./gradlew githubRelease
+      - run: ./gradlew --continue deploy
 
       - save_cache:
           paths:

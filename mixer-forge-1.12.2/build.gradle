@@ -27,7 +27,7 @@ compileJava {
 minecraft {
     version = "1.12.2-14.23.2.2611"
     runDir = "mixer-forge/run"
-    
+
     // the mappings can be changed at any time, and must be in the following format.
     // snapshot_YYYYMMDD   snapshot are built nightly.
     // stable_#            stables are built at the discretion of the MCP team.
@@ -49,11 +49,11 @@ processResources {
     // replace stuff in mcmod.info, nothing else
     from(sourceSets.main.resources.srcDirs) {
         include 'mcmod.info'
-                
+
         // replace version and mcversion
         expand 'version':project.version, 'mcversion':project.minecraft.version
     }
-        
+
     // copy everything else except the mcmod.info
     from(sourceSets.main.resources.srcDirs) {
         exclude 'mcmod.info'
@@ -74,7 +74,8 @@ shadowJar {
 }
 
 curseforge {
-    apiKey = project.curseForgeToken
+    if(project.hasProperty("curseForgeToken"))
+        apiKey = project.curseForgeToken
     project {
         id = '291641'
         changelog = "Unstable build, please refer to github for changes."

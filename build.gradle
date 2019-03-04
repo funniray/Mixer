@@ -21,7 +21,9 @@ project.version = version
 github {
     owner = 'funniray'
     repo = 'Mixer'
-    token = project.githubToken
+    if (project.hasProperty("githubToken")) {
+        token = project.githubToken
+    }
     tagName = version
     targetCommitish = 'master'
     name = 'v'+version
@@ -43,7 +45,6 @@ subprojects {
 
     group = gradle.pluginGroup
     version = gradle.pluginVersion
-    curseForgeToken = project.curseForgeToken
 
     sourceCompatibility = '1.8'
     targetCompatibility = '1.8'
