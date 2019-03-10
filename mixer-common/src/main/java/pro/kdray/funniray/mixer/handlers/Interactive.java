@@ -116,12 +116,12 @@ public class Interactive {
                 return;
             eventHandler.debug("&9&l[Mixer]&r&9 >>> " + participant.getUsername() + " pressed " + event.getControlInput().getControlID());
             eventHandler.debug("&9&l[Mixer]&r&9 >>> Control: " + event.getControlInput().getRawInput());
-            if (buttonHashMap.get(event.getControlInput().getControlID()).onClick(participant)) {
+            if (buttonHashMap.get(event.getControlInput().getControlID()).onClick(participant) && event.getTransaction() != null) {
                 this.getEventHandler().runAsync(() -> {
                     try {
                         event.getTransaction().capture(this.client).get();
                     } catch (InterruptedException | ExecutionException e) {
-                        e.printStackTrace();
+                        //Honestly who cares? //e.printStackTrace();
                     }
                 });
             }
