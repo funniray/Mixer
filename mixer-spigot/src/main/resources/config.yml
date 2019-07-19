@@ -1,6 +1,10 @@
+#Look here: https://github.com/funniray/Mixer/wiki/Setting-up-the-project
 token: Api key here
+#If you're using the oauth from the wiki, you don't need to touch this
 clientID: d04e85fd1cb06e4eb9891fc118fe75893eca399955189926
+#Retrieved from the sharing panel in the top right of the editor
 shareCode: dbzktlsk
+#Now called VersionID
 projectID: 191773
 
 followCommand: command

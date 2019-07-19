@@ -92,7 +92,7 @@ signShadow.dependsOn(shadowJar).mustRunAfter(shadowJar)
 copyAsc.dependsOn(signShadow)
 oreDeploy.dependsOn(buildAndSign)
 
-oreDeploy.setChannel("snapshot")
+oreDeploy.setChannel("release")
 
 oreDeploy.setRecommended(false)
 oreDeploy.setDeploy(project.configurations.shadow) // yet another hack

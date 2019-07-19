@@ -53,14 +53,15 @@ subprojects {
     repositories {
         mavenLocal()
         mavenCentral()
-        maven {
-            name = "mixer-snapshots"
-            url = "https://maven.mixer.com/content/repositories/snapshots"
-        }
-        maven {
-            name = "mixer-releases"
-            url = "https://maven.mixer.com/content/repositories/releases/"
-        }
+        //Mixer's Maven repo was down, so I'm removing it for now.
+        //maven {
+        //    name = "mixer-snapshots"
+        //    url = "https://maven.mixer.com/content/repositories/snapshots"
+        //}
+        //maven {
+        //    name = "mixer-releases"
+        //    url = "https://maven.mixer.com/content/repositories/releases/"
+        //}
     }
 
     dependencies{

@@ -16,6 +16,7 @@ import pro.kdray.funniray.mixer.compadibility.v1_11.Handler_1_11_R1;
 import pro.kdray.funniray.mixer.compadibility.v1_12.Handler_1_12_R1;
 import pro.kdray.funniray.mixer.compadibility.v1_13.Handler_1_13_R1;
 import pro.kdray.funniray.mixer.compadibility.v1_13.Handler_1_13_R2;
+import pro.kdray.funniray.mixer.compadibility.v1_14.Handler_1_14_R1;
 import pro.kdray.funniray.mixer.compadibility.v1_9.Handler_1_9_R1;
 import pro.kdray.funniray.mixer.compadibility.v1_9.Handler_1_9_R2;
 import pro.kdray.funniray.mixer.events.Mixer;
@@ -67,6 +68,9 @@ public final class MixerSpigot extends JavaPlugin {
         version = version.substring(version.lastIndexOf('.') + 1);
 
         switch(version){
+            case "v1_14_R1":
+                versionHandler = new Handler_1_14_R1();
+                break;
             case "v1_13_R2":
                 versionHandler = new Handler_1_13_R2();
                 break;
