@@ -24,6 +24,7 @@ public class Main {
 
     private MixerEvents eventHandler;
     private String APIKey;
+    private String clientID;
 
     public Main(String APIKey, MixerEvents eventHandler) {
 
@@ -34,6 +35,7 @@ public class Main {
 
         this.eventHandler = eventHandler;
         this.APIKey = APIKey;
+        this.clientID = Config.clientID;
     }
 
     public void setAPIKey(String key) {
@@ -41,7 +43,7 @@ public class Main {
     }
 
     public void startChat() throws ExecutionException, InterruptedException {
-        MixerAPI mixer = new MixerAPI(APIKey);
+        MixerAPI mixer = new MixerAPI(clientID, APIKey);
 
         MixerUser user = mixer.use(UsersService.class).getCurrent().get();
         MixerChat chat = mixer.use(ChatService.class).findOne(user.channel.id).get();
@@ -51,16 +53,15 @@ public class Main {
     }
 
     public void startInteractive() throws ExecutionException, InterruptedException {
-        MixerAPI mixer = new MixerAPI(APIKey);
+        MixerAPI mixer = new MixerAPI(clientID, APIKey);
 
         MixerUser user = mixer.use(UsersService.class).getCurrent().get();
-        MixerChat chat = mixer.use(ChatService.class).findOne(user.channel.id).get();
 
         interactive = new Interactive(mixer, user, APIKey, eventHandler);
     }
 
     public void startAll() throws ExecutionException, InterruptedException {
-        MixerAPI mixer = new MixerAPI(APIKey);
+        MixerAPI mixer = new MixerAPI(clientID, APIKey);
 
         MixerUser user = mixer.use(UsersService.class).getCurrent().get();
         MixerChat chat = mixer.use(ChatService.class).findOne(user.channel.id).get();
