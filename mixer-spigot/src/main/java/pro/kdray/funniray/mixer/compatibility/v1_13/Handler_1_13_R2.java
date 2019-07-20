@@ -1,4 +1,4 @@
-package pro.kdray.funniray.mixer.compadibility.v1_13;
+package pro.kdray.funniray.mixer.compatibility.v1_13;
 
 import net.minecraft.server.v1_13_R2.ChatMessageType;
 import net.minecraft.server.v1_13_R2.IChatBaseComponent;
@@ -8,7 +8,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.craftbukkit.v1_13_R2.entity.CraftPlayer;
 import org.bukkit.entity.Player;
-import pro.kdray.funniray.mixer.compadibility.VersionHandler;
+import pro.kdray.funniray.mixer.compatibility.unknown.VersionHandler;
 
 import javax.annotation.Nullable;
 

@@ -13,6 +13,9 @@ import pro.kdray.funniray.mixer.Config;
 import pro.kdray.funniray.mixer.MixerEvents;
 import pro.kdray.funniray.mixer.Utils;
 
+import static pro.kdray.funniray.mixer.Config.messagesChatConnect;
+import static pro.kdray.funniray.mixer.Config.messagesPrefix;
+
 public class Chat {
 
     private MixerChatConnectable chatConnectable;
@@ -23,7 +26,7 @@ public class Chat {
         if (chatConnectable.connect()) {
             chatConnectable.send(AuthenticateMessage.from(user.channel, user, chat.authkey), new ReplyHandler<AuthenticationReply>() {
                 public void onSuccess(AuthenticationReply reply) {
-                    eventHandler.sendMessage("&9&l[Mixer]&r&9 Chat Connected!");
+                    eventHandler.sendMessage(messagesPrefix + messagesChatConnect);
                 }
                 public void onFailure(Throwable e) {
                     e.printStackTrace();
@@ -34,19 +37,16 @@ public class Chat {
         chatConnectable.on(IncomingMessageEvent.class, event -> {
             if (event.data.message.isWhisper())
                 return;
-            StringBuilder finishedMessage = new StringBuilder("&9&l[Mixer] " + Utils.getColorFromRank(event.data.userRoles) + event.data.userName + "&9&l: &r&7");
+            StringBuilder finishedMessage = new StringBuilder(messagesPrefix + Utils.getColorFromRank(event.data.userRoles) + event.data.userName + "&9&l: &r&7");
             for (MessageComponent.MessageTextComponent message : event.data.message.message){
                 finishedMessage.append(message.text.replace("§", "§§").replace("&", "&&7"));
             }
-            boolean shouldShow = true;
             for (String word : Config.bannedWords) {
-                if (finishedMessage.toString().contains(word)){
-                    shouldShow = false;
+                if (!finishedMessage.toString().contains(word)){
+                    eventHandler.sendMessage(finishedMessage.toString());
                     break;
                 }
             }
-            if (shouldShow)
-                eventHandler.sendMessage(finishedMessage.toString());
         });
 
         this.chatConnectable = chatConnectable;

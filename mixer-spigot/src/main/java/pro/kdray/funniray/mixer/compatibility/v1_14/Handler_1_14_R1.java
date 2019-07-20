@@ -1,19 +1,18 @@
-package pro.kdray.funniray.mixer.compadibility.v1_12;
+package pro.kdray.funniray.mixer.compatibility.v1_14;
 
-import net.minecraft.server.v1_12_R1.ChatMessageType;
-import net.minecraft.server.v1_12_R1.IChatBaseComponent;
-import net.minecraft.server.v1_12_R1.PacketPlayOutChat;
-import net.minecraft.server.v1_12_R1.PacketPlayOutTitle;
+import net.minecraft.server.v1_14_R1.ChatMessageType;
+import net.minecraft.server.v1_14_R1.IChatBaseComponent;
+import net.minecraft.server.v1_14_R1.PacketPlayOutChat;
+import net.minecraft.server.v1_14_R1.PacketPlayOutTitle;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
-import org.bukkit.craftbukkit.v1_12_R1.entity.CraftPlayer;
+import org.bukkit.craftbukkit.v1_14_R1.entity.CraftPlayer;
 import org.bukkit.entity.Player;
-import pro.kdray.funniray.mixer.compadibility.VersionHandler;
+import pro.kdray.funniray.mixer.compatibility.unknown.VersionHandler;
 
 import javax.annotation.Nullable;
 
-public class Handler_1_12_R1 implements VersionHandler {
-
+public class Handler_1_14_R1 implements VersionHandler {
     @Override
     public void sendAllActionBar(String message, @Nullable String permission) {
         //Credit to Bear53 ( https://www.spigotmc.org/members/bear53.32839/ )

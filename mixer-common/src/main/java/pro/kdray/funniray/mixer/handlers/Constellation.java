@@ -15,6 +15,8 @@ import pro.kdray.funniray.mixer.MixerEvents;
 import java.util.ArrayList;
 import java.util.Random;
 
+import static pro.kdray.funniray.mixer.Config.messagesPrefix;
+
 public class Constellation {
 
     private MixerConstellationConnectable constellationConnectable;
@@ -57,21 +59,20 @@ public class Constellation {
                     break;
                 case "subscribed":
                     eventHandler.sendTitle(actionUser+" subscribed!", "");
-                    eventHandler.sendMessage("&9&l[Mixer] &r&9"+actionUser+" subscribed!");
+                    eventHandler.sendMessage(messagesPrefix+actionUser+" subscribed!");
                     eventHandler.runCommandAsConsole(Config.subscriberCommand.replace("%user%", actionUser));
                     break;
                 case "resubscribed":
                     eventHandler.sendTitle(actionUser+" resubscribed!", "");
-                    eventHandler.sendMessage("&9&l[Mixer] &r&9"+actionUser+" resubscribed!");
+                    eventHandler.sendMessage(messagesPrefix+actionUser+" resubscribed!");
                     eventHandler.runCommandAsConsole(Config.resubscriberCommand.replace("%user%", actionUser).replace("%totalMonths%", "" + event.data.payload.get("totalMonths").getAsInt()));
                     break;
-                //case "update":
-                //    message = "&9Channel update, new title is "+event.data.payload.get("name").getAsString();
-                //    eventHandler.sendTitle(message, "");
-                //    eventHandler.sendMessage("&9&l[Mixer] &r"+message);
-                //    break;
+                case "update":
+                    eventHandler.sendTitle("&bMixer Title &7has been updated to:", "&7" + event.data.payload.get("name").getAsString());
+                    eventHandler.sendMessage(messagesPrefix+"&aTitle has been updated to: " + event.data.payload.get("name").getAsString());
+                    break;
                 default:
-                    eventHandler.sendMessage("&9&l[Mixer]&r&c >>> Unhandled Contellation Event: "+event.toString());
+                    eventHandler.sendMessage(messagesPrefix+"&cUnhandled Constellation Event: "+event.toString());
             }
         });
 

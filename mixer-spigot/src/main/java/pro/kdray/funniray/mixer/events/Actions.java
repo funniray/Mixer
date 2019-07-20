@@ -2,12 +2,16 @@ package pro.kdray.funniray.mixer.events;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import pro.kdray.funniray.mixer.MixerEvents;
 import pro.kdray.funniray.mixer.MixerSpigot;
 import pro.kdray.funniray.mixer.Permissions;
 
-public class Mixer implements MixerEvents {
+import static pro.kdray.funniray.mixer.MixerSpigot.plugin;
+
+public class Actions implements MixerEvents {
+    FileConfiguration cfg = plugin.getConfig();
     @Override
     public void sendMessage(String message) {
         String formatted = ChatColor.translateAlternateColorCodes('&',message);
@@ -35,7 +39,13 @@ public class Mixer implements MixerEvents {
 
     @Override
     public void summon(String entity) {
-        runCommandAsConsole("execute %streamer% ~ ~ ~ summon "+entity);
+        Bukkit.getScheduler().runTask(MixerSpigot.plugin,() -> {
+            for(Player player:Bukkit.getOnlinePlayers()){
+                if (!player.hasPermission(Permissions.RUNCOMMANDS.getNode()))
+                    continue;
+                Bukkit.getServer().dispatchCommand(player,cfg.getString("actions.summon").replace("%streamer",player.getName()).replace("%entity",entity));
+            }
+        });
     }
 
     @Override
