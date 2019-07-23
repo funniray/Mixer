@@ -145,8 +145,8 @@ public final class MixerSpigot extends JavaPlugin {
         Config.projectID = configuration.getInt("projectID");
 
         Config.followCommand = configuration.getString("followCommand");
-        Config.subscriberCommand = configuration.getString("subscriberCommand");
-        Config.resubscriberCommand = configuration.getString("resubscriberCommand");
+        Config.subscribeCommand = configuration.getString("subscribeCommand");
+        Config.resubscribeCommand = configuration.getString("resubscriberCommand");
 
         Config.bannedWords = configuration.getStringList("bannedWords");
 

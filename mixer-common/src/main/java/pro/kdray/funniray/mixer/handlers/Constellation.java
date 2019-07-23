@@ -60,12 +60,12 @@ public class Constellation {
                 case "subscribed":
                     eventHandler.sendTitle(actionUser+" subscribed!", "");
                     eventHandler.sendMessage(messagesPrefix+actionUser+" subscribed!");
-                    eventHandler.runCommandAsConsole(Config.subscriberCommand.replace("%user%", actionUser));
+                    eventHandler.runCommandAsConsole(Config.subscribeCommand.replace("%user%", actionUser));
                     break;
                 case "resubscribed":
                     eventHandler.sendTitle(actionUser+" resubscribed!", "");
                     eventHandler.sendMessage(messagesPrefix+actionUser+" resubscribed!");
-                    eventHandler.runCommandAsConsole(Config.resubscriberCommand.replace("%user%", actionUser).replace("%totalMonths%", "" + event.data.payload.get("totalMonths").getAsInt()));
+                    eventHandler.runCommandAsConsole(Config.resubscribeCommand.replace("%user%", actionUser).replace("%totalMonths%", "" + event.data.payload.get("totalMonths").getAsInt()));
                     break;
                 case "update":
                     eventHandler.sendTitle("&bMixer Title &7has been updated to:", "&7" + event.data.payload.get("name").getAsString());

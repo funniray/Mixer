@@ -12,8 +12,8 @@ public class Config {
     public static String DBUsername = "unused";
     public static String DBPassword = "unused";
 
-    public static String subscriberCommand;
-    public static String resubscriberCommand;
+    public static String subscribeCommand;
+    public static String resubscribeCommand;
     public static String followCommand;
 
     public static List<String> bannedWords;
