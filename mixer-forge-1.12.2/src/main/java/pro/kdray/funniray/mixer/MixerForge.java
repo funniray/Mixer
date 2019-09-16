@@ -62,7 +62,7 @@ public final class MixerForge{
         //Put SQL data here
 
         Property followCommandProp = configuration.get(Configuration.CATEGORY_GENERAL, "followCommand","command");
-        Property subscriberCommandProp = configuration.get(Configuration.CATEGORY_GENERAL, "subscriberCommand","command");
+        Property subscriberCommandProp = configuration.get(Configuration.CATEGORY_GENERAL, "subscribeCommand","command");
         Property resubscriberCommandProp = configuration.get(Configuration.CATEGORY_GENERAL, "resubscriberCommand","command");
 
         Property bannedWordsProp = configuration.get(Configuration.CATEGORY_GENERAL,"bannedWords",new String[]{"put multiple","words to remove from chat here"});
@@ -74,8 +74,8 @@ public final class MixerForge{
         Config.projectID = projectIDProp.getInt();
 
         Config.followCommand = followCommandProp.getString();
-        Config.subscriberCommand = subscriberCommandProp.getString();
-        Config.resubscriberCommand = resubscriberCommandProp.getString();
+        Config.subscribeCommand = subscriberCommandProp.getString();
+        Config.resubscribeCommand = resubscriberCommandProp.getString();
 
         Config.bannedWords = Arrays.asList(bannedWordsProp.getStringList());
 
@@ -86,8 +86,8 @@ public final class MixerForge{
         projectIDProp.set(Config.projectID);
 
         followCommandProp.set(Config.followCommand);
-        subscriberCommandProp.set(Config.subscriberCommand);
-        resubscriberCommandProp.set(Config.resubscriberCommand);
+        subscriberCommandProp.set(Config.subscribeCommand);
+        resubscriberCommandProp.set(Config.resubscribeCommand);
 
         bannedWordsProp.set(bannedWordsProp.getStringList());
 

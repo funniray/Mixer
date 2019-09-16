@@ -36,8 +36,8 @@ public class MixerConfig {
         Config.clientID = CONFIG.clientIDValue.get();
         Config.shareCode = CONFIG.shareCodeValue.get();
         Config.projectID = CONFIG.projectIDValue.get();
-        Config.subscriberCommand = CONFIG.subscriberCommandValue.get();
-        Config.resubscriberCommand = CONFIG.resubscriberCommandValue.get();
+        Config.subscribeCommand = CONFIG.subscriberCommandValue.get();
+        Config.resubscribeCommand = CONFIG.resubscriberCommandValue.get();
         Config.followCommand = CONFIG.followCommandValue.get();
         Config.bannedWords = CONFIG.bannedWordsValue.get();
     }
@@ -67,7 +67,7 @@ public class MixerConfig {
             builder.push("Constellation");
             subscriberCommandValue = builder
                     .comment("Command to be ran when someone subscribes. Replaces %user% with the subscriber's username")
-                    .define("subscriberCommand","say %user% has subscribed");
+                    .define("subscribeCommand","say %user% has subscribed");
             resubscriberCommandValue = builder
                     .comment("Command to be ran when someone resubscribes. Replaces %user% with the subscriber's " +
                             "username. Replaces %totalMonths% with the months they have been subscribed for")

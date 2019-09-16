@@ -1,4 +1,4 @@
-package pro.kdray.funniray.mixer.compadibility;
+package pro.kdray.funniray.mixer.compatibility.unknown;
 
 import javax.annotation.Nullable;
 

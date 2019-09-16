@@ -13,6 +13,9 @@ import pro.kdray.funniray.mixer.handlers.Interactive;
 
 import java.util.concurrent.ExecutionException;
 
+import static pro.kdray.funniray.mixer.Config.messagesDisableInteractive;
+import static pro.kdray.funniray.mixer.Config.messagesPrefix;
+
 public class Main {
 
     private Interactive interactive;
@@ -43,7 +46,7 @@ public class Main {
     }
 
     public void startChat() throws ExecutionException, InterruptedException {
-        MixerAPI mixer = new MixerAPI(clientID, APIKey);
+        MixerAPI mixer = new MixerAPI(APIKey, clientID);
 
         MixerUser user = mixer.use(UsersService.class).getCurrent().get();
         MixerChat chat = mixer.use(ChatService.class).findOne(user.channel.id).get();
@@ -53,7 +56,7 @@ public class Main {
     }
 
     public void startInteractive() throws ExecutionException, InterruptedException {
-        MixerAPI mixer = new MixerAPI(clientID, APIKey);
+        MixerAPI mixer = new MixerAPI(APIKey, clientID);
 
         MixerUser user = mixer.use(UsersService.class).getCurrent().get();
 
@@ -61,7 +64,7 @@ public class Main {
     }
 
     public void startAll() throws ExecutionException, InterruptedException {
-        MixerAPI mixer = new MixerAPI(clientID, APIKey);
+        MixerAPI mixer = new MixerAPI(APIKey, clientID);
 
         MixerUser user = mixer.use(UsersService.class).getCurrent().get();
         MixerChat chat = mixer.use(ChatService.class).findOne(user.channel.id).get();
@@ -89,7 +92,7 @@ public class Main {
     public void shutdown(){
         this.stopChat();
         this.stopInteractive();
-        eventHandler.sendMessage("&9&l[Mixer]&r&9 Successfully disabled interactive.");
+        eventHandler.sendMessage(messagesPrefix + messagesDisableInteractive);
     }
 
     public Interactive getInteractive() {

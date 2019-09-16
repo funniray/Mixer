@@ -29,6 +29,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ExecutionException;
 
 import static com.mixer.interactive.GameClient.GROUP_SERVICE_PROVIDER;
+import static pro.kdray.funniray.mixer.Config.*;
 
 public class Interactive {
 
@@ -75,10 +76,10 @@ public class Interactive {
     @Subscribe
     public void onConnectionEsablished(ConnectionEstablishedEvent event){
         try {
-            if (!client.isConnected()) {
-                this.eventHandler.sendMessage("&9&l[Mixer]&r&4 Connection was established but isn't connected!");
+            if (client.isConnected()) {
+                this.eventHandler.sendMessage(messagesPrefix + messagesConnectInteractive);
             }else{
-                this.eventHandler.sendMessage("&9&l[Mixer]&r&9 Interactive connected!");
+                this.eventHandler.sendMessage(messagesPrefix + messagesEstablishedNotConnected);
             }
 
             Set<InteractiveScene> scenes = new SceneServiceProvider(client).getScenes().get();
@@ -121,7 +122,7 @@ public class Interactive {
                     try {
                         event.getTransaction().capture(this.client).get();
                     } catch (InterruptedException | ExecutionException e) {
-                        //Honestly who cares? //e.printStackTrace();
+                        //e.printStackTrace();
                     }
                 });
             }
@@ -133,7 +134,7 @@ public class Interactive {
             try {
                 client.using(GameClient.CONTROL_SERVICE_PROVIDER).update(control).get();
             } catch (InterruptedException | ExecutionException e) {
-                //I don't really care what happens here
+                //e.printStackTrace();
             }
         });
     }
@@ -143,7 +144,7 @@ public class Interactive {
             try {
                 client.using(GameClient.CONTROL_SERVICE_PROVIDER).update(controls).get();
             } catch (InterruptedException | ExecutionException e) {
-                //I don't really care what happens here
+                //e.printStackTrace();
             }
         });
     }
@@ -206,10 +207,10 @@ public class Interactive {
     public void pause(){
         if (this.isPause){
             switchAllScenes("default");
-            eventHandler.sendMessage("&9&l[Mixer]&r&9 Buttons have been unpaused");
+            eventHandler.sendMessage(messagesPrefix + messagesResume);
         }else{
             switchAllScenes("pause");
-            eventHandler.sendMessage("&9&l[Mixer]&r&9 Buttons have been paused");
+            eventHandler.sendMessage(messagesPrefix + messagesPause);
         }
         this.isPause = !this.isPause;
     }

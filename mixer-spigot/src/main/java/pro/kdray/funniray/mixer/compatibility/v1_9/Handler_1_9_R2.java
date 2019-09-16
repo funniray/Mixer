@@ -1,24 +1,23 @@
-package pro.kdray.funniray.mixer.compadibility.v1_14;
+package pro.kdray.funniray.mixer.compatibility.v1_9;
 
-import net.minecraft.server.v1_14_R1.ChatMessageType;
-import net.minecraft.server.v1_14_R1.IChatBaseComponent;
-import net.minecraft.server.v1_14_R1.PacketPlayOutChat;
-import net.minecraft.server.v1_14_R1.PacketPlayOutTitle;
+import net.minecraft.server.v1_9_R2.IChatBaseComponent;
+import net.minecraft.server.v1_9_R2.PacketPlayOutChat;
+import net.minecraft.server.v1_9_R2.PacketPlayOutTitle;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
-import org.bukkit.craftbukkit.v1_14_R1.entity.CraftPlayer;
+import org.bukkit.craftbukkit.v1_9_R2.entity.CraftPlayer;
 import org.bukkit.entity.Player;
-import pro.kdray.funniray.mixer.compadibility.VersionHandler;
+import pro.kdray.funniray.mixer.compatibility.unknown.VersionHandler;
 
 import javax.annotation.Nullable;
 
-public class Handler_1_14_R1 implements VersionHandler {
+public class Handler_1_9_R2 implements VersionHandler {
     @Override
     public void sendAllActionBar(String message, @Nullable String permission) {
         //Credit to Bear53 ( https://www.spigotmc.org/members/bear53.32839/ )
         IChatBaseComponent icbc = IChatBaseComponent.ChatSerializer.a("{\"text\": \"" +
                 ChatColor.translateAlternateColorCodes('&', message) + "\"}");
-        PacketPlayOutChat bar = new PacketPlayOutChat(icbc, ChatMessageType.a((byte)2));
+        PacketPlayOutChat bar = new PacketPlayOutChat(icbc, (byte)2);
         for (Player player : Bukkit.getServer().getOnlinePlayers()){
             if (permission != null)
                 if (!player.hasPermission(permission))
@@ -59,7 +58,7 @@ public class Handler_1_14_R1 implements VersionHandler {
             IChatBaseComponent icbc = IChatBaseComponent.ChatSerializer.a("{\"text\": \"" +
                     ChatColor.translateAlternateColorCodes('&', title) + "\"}");
             PacketPlayOutTitle titleP = new PacketPlayOutTitle(PacketPlayOutTitle.EnumTitleAction.TITLE, icbc);
-            for (Player player : Bukkit.getServer().getOnlinePlayers()){
+             for (Player player : Bukkit.getServer().getOnlinePlayers()){
                 if (permission != null)
                     if (!player.hasPermission(permission))
                         continue;

@@ -20,6 +20,7 @@ public class InteractiveButton {
     private String NBT;
     private String switchWindow;
     private String runCommand;
+    private String[] runCommands;
     private boolean runAsServer = false;
     private boolean resetScene = false;
     //TODO: private String move;
@@ -61,6 +62,9 @@ public class InteractiveButton {
                 case "runCommand":
                     this.runCommand = meta.get("action").getAsJsonObject().get("value").getAsString();
                     break;
+                case "runCommands":
+                    this.runCommand = meta.get("action").getAsJsonObject().get("value").getAsString();
+                    break;
                 case "runCommandAsServer":
                     this.runCommand = meta.get("action").getAsJsonObject().get("value").getAsString();
                     this.runAsServer = true;
@@ -73,6 +77,9 @@ public class InteractiveButton {
 
         if (meta.get("runCommand") != null)
             this.runCommand = meta.get("runCommand").getAsJsonObject().get("value").getAsString();
+
+        if (meta.get("runCommands") != null)
+            this.runCommands = meta.get("runCommands").getAsJsonObject().get("value").getAsString().split("\\n");
 
         if (meta.get("runCommandAsServer") != null) {
             this.runCommand = meta.get("runCommandAsServer").getAsJsonObject().get("value").getAsString();
@@ -197,6 +204,23 @@ public class InteractiveButton {
             }else{
                 this.handler.getEventHandler().runCommand(command);
                 didAction = true;
+            }
+        }
+
+        if (this.runCommands != null) {
+            for (String tempCommands : runCommands){
+                String command = tempCommands
+                        .replace("%CSL%", CSL)
+                        .replace("%SSL%", SSL)
+                        .replace("%HRL%", HRL)
+                        .replace("%presser%", participant.getUsername());
+                if (this.runAsServer) {
+                    this.handler.getEventHandler().runCommandAsConsole(command);
+                    didAction = true;
+                }else{
+                    this.handler.getEventHandler().runCommand(command);
+                    didAction = true;
+                }
             }
         }
 

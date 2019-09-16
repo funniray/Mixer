@@ -10,7 +10,6 @@ import ninja.leaping.configurate.objectmapping.ObjectMappingException;
 import org.slf4j.Logger;
 import org.spongepowered.api.Game;
 import org.spongepowered.api.Sponge;
-import org.spongepowered.api.command.CommandMapping;
 import org.spongepowered.api.config.DefaultConfig;
 import org.spongepowered.api.event.Listener;
 import org.spongepowered.api.event.game.state.GameStartedServerEvent;
@@ -25,7 +24,6 @@ import pro.kdray.funniray.mixer.events.Mixer;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.Optional;
 import java.util.concurrent.ExecutionException;
 
 @Plugin(id = "mixer-sponge", description = "A Mixer Interactive Plugin", name = "Mixer Interactive Plugin", version = "@version@")
@@ -133,8 +131,8 @@ public final class MixerSponge{
                 Config.shareCode = localConfig.getNode("clientID").getString();
 
                 Config.followCommand = localConfig.getNode("followCommand").getString();
-                Config.subscriberCommand = localConfig.getNode("subscriberCommand").getString();
-                Config.resubscriberCommand = localConfig.getNode("resubscriberCommand").getString();
+                Config.subscribeCommand = localConfig.getNode("subscribeCommand").getString();
+                Config.resubscribeCommand = localConfig.getNode("resubscriberCommand").getString();
 
                 try {
                     Config.bannedWords = localConfig.getNode("bannedWords").getList(TypeToken.of(String.class));

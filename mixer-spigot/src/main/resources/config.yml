@@ -1,5 +1,5 @@
 #Look here: https://github.com/funniray/Mixer/wiki/Setting-up-the-project
-token: Api key here
+token: OAuth token
 #If you're using the oauth from the wiki, you don't need to touch this
 clientID: d04e85fd1cb06e4eb9891fc118fe75893eca399955189926
 #Retrieved from the sharing panel in the top right of the editor
@@ -8,9 +8,30 @@ shareCode: dbzktlsk
 projectID: 191773
 
 followCommand: command
-subscriberCommand: command
-resubscriberCommand: command
+subscribeCommand: command
+resubscribeCommand: command
 
 bannedWords:
-  - "put multiple"
-  - "words to remove from chat here"
+  - "blocked words"
+
+actions:
+  summon: "execute %player ~ ~ ~ summon %entity"
+
+messages:
+  #You can use color codes here :)
+  prefix: "&6Mixer &8| "
+  reload-config: "&aConfig reloaded!"
+  no-permission: "&cYou do not have permission to execute this command!"
+  start-failed: "&cFailed to start interactive! (Could be due to invalid API key)"
+  set-token: "&aToken has been successfully set!"
+  not-running: "&cInteractive is not running!"
+  already-running: "&cInteractive is already running!"
+  invalid-scene: "&cYou need to provide a valid scene"
+
+  #MixerAPI related
+  chat-connect: "&aChat Connected!"
+  connect-interactive: "&aInteractive connected!"
+  disable-interactive: "&cInteractive has been disabled!"
+  established-not-connected: "&cConnection was established but isn't connected!"
+  pause: "Buttons have been paused"
+  resume: "Buttons have been resumed"
