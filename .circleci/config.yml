@@ -28,7 +28,7 @@ jobs:
       #Download Spigot dependencies
       - run: mkdir ~/repo/libs
       - run: cd ~/repo
-      - run: for i in "1.9" "1.9.4" "1.10.2" "1.11.2" "1.12.2" "1.13" "1.13.2"; do   echo "Downloading version $i";   wget https://funniray.com/spigot/spigot-$i.jar -O libs/spigot-$i.jar; done
+      - run: for i in "1.9" "1.9.4" "1.10.2" "1.11.2" "1.12.2" "1.13" "1.13.2" "1.14.3"; do   echo "Downloading version $i";   wget https://funniray.com/spigot/spigot-$i.jar -O libs/spigot-$i.jar; done
 
       - run: openssl aes-256-cbc -d -a -in ~/repo/secring.gpg.enc -out /home/circleci/repo/mixer-sponge/secring.gpg -k $KEY -md sha256
       #Update openssl aes-256-cbc -a -salt -in gradle.properties -out gradle.properties.enc -k $KEY -md sha256
