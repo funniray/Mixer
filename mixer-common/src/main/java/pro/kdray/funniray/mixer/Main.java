@@ -44,7 +44,7 @@ public class Main {
     }
 
     public void startChat() throws ExecutionException, InterruptedException {
-        MixerAPI mixer = new MixerAPI(APIKey, clientID);
+        MixerAPI mixer = new MixerAPI(clientID, APIKey);
 
         MixerUser user = mixer.use(UsersService.class).getCurrent().get();
         MixerChat chat = mixer.use(ChatService.class).findOne(user.channel.id).get();
@@ -54,7 +54,7 @@ public class Main {
     }
 
     public void startInteractive() throws ExecutionException, InterruptedException {
-        MixerAPI mixer = new MixerAPI(APIKey, clientID);
+        MixerAPI mixer = new MixerAPI(clientID, APIKey);
 
         MixerUser user = mixer.use(UsersService.class).getCurrent().get();
 
@@ -62,7 +62,7 @@ public class Main {
     }
 
     public void startAll() throws ExecutionException, InterruptedException {
-        MixerAPI mixer = new MixerAPI(APIKey, clientID);
+        MixerAPI mixer = new MixerAPI(clientID, APIKey);
 
         MixerUser user = mixer.use(UsersService.class).getCurrent().get();
         MixerChat chat = mixer.use(ChatService.class).findOne(user.channel.id).get();
