@@ -8,6 +8,9 @@ import pro.kdray.funniray.mixer.Commands;
 import pro.kdray.funniray.mixer.ForgeUtils;
 import pro.kdray.funniray.mixer.MixerForge;
 
+import java.util.Collections;
+import java.util.List;
+
 public class Pause extends CommandBase {
     @Override
     public String getName() {
@@ -17,6 +20,11 @@ public class Pause extends CommandBase {
     @Override
     public String getUsage(ICommandSender sender) {
         return Commands.PAUSE.getUsage();
+    }
+
+    @Override
+    public List<String> getAliases() {
+        return Collections.emptyList();
     }
 
     @Override

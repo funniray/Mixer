@@ -1,6 +1,7 @@
 package pro.kdray.funniray.mixer;
 
 import com.mixer.api.MixerAPI;
+import com.mixer.api.http.HttpBadResponseException;
 import com.mixer.api.resource.MixerUser;
 import com.mixer.api.resource.chat.MixerChat;
 import com.mixer.api.services.impl.ChatService;
@@ -43,7 +44,7 @@ public class Main {
     }
 
     public void startChat() throws ExecutionException, InterruptedException {
-        MixerAPI mixer = new MixerAPI(clientID, APIKey);
+        MixerAPI mixer = new MixerAPI(APIKey, clientID);
 
         MixerUser user = mixer.use(UsersService.class).getCurrent().get();
         MixerChat chat = mixer.use(ChatService.class).findOne(user.channel.id).get();
@@ -53,7 +54,7 @@ public class Main {
     }
 
     public void startInteractive() throws ExecutionException, InterruptedException {
-        MixerAPI mixer = new MixerAPI(clientID, APIKey);
+        MixerAPI mixer = new MixerAPI(APIKey, clientID);
 
         MixerUser user = mixer.use(UsersService.class).getCurrent().get();
 
@@ -61,7 +62,7 @@ public class Main {
     }
 
     public void startAll() throws ExecutionException, InterruptedException {
-        MixerAPI mixer = new MixerAPI(clientID, APIKey);
+        MixerAPI mixer = new MixerAPI(APIKey, clientID);
 
         MixerUser user = mixer.use(UsersService.class).getCurrent().get();
         MixerChat chat = mixer.use(ChatService.class).findOne(user.channel.id).get();

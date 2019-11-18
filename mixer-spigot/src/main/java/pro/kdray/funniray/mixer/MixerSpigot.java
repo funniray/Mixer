@@ -1,5 +1,6 @@
 package pro.kdray.funniray.mixer;
 
+import com.mixer.api.http.HttpBadResponseException;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -40,9 +41,14 @@ public final class MixerSpigot extends JavaPlugin {
             try {
                 api.startAll();
                 isRunning = true;
-            } catch (ExecutionException | InterruptedException e) {
+            } catch (InterruptedException | ExecutionException e) {
                 e.printStackTrace();
-                new Mixer().sendMessage("&4&l[Mixer] &r&cFailed to start interactive, could be due to invalid API key");
+                if (e.getCause() instanceof HttpBadResponseException) {
+                    HttpBadResponseException er = (HttpBadResponseException) e.getCause();
+                    new Mixer().sendMessage("&4&l[Mixer] &r&cFailed to start interactive, Response: "+er.response.body());
+                } else {
+                    new Mixer().sendMessage("&4&l[Mixer] &r&cFailed to start interactive, maybe an invalid API key.");
+                }
             }
         });
     }

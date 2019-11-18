@@ -31,7 +31,7 @@ github {
 Idk what to put here honestly
 """
     assets = [
-            "$rootDir/build/jars/mixer-forge-1.12-${version}-all.jar",
+            "$rootDir/build/jars/mixer-forge-1.12-${version}.jar",
             "$rootDir/build/jars/mixer-forge-1.13-${version}-all.jar",
             "$rootDir/build/jars/mixer-nukkit-${version}-all.jar",
             "$rootDir/build/jars/mixer-spigot-${version}-all.jar",
@@ -53,15 +53,10 @@ subprojects {
     repositories {
         mavenLocal()
         mavenCentral()
-        //Mixer's Maven repo was down, so I'm removing it for now.
-        //maven {
-        //    name = "mixer-snapshots"
-        //    url = "https://maven.mixer.com/content/repositories/snapshots"
-        //}
-        //maven {
-        //    name = "mixer-releases"
-        //    url = "https://maven.mixer.com/content/repositories/releases/"
-        //}
+        maven {
+            name = "own-repo"
+            url = "https://funniray.com/maven2"
+        }
     }
 
     dependencies{

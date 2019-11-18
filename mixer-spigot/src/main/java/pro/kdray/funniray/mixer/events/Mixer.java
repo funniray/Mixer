@@ -34,9 +34,10 @@ public class Mixer implements MixerEvents {
     }
 
     @Override
-    public void summon(String entity) {
-        runCommandAsConsole("execute %streamer% ~ ~ ~ summon "+entity);
+    public void summon(String command) {
+        this.runCommand("summon "+command);
     }
+
 
     @Override
     public void runCommand(String command) {

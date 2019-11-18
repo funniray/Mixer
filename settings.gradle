@@ -1,6 +1,6 @@
 rootProject.name = 'mixer'
 
-gradle.ext.mixerAPI = '6.0.0-SNAPSHOT'
+gradle.ext.mixerAPI = '6.0.0'
 gradle.ext.mixerInteractiveAPI = '3.2.0'
 gradle.ext.httpclient = '4.3.6'
 gradle.ext.httpcore = '4.3.3'
@@ -13,4 +13,4 @@ gradle.ext.HikariCP = '3.0.0'
 gradle.ext.pluginGroup="pro.kdray.funniray"
 gradle.ext.pluginVersion="1.2-" + System.getenv('CIRCLE_BUILD_NUM')
 
-include 'mixer-common', 'mixer-spigot', 'mixer-nukkit', 'mixer-sponge', 'mixer-forge-1.12.2', 'mixer-forge-1.13.2'
+include 'mixer-common', 'mixer-spigot', 'mixer-sponge', 'mixer-forge-1.12.2', 'mixer-forge-1.13.2'//, 'mixer-nukkit'
